@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrinxLab – Create Your Drink</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      padding: 30px;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 15px;
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 1.2rem;
+    }
+    select, input[type=range], textarea {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #ff4b2b;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ff416c;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .map {
+      margin-top: 30px;
+    }
+    iframe {
+      border-radius: 15px;
+      width: 90%;
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <header>✨ DrinxLab – Create Your Drink</header>
+
+  <div class="card">
+    <label for="flavor">Choose a flavor:</label>
+    <select id="flavor">
+      <option value="Mango">🥭 Mango</option>
+      <option value="Strawberry">🍓 Strawberry</option>
+      <option value="Matcha">🍵 Matcha</option>
+      <option value="Coffee">☕ Coffee</option>
+      <option value="Cola">🥤 Cola</option>
+    </select>
+
+    <label for="strength">Flavor Strength:</label>
+    <input type="range" id="strength" min="1" max="100" value="50">
+    <span id="strengthValue">50%</span>
+
+    <label for="size">Choose a size:</label>
+    <select id="size">
+      <option value="Small">🥤 Small (250ml)</option>
+      <option value="Medium">🧃 Medium (350ml)</option>
+      <option value="Large">🍹 Large (500ml)</option>
+    </select>
+
+    <label for="ice">Ice level:</label>
+    <select id="ice">
+      <option value="No Ice">🚫 No Ice</option>
+      <option value="Less Ice">❄️ Less Ice</option>
+      <option value="Regular">🧊 Regular</option>
+      <option value="Extra Ice">🧊🧊 Extra Ice</option>
+    </select>
+
+    <label for="note">Additional note for the maker:</label>
+    <textarea id="note" placeholder="e.g. Less sugar, add boba..." rows="3"></textarea>
+
+    <button onclick="generateDrink()">Generate Drink</button>
+
+    <div class="result" id="resultBox">Your recipe will appear here 👇</div>
+  </div>
+
+  <div class="map">
+    <h2>📍 Nearest Cafes</h2>
+    <iframe src="https://www.google.com/maps/embed/v1/search?key=YOUR_API_KEY&q=cafe+near+me" allowfullscreen></iframe>
+    <p style="font-size:0.9rem;opacity:0.8">Tip: Replace with your location or cafe list.</p>
+  </div>
+
+  <script>
+    const strengthSlider = document.getElementById("strength");
+    const strengthValue = document.getElementById("strengthValue");
+
+    strengthSlider.oninput = () => {
+      strengthValue.textContent = strengthSlider.value + "%";
+    };
+
+    function generateDrink() {
+      const flavor = document.getElementById("flavor").value;
+      const strength = strengthSlider.value;
+      const size = document.getElementById("size").value;
+      const ice = document.getElementById("ice").value;
+      const note = document.getElementById("note").value;
+      const resultBox = document.getElementById("resultBox");
+
+      let base = size === "Small" ? 250 : size === "Medium" ? 350 : 500;
+      let syrup = Math.round(strength / 2);
+
+      resultBox.innerHTML = `
+        🍹 Your Custom Drink: <br>
+        - ${base}ml base liquid (sparkling water/milk)<br>
+        - ${syrup}ml ${flavor} syrup<br>
+        - Size: ${size}<br>
+        - Ice: ${ice}<br>
+        ${note ? "📝 Note: " + note : ""}
+      `;
+    }
+  </script>
+</body>
+</html>
