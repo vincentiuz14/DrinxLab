@@ -3,54 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrinxLab – Create Your Drink</title>
-
-  <!-- 🔎 SEO Meta Tags -->
-  <meta name="description" content="Buat minuman custom sesuai selera kamu! Pilih rasa, ukuran, es, dan tambahan lalu dapatkan resepnya.">
-  <meta name="keywords" content="minuman, custom drink, resep minuman, cafe, DrinxLab, bikin minuman sendiri">
-  <meta name="author" content="Vincent Gan">
-  <meta name="robots" content="index, follow">
-
-  <!-- Open Graph (biar bagus kalau dishare ke WhatsApp/IG) -->
-  <meta property="og:title" content="DrinxLab – Create Your Drink">
-  <meta property="og:description" content="Bikin minuman sesuai selera kamu! Pilih rasa, ukuran, es, dan lihat resepnya.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://USERNAME.github.io/">
-  <meta property="og:image" content="https://USERNAME.github.io/thumbnail.png">
-
+  <title>DrinxLab – Lab Your Drink</title>
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #00c6ff, #0072ff);
-      color: #fff;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      color: #e0ffe0;
       text-align: center;
     }
     header {
-      padding: 30px;
+      padding: 25px;
       font-size: 2rem;
       font-weight: bold;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
     }
     .card {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(0, 50, 30, 0.8);
       padding: 20px;
       margin: 20px auto;
       border-radius: 15px;
-      max-width: 400px;
-      backdrop-filter: blur(10px);
+      max-width: 450px;
+      border: 2px solid #00ffcc;
+      box-shadow: 0 0 20px #00ffcc55;
     }
     label {
       display: block;
       margin-top: 15px;
       font-size: 1.2rem;
+      color: #aaffaa;
     }
     select, input[type=range], textarea {
       margin-top: 10px;
       width: 100%;
       padding: 10px;
       border-radius: 10px;
-      border: none;
+      border: 2px solid #00ffcc;
+      background: #001a10;
+      color: #e0ffe0;
       font-size: 1rem;
+    }
+    textarea {
+      resize: none;
     }
     button {
       margin-top: 20px;
@@ -58,63 +53,111 @@
       width: 100%;
       border: none;
       border-radius: 10px;
-      background: #ff4b2b;
-      color: white;
+      background: linear-gradient(90deg, #00ffcc, #00ffaa);
+      color: #001a10;
       font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
+      box-shadow: 0 0 10px #00ffcc;
     }
     button:hover {
-      background: #ff416c;
+      background: linear-gradient(90deg, #00ffaa, #00ffcc);
+      box-shadow: 0 0 20px #00ffcc;
     }
     .result {
       margin-top: 20px;
       font-size: 1.1rem;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.6);
       padding: 15px;
       border-radius: 10px;
+      border: 1px dashed #00ffcc;
+      text-align: left;
+    }
+    .map {
+      margin-top: 30px;
+    }
+    iframe {
+      border-radius: 15px;
+      border: 2px solid #00ffcc;
+      width: 90%;
+      height: 250px;
+      box-shadow: 0 0 15px #00ffcc55;
     }
   </style>
 </head>
 <body>
-  <header>✨ DrinxLab – Create Your Drink</header>
+  <header>⚗️ DrinxLab – Mix Your Own Formula</header>
 
   <div class="card">
-    <label for="flavor">Choose a flavor:</label>
+    <!-- Flavor -->
+    <label for="flavor">🧪 Choose your base compound (flavor):</label>
     <select id="flavor">
-      <option value="Mango">🥭 Mango</option>
-      <option value="Strawberry">🍓 Strawberry</option>
-      <option value="Matcha">🍵 Matcha</option>
-      <option value="Coffee">☕ Coffee</option>
-      <option value="Cola">🥤 Cola</option>
+      <option value="Mango">🥭 Mango Elixir</option>
+      <option value="Strawberry">🍓 Strawberry Serum</option>
+      <option value="Matcha">🍵 Matcha Extract</option>
+      <option value="Coffee">☕ Caffeine Shot</option>
+      <option value="Cola">🥤 Cola Solution</option>
+      <option value="Chocolate">🍫 Choco Compound</option>
+      <option value="Vanilla">🍦 Vanilla Essence</option>
+      <option value="Lemon">🍋 Lemon Acid</option>
+      <option value="Lychee">🍒 Lychee Molecule</option>
+      <option value="Blueberry">🫐 Blueberry Catalyst</option>
+      <option value="Watermelon">🍉 Watermelon Potion</option>
+      <option value="Pineapple">🍍 Pineapple Enzyme</option>
+      <option value="Mint">🌿 Mint Coolant</option>
+      <option value="Grape">🍇 Grape Reaction</option>
+      <option value="Coconut">🥥 Coconut Infusion</option>
     </select>
 
-    <label for="size">Choose size:</label>
-    <select id="size">
-      <option value="Small">Small (250ml)</option>
-      <option value="Medium">Medium (350ml)</option>
-      <option value="Large">Large (500ml)</option>
-    </select>
-
-    <label for="ice">Ice Level:</label>
-    <select id="ice">
-      <option value="No Ice">No Ice</option>
-      <option value="Less Ice">Less Ice</option>
-      <option value="Regular Ice">Regular Ice</option>
-      <option value="Extra Ice">Extra Ice</option>
-    </select>
-
-    <label for="strength">Flavor Strength:</label>
+    <!-- Strength -->
+    <label for="strength">🔬 Concentration level:</label>
     <input type="range" id="strength" min="1" max="100" value="50">
     <span id="strengthValue">50%</span>
 
-    <label for="message">Extra note for barista (optional):</label>
-    <textarea id="message" rows="3" placeholder="E.g. please make it less sweet"></textarea>
+    <!-- Size -->
+    <label for="size">⚖️ Flask Size:</label>
+    <select id="size">
+      <option value="Small">Small Flask (250ml)</option>
+      <option value="Medium">Medium Flask (350ml)</option>
+      <option value="Large">Large Flask (500ml)</option>
+      <option value="XL">XL Flask (700ml)</option>
+    </select>
 
-    <button onclick="generateDrink()">Generate Drink</button>
+    <!-- Ice -->
+    <label for="ice">❄️ Cooling agent (Ice):</label>
+    <select id="ice">
+      <option value="No Ice">No Cooling</option>
+      <option value="Less Ice">Low Cooling</option>
+      <option value="Normal Ice">Standard Cooling</option>
+      <option value="Extra Ice">Max Cooling</option>
+    </select>
 
-    <div class="result" id="resultBox">Your recipe will appear here 👇</div>
+    <!-- Sweetness -->
+    <label for="sugar">🍬 Sugar Level:</label>
+    <select id="sugar">
+      <option value="No Sugar">0% - No Sugar</option>
+      <option value="25%">25% - Low Sweet</option>
+      <option value="50%">50% - Half Sweet</option>
+      <option value="75%">75% - Regular</option>
+      <option value="100%">100% - Extra Sweet</option>
+    </select>
+
+    <!-- Custom message -->
+    <label for="message">📝 Extra lab notes for barista:</label>
+    <textarea id="message" rows="2" placeholder="e.g. Reduce foam, add extra bubbles..."></textarea>
+
+    <button onclick="generateDrink()">🔮 Generate Formula</button>
+
+    <div class="result" id="resultBox">🧾 Your experiment result will appear here...</div>
+  </div>
+
+  <!-- Map -->
+  <div class="map">
+    <h2>📍 Nearest Experiment Stations (Cafes)</h2>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126763.214!2d106.689!3d-6.200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e9f0!2sCafe!5e0!3m2!1sen!2sid!4v123456789"
+      allowfullscreen></iframe>
   </div>
 
   <script>
@@ -127,22 +170,30 @@
 
     function generateDrink() {
       const flavor = document.getElementById("flavor").value;
+      const strength = strengthSlider.value;
       const size = document.getElementById("size").value;
       const ice = document.getElementById("ice").value;
-      const strength = strengthSlider.value;
-      const message = document.getElementById("message").value;
+      const sugar = document.getElementById("sugar").value;
+      const message = document.getElementById("message").value.trim();
       const resultBox = document.getElementById("resultBox");
 
-      let base = size === "Small" ? 250 : size === "Medium" ? 350 : 500;
+      let base;
+      if (size === "Small") base = 250;
+      else if (size === "Medium") base = 350;
+      else if (size === "Large") base = 500;
+      else base = 700;
+
       let syrup = Math.round(strength / 2);
 
       resultBox.innerHTML = `
-        🍹 Your Custom Drink: <br>
-        - Size: ${size} (${base}ml)<br>
-        - ${syrup}ml ${flavor} syrup<br>
-        - ${ice}<br>
-        ${message ? "- Note: " + message + "<br>" : ""}
-        - Add ice cubes & enjoy! ❄️
+        🧪 <b>Experiment Report:</b><br>
+        - Flask size: ${base}ml<br>
+        - Compound: ${flavor}<br>
+        - Concentration: ${syrup}ml syrup (${strength}%)<br>
+        - Cooling: ${ice}<br>
+        - Sweetness: ${sugar}<br>
+        ${message ? "- Lab Notes: " + message + "<br>" : ""}
+        ✅ Formula Complete – Ready to Serve ⚡
       `;
     }
   </script>
