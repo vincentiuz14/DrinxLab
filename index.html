@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab – Mix Your Drink</title>
+<title>DrinxLab – Laboratory Mix</title>
 <style>
 body {
   margin:0;
@@ -165,7 +165,7 @@ iframe{
 <script>
 const strengthSlider = document.getElementById("strength");
 const strengthValue = document.getElementById("strengthValue");
-strengthSlider.oninput = ()=>{strengthValue.textContent=strengthSlider.value+"%";};
+strengthSlider.oninput = () => { strengthValue.textContent = strengthSlider.value + "%"; }
 
 function generateDrink(){
   const selectedFlavors = Array.from(document.querySelectorAll('input[name="flavor"]:checked')).map(f=>f.value);
@@ -176,7 +176,10 @@ function generateDrink(){
   const message = document.getElementById("message").value.trim();
   const resultBox = document.getElementById("resultBox");
 
-  if(selectedFlavors.length===0){resultBox.innerHTML="<p>Please select at least one flavor.</p>"; return;}
+  if(selectedFlavors.length===0){
+    resultBox.innerHTML="<p>Please select at least one flavor.</p>";
+    return;
+  }
 
   let base;
   if(size==="Small") base=250;
@@ -184,11 +187,36 @@ function generateDrink(){
   else if(size==="Large") base=500;
   else base=700;
 
-  let syrupPerFlavor = Math.round(strength/selectedFlavors.length);
+  let syrupPerFlavor = Math.round(strength / selectedFlavors.length);
 
   let sugarAmount;
   switch(sugar){
-    case"No Sugar": sugarAmount=0; break;
-    case"25%": sugarAmount=5; break;
-    case"50%": sugarAmount=10; break;
-    case"75%": sugarAmount=
+    case "No Sugar": sugarAmount=0; break;
+    case "25%": sugarAmount=5; break;
+    case "50%": sugarAmount=10; break;
+    case "75%": sugarAmount=15; break;
+    case "100%": sugarAmount=20; break;
+  }
+
+  let iceAmount;
+  switch(ice){
+    case "No Ice": iceAmount=0; break;
+    case "Less Ice": iceAmount=3; break;
+    case "Normal Ice": iceAmount=5; break;
+    case "Extra Ice": iceAmount=8; break;
+  }
+
+  resultBox.innerHTML = `🧪 <b>Experiment Report:</b><br>
+  - Flask size: ${base}ml<br>
+  - Ice cubes: ${iceAmount} pcs<br>
+  - Sugar: ${sugarAmount} g<br>
+  ${message ? "- Lab Notes: " + message + "<br>" : ""}`;
+
+  selectedFlavors.forEach(flavor=>{
+    resultBox.innerHTML += `- ${flavor}: ${syrupPerFlavor}ml syrup<br>`;
+  });
+  resultBox.innerHTML += "✅ Formula Complete – Ready to Serve ⚡";
+}
+</script>
+</body>
+</html>
