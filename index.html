@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab – Laboratory Mix</title>
+<title>DrinxLab – Visual Mix</title>
 <style>
-body {
+body{
   margin:0;
-  font-family:'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-  color: #e0ffe0;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#0f2027,#203a43,#2c5364);
+  color:#e0ffe0;
   text-align:center;
 }
 header{
@@ -20,7 +20,7 @@ header{
   text-shadow:0 0 10px #00ffcc;
 }
 .card{
-  background: rgba(0,50,30,0.8);
+  background:rgba(0,50,30,0.8);
   padding:20px;
   margin:20px auto;
   border-radius:15px;
@@ -29,13 +29,8 @@ header{
   box-shadow:0 0 20px #00ffcc55;
   text-align:left;
 }
-label{
-  display:block;
-  margin-top:10px;
-  font-size:1.1rem;
-  color:#aaffaa;
-}
-input[type=range], select, textarea{
+label{display:block;margin-top:10px;font-size:1.1rem;color:#aaffaa;}
+input[type=range],select,textarea{
   margin-top:5px;
   width:100%;
   padding:8px;
@@ -43,9 +38,7 @@ input[type=range], select, textarea{
   border:2px solid #00ffcc;
   background:#001a10;
   color:#e0ffe0;
-  font-size:1rem;
 }
-textarea{resize:none;}
 button{
   margin-top:15px;
   padding:12px;
@@ -57,13 +50,9 @@ button{
   font-size:1.1rem;
   font-weight:bold;
   cursor:pointer;
-  transition:.3s;
   box-shadow:0 0 10px #00ffcc;
 }
-button:hover{
-  background:linear-gradient(90deg,#00ffaa,#00ffcc);
-  box-shadow:0 0 20px #00ffcc;
-}
+button:hover{background:linear-gradient(90deg,#00ffaa,#00ffcc);}
 .result{
   margin-top:15px;
   font-size:1rem;
@@ -72,127 +61,144 @@ button:hover{
   border-radius:10px;
   border:1px dashed #00ffcc;
 }
-.flavor-list{
-  columns:2;
-}
-.map{
-  margin-top:25px;
-}
-iframe{
+canvas{
+  margin-top:20px;
+  border:3px solid #00ffcc;
   border-radius:15px;
-  border:2px solid #00ffcc;
-  width:90%;
-  height:300px;
-  box-shadow:0 0 15px #00ffcc55;
+  background:#001a10;
 }
 </style>
 </head>
 <body>
-<header>⚗️ DrinxLab – Laboratory Mix</header>
+<header>⚗️ DrinxLab – Visual Mix</header>
 
 <div class="card">
-  <label for="strength">🔬 Flavor Strength (% of base liquid):</label>
+  <label for="strength">🔬 Flavor Strength (%):</label>
   <input type="range" id="strength" min="1" max="100" value="50">
   <span id="strengthValue">50%</span>
 
-  <label>🧪 Choose Your Flavors:</label>
-  <div class="flavor-list">
-    <label><input type="checkbox" name="flavor" value="Mango"> 🥭 Mango</label>
-    <label><input type="checkbox" name="flavor" value="Strawberry"> 🍓 Strawberry</label>
-    <label><input type="checkbox" name="flavor" value="Matcha"> 🍵 Matcha</label>
-    <label><input type="checkbox" name="flavor" value="Coffee"> ☕ Coffee</label>
-    <label><input type="checkbox" name="flavor" value="Cola"> 🥤 Cola</label>
-    <label><input type="checkbox" name="flavor" value="Chocolate"> 🍫 Chocolate</label>
-    <label><input type="checkbox" name="flavor" value="Vanilla"> 🍦 Vanilla</label>
-    <label><input type="checkbox" name="flavor" value="Lemon"> 🍋 Lemon</label>
-    <label><input type="checkbox" name="flavor" value="Lychee"> 🍒 Lychee</label>
-    <label><input type="checkbox" name="flavor" value="Blueberry"> 🫐 Blueberry</label>
-    <label><input type="checkbox" name="flavor" value="Watermelon"> 🍉 Watermelon</label>
-    <label><input type="checkbox" name="flavor" value="Pineapple"> 🍍 Pineapple</label>
-    <label><input type="checkbox" name="flavor" value="Mint"> 🌿 Mint</label>
-    <label><input type="checkbox" name="flavor" value="Grape"> 🍇 Grape</label>
-    <label><input type="checkbox" name="flavor" value="Coconut"> 🥥 Coconut</label>
-    <label><input type="checkbox" name="flavor" value="Raspberry"> 🍇 Raspberry</label>
-    <label><input type="checkbox" name="flavor" value="Caramel"> 🍮 Caramel</label>
-    <label><input type="checkbox" name="flavor" value="Honey"> 🍯 Honey</label>
-    <label><input type="checkbox" name="flavor" value="Peach"> 🍑 Peach</label>
-    <label><input type="checkbox" name="flavor" value="Kiwi"> 🥝 Kiwi</label>
-    <label><input type="checkbox" name="flavor" value="Passionfruit"> 🥭 Passionfruit</label>
-    <label><input type="checkbox" name="flavor" value="Dragonfruit"> 🐉 Dragonfruit</label>
-    <label><input type="checkbox" name="flavor" value="Orange"> 🍊 Orange</label>
-    <label><input type="checkbox" name="flavor" value="Banana"> 🍌 Banana</label>
-    <label><input type="checkbox" name="flavor" value="Melon"> 🍈 Melon</label>
-    <label><input type="checkbox" name="flavor" value="Pomegranate"> 🍎 Pomegranate</label>
-  </div>
+  <label>🧪 Choose Flavors:</label>
+  <label><input type="checkbox" name="flavor" value="Mango"> 🥭 Mango</label>
+  <label><input type="checkbox" name="flavor" value="Strawberry"> 🍓 Strawberry</label>
+  <label><input type="checkbox" name="flavor" value="Blueberry"> 🫐 Blueberry</label>
+  <label><input type="checkbox" name="flavor" value="Mint"> 🌿 Mint</label>
+  <label><input type="checkbox" name="flavor" value="Chocolate"> 🍫 Chocolate</label>
+  <label><input type="checkbox" name="flavor" value="Lemon"> 🍋 Lemon</label>
+  <label><input type="checkbox" name="flavor" value="Grape"> 🍇 Grape</label>
+  <label><input type="checkbox" name="flavor" value="Orange"> 🍊 Orange</label>
+  <label><input type="checkbox" name="flavor" value="Coconut"> 🥥 Coconut</label>
 
   <label for="size">⚖️ Flask Size:</label>
   <select id="size">
-    <option value="Small">Small Flask (250ml)</option>
-    <option value="Medium">Medium Flask (350ml)</option>
-    <option value="Large">Large Flask (500ml)</option>
-    <option value="XL">XL Flask (700ml)</option>
+    <option value="250">Small Flask (250ml)</option>
+    <option value="350">Medium Flask (350ml)</option>
+    <option value="500">Large Flask (500ml)</option>
+    <option value="700">XL Flask (700ml)</option>
   </select>
 
   <label for="ice">❄️ Ice Level:</label>
   <select id="ice">
-    <option value="No Ice">No Ice</option>
-    <option value="Less Ice">Low</option>
-    <option value="Normal Ice">Standard</option>
-    <option value="Extra Ice">High</option>
+    <option value="0">No Ice</option>
+    <option value="3">Low</option>
+    <option value="5">Standard</option>
+    <option value="8">High</option>
   </select>
 
   <label for="sugar">🍬 Sugar Level:</label>
   <select id="sugar">
-    <option value="No Sugar">0%</option>
-    <option value="25%">25%</option>
-    <option value="50%">50%</option>
-    <option value="75%">75%</option>
-    <option value="100%">100%</option>
+    <option value="0">0%</option>
+    <option value="5">25%</option>
+    <option value="10">50%</option>
+    <option value="15">75%</option>
+    <option value="20">100%</option>
   </select>
 
-  <label for="message">📝 Extra Notes:</label>
-  <textarea id="message" rows="2" placeholder="e.g. extra bubbles, less foam"></textarea>
+  <label for="message">📝 Notes:</label>
+  <textarea id="message" rows="2" placeholder="e.g. extra bubbles"></textarea>
 
   <button id="generateBtn">🔮 Generate Recipe</button>
-  <div class="result" id="resultBox">🧾 Your experiment will appear here...</div>
+  <div class="result" id="resultBox">🧾 Recipe will appear here...</div>
 </div>
 
-<div class="map">
-  <h2>📍 Nearest Cafes</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d126763.214!2d106.689!3d-6.200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scafe+jakarta+barat!5e0!3m2!1sen!2sid!4v1721753000000" allowfullscreen></iframe>
-</div>
+<canvas id="flaskCanvas" width="200" height="300"></canvas>
 
 <script>
 const strengthSlider = document.getElementById("strength");
 const strengthValue = document.getElementById("strengthValue");
-strengthSlider.oninput = () => { strengthValue.textContent = strengthSlider.value + "%"; }
+strengthSlider.oninput=()=>{strengthValue.textContent=strengthSlider.value+"%";}
 
-document.getElementById("generateBtn").addEventListener("click", function(){
-    const selectedFlavors = Array.from(document.querySelectorAll('input[name="flavor"]:checked')).map(f=>f.value);
-    const strength = parseInt(document.getElementById("strength").value);
-    const size = document.getElementById("size").value;
-    const ice = document.getElementById("ice").value;
-    const sugar = document.getElementById("sugar").value;
-    const message = document.getElementById("message").value.trim();
-    const resultBox = document.getElementById("resultBox");
+const flavorColors={
+  "Mango":"#ffa500",
+  "Strawberry":"#ff4d6d",
+  "Blueberry":"#4d4dff",
+  "Mint":"#00ffcc",
+  "Chocolate":"#5a381e",
+  "Lemon":"#fff44f",
+  "Grape":"#a020f0",
+  "Orange":"#ff7f00",
+  "Coconut":"#f5f5f5"
+};
 
-    if(selectedFlavors.length === 0){
-        resultBox.innerHTML = "<p>Please select at least one flavor.</p>";
-        return;
-    }
+document.getElementById("generateBtn").addEventListener("click",()=>{
+  const selectedFlavors=Array.from(document.querySelectorAll('input[name="flavor"]:checked')).map(f=>f.value);
+  const strength=parseInt(document.getElementById("strength").value);
+  const size=parseInt(document.getElementById("size").value);
+  const ice=parseInt(document.getElementById("ice").value);
+  const sugar=parseInt(document.getElementById("sugar").value);
+  const message=document.getElementById("message").value.trim();
+  const resultBox=document.getElementById("resultBox");
 
-    let base = size === "Small"? 250 : size==="Medium"? 350 : size==="Large"? 500 : 700;
-    let totalSyrup = Math.round(base*(strength/100));
-    let syrupPerFlavor = Math.round(totalSyrup / selectedFlavors.length);
+  if(selectedFlavors.length===0){
+    resultBox.innerHTML="⚠️ Please select at least one flavor.";
+    return;
+  }
 
-    let iceAmount = ice==="No Ice"?0:ice==="Less Ice"?3:ice==="Normal Ice"?5:8;
-    let sugarAmount = sugar==="No Sugar"?0:sugar==="25%"?5:sugar==="50%"?10:sugar==="75%"?15:20;
+  let totalSyrup=Math.round(size*(strength/100));
+  let syrupPer=Math.round(totalSyrup/selectedFlavors.length);
 
-    resultBox.innerHTML = `<h3>🧪 Experiment Report:</h3>
-    - Flask size: ${base}ml<br>
-    - Ice cubes: ${iceAmount} pcs<br>
-    - Sugar: ${sugarAmount} g<br>
-    ${message ? "- Lab Notes: " + message + "<br>" : ""}`;
+  let report=`<h3>🧪 Recipe:</h3>
+  Flask: ${size}ml<br>
+  Strength: ${strength}% (${totalSyrup}ml syrup)<br>
+  Sugar: ${sugar} g<br>
+  Ice: ${ice} cubes<br>`;
+  if(message) report+=`Notes: ${message}<br>`;
+  report+="<br><b>Flavors:</b><br>";
+  selectedFlavors.forEach(f=>{report+=`- ${f}: ${syrupPer} ml<br>`;});
+  resultBox.innerHTML=report;
 
-    selectedFlavors.forEach(f => {
-        resultBox.innerHTML += `- ${f
+  // draw flask
+  const c=document.getElementById("flaskCanvas");
+  const ctx=c.getContext("2d");
+  ctx.clearRect(0,0,c.width,c.height);
+
+  // draw flask outline
+  ctx.strokeStyle="#00ffcc";
+  ctx.lineWidth=4;
+  ctx.beginPath();
+  ctx.moveTo(60,20);
+  ctx.lineTo(60,260);
+  ctx.lineTo(140,260);
+  ctx.lineTo(140,20);
+  ctx.stroke();
+
+  // fill with layered flavors
+  let currentY=260;
+  const totalHeight=240;
+  const layerHeight=totalHeight/selectedFlavors.length;
+  selectedFlavors.forEach((f,i)=>{
+    ctx.fillStyle=flavorColors[f]||"#ccc";
+    ctx.fillRect(62,currentY-layerHeight,76,layerHeight);
+    currentY-=layerHeight;
+  });
+
+  // ice cubes
+  ctx.fillStyle="rgba(200,255,255,0.7)";
+  for(let i=0;i<ice;i++){
+    let x=70+Math.random()*50;
+    let y=50+Math.random()*180;
+    ctx.fillRect(x,y,10,10);
+  }
+});
+</script>
+</body>
+</html>
