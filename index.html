@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DrinxLab – Create Your Drink</title>
+
+  <!-- 🔎 SEO Meta Tags -->
+  <meta name="description" content="Buat minuman custom sesuai selera kamu! Pilih rasa, ukuran, es, dan tambahan lalu dapatkan resepnya.">
+  <meta name="keywords" content="minuman, custom drink, resep minuman, cafe, DrinxLab, bikin minuman sendiri">
+  <meta name="author" content="Vincent Gan">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph (biar bagus kalau dishare ke WhatsApp/IG) -->
+  <meta property="og:title" content="DrinxLab – Create Your Drink">
+  <meta property="og:description" content="Bikin minuman sesuai selera kamu! Pilih rasa, ukuran, es, dan lihat resepnya.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://USERNAME.github.io/">
+  <meta property="og:image" content="https://USERNAME.github.io/thumbnail.png">
+
   <style>
     body {
       margin: 0;
@@ -30,7 +44,7 @@
       margin-top: 15px;
       font-size: 1.2rem;
     }
-    select, input[type=range] {
+    select, input[type=range], textarea {
       margin-top: 10px;
       width: 100%;
       padding: 10px;
@@ -61,14 +75,6 @@
       padding: 15px;
       border-radius: 10px;
     }
-    .map {
-      margin-top: 30px;
-    }
-    iframe {
-      border-radius: 15px;
-      width: 90%;
-      height: 250px;
-    }
   </style>
 </head>
 <body>
@@ -84,19 +90,31 @@
       <option value="Cola">🥤 Cola</option>
     </select>
 
+    <label for="size">Choose size:</label>
+    <select id="size">
+      <option value="Small">Small (250ml)</option>
+      <option value="Medium">Medium (350ml)</option>
+      <option value="Large">Large (500ml)</option>
+    </select>
+
+    <label for="ice">Ice Level:</label>
+    <select id="ice">
+      <option value="No Ice">No Ice</option>
+      <option value="Less Ice">Less Ice</option>
+      <option value="Regular Ice">Regular Ice</option>
+      <option value="Extra Ice">Extra Ice</option>
+    </select>
+
     <label for="strength">Flavor Strength:</label>
     <input type="range" id="strength" min="1" max="100" value="50">
     <span id="strengthValue">50%</span>
 
+    <label for="message">Extra note for barista (optional):</label>
+    <textarea id="message" rows="3" placeholder="E.g. please make it less sweet"></textarea>
+
     <button onclick="generateDrink()">Generate Drink</button>
 
     <div class="result" id="resultBox">Your recipe will appear here 👇</div>
-  </div>
-
-  <div class="map">
-    <h2>📍 Nearest Cafes</h2>
-    <iframe src="https://www.google.com/maps/embed/v1/search?key=YOUR_API_KEY&q=cafe+near+me" allowfullscreen></iframe>
-    <p style="font-size:0.9rem;opacity:0.8">Tip: Replace with your location or cafe list.</p>
   </div>
 
   <script>
@@ -109,15 +127,21 @@
 
     function generateDrink() {
       const flavor = document.getElementById("flavor").value;
+      const size = document.getElementById("size").value;
+      const ice = document.getElementById("ice").value;
       const strength = strengthSlider.value;
+      const message = document.getElementById("message").value;
       const resultBox = document.getElementById("resultBox");
 
-      let base = 200; // ml soda or milk
-      let syrup = Math.round(strength / 2); // ml syrup based on slider
+      let base = size === "Small" ? 250 : size === "Medium" ? 350 : 500;
+      let syrup = Math.round(strength / 2);
+
       resultBox.innerHTML = `
         🍹 Your Custom Drink: <br>
-        - ${base}ml base liquid (sparkling water/milk)<br>
+        - Size: ${size} (${base}ml)<br>
         - ${syrup}ml ${flavor} syrup<br>
+        - ${ice}<br>
+        ${message ? "- Note: " + message + "<br>" : ""}
         - Add ice cubes & enjoy! ❄️
       `;
     }
