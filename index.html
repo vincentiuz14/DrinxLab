@@ -1,40 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab – Mix Your Own Formula</title>
-<style>
-body {
-  margin:0;
-  font-family:'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-  color: #e0ffe0;
-  text-align:center;
-}
-header{
-  padding:25px;
-  font-size:2rem;
-  font-weight:bold;
-  color:#00ffcc;
-  text-shadow:0 0 10px #00ffcc;
-}
-.card{
-  background: rgba(0,50,30,0.8);
-  padding:20px;
-  margin:20px auto;
-  border-radius:15px;
-  max-width:500px;
-  border:2px solid #00ffcc;
-  box-shadow:0 0 20px #00ffcc55;
-}
-label{
-  display:block;
-  margin-top:15px;
-  font-size:1.2rem;
-  color:#aaffaa;
-}
-input[type=range], textarea{
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrinkxLab – Mix Your Drink</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 20px;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .flavors {
+      text-align: left;
+      columns: 2;
+      margin: 20px 0;
+    }
+    button {
+      background: #1e3a8a;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f3f4f6;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DrinkxLab ⚗️</h1>
+    <p>Mix and experiment with unlimited flavors!</p>
+  </header>
+
+  <div class="container">
+    <h2>Choose Your Flavors</h2>
+    <div class="flavors">
+      <label><input type="checkbox" name="flavor" value="Mango"> Mango 🥭</label><br>
+      <label><input type="checkbox" name="flavor" value="Strawberry"> Strawberry 🍓</label><br>
+      <label><input type="checkbox" name="flavor" value="Matcha"> Matcha 🍵</label><br>
+      <label><input type="checkbox" name="flavor" value="Coffee"> Coffee ☕</label><br>
+      <label><input type="checkbox" name="flavor" value="Cola"> Cola 🥤</label><br>
+      <label><input type="checkbox" name="flavor" value="Chocolate"> Chocolate 🍫</label><br>
+      <label><input type="checkbox" name="flavor" value="Vanilla"> Vanilla 🍦</label><br>
+      <label><input type="checkbox" name="flavor" value="Lemon"> Lemon 🍋</label><br>
+      <label><input type="checkbox" name="flavor" value="Lychee"> Lychee 🍒</label><br>
+      <label><input type="checkbox" name="flavor" value="Blueberry"> Blueberry 🫐</label><br>
+      <label><input type="checkbox" name="flavor" value="Watermelon"> Watermelon 🍉</label><br>
+      <label><input type="checkbox" name="flavor" value="Pineapple"> Pineapple 🍍</label><br>
+      <label><input type="checkbox" name="flavor" value="Mint"> Mint 🌿</label><br>
+      <label><input type="checkbox" name="flavor" value="Grape"> Grape 🍇</label><br>
+      <label><input type="checkbox" name="flavor" value="Coconut"> Coconut 🥥</label><br>
+      <label><input type="checkbox" name="flavor" value="Raspberry"> Raspberry 🍇</label><br>
+      <label><input type="checkbox" name="flavor" value="Caramel"> Caramel 🍮</label><br>
+      <label><input type="checkbox" name="flavor" value="Honey"> Honey 🍯</label><br>
+      <label><input type="checkbox" name="flavor" value="Peach"> Peach 🍑</label><br>
+      <label><input type="checkbox" name="flavor" value="Kiwi"> Kiwi 🥝</label><br>
+      <label><input type="checkbox" name="flavor" value="Passionfruit"> Passionfruit 🥭</label><br>
+      <label><input type="checkbox" name="flavor" value="Dragonfruit"> Dragonfruit 🐉</label><br>
+      <label><input type="checkbox" name="flavor" value="Orange"> Orange 🍊</label><br>
+      <label><input type="checkbox" name="flavor" value="Banana"> Banana 🍌</label><br>
+      <label><input type="checkbox" name="flavor" value="Melon"> Melon 🍈</label><br>
+      <label><input type="checkbox" name="flavor" value="Pomegranate"> Pomegranate 🍎</label><br>
+    </div>
+
+    <h3>Strength (1–100)</h3>
+    <input type="range" id="strength" min="1" max="100" value="50">
+
+    <br><br>
+    <button onclick="generateRecipe()">Generate Recipe</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function generateRecipe() {
+      const selectedFlavors = Array.from(document.querySelectorAll('input[name="flavor"]:checked')).map(f => f.value);
+      const strength = document.getElementById('strength').value;
+      const resultBox = document.getElementById('result');
+      resultBox.innerHTML = "";
+
+      if (selectedFlavors.length === 0) {
+        resultBox.innerHTML = "<p>Please select at least one flavor.</p>";
+        return;
+      }
+
+      let syrupPerFlavor = Math.round(strength / selectedFlavors.length);
+
+      resultBox.innerHTML = `<h3>Your Drink Recipe ⚗️</h3>`;
+      selectedFlavors.forEach(flavor => {
+        resultBox.innerHTML += `- ${flavor}: ${syrupPerFlavor}ml syrup<br>`;
+      });
+      resultBox.innerHTML += `<br>Total Strength: ${strength}`;
+    }
+  </script>
+</body>
+</html>input[type=range], textarea{
   margin-top:10px;
   width:100%;
   padding:10px;
