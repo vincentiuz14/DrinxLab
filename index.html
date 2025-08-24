@@ -1,204 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab – Visual Mix</title>
-<style>
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,#0f2027,#203a43,#2c5364);
-  color:#e0ffe0;
-  text-align:center;
-}
-header{
-  padding:25px;
-  font-size:2rem;
-  font-weight:bold;
-  color:#00ffcc;
-  text-shadow:0 0 10px #00ffcc;
-}
-.card{
-  background:rgba(0,50,30,0.8);
-  padding:20px;
-  margin:20px auto;
-  border-radius:15px;
-  max-width:500px;
-  border:2px solid #00ffcc;
-  box-shadow:0 0 20px #00ffcc55;
-  text-align:left;
-}
-label{display:block;margin-top:10px;font-size:1.1rem;color:#aaffaa;}
-input[type=range],select,textarea{
-  margin-top:5px;
-  width:100%;
-  padding:8px;
-  border-radius:10px;
-  border:2px solid #00ffcc;
-  background:#001a10;
-  color:#e0ffe0;
-}
-button{
-  margin-top:15px;
-  padding:12px;
-  width:100%;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg,#00ffcc,#00ffaa);
-  color:#001a10;
-  font-size:1.1rem;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 10px #00ffcc;
-}
-button:hover{background:linear-gradient(90deg,#00ffaa,#00ffcc);}
-.result{
-  margin-top:15px;
-  font-size:1rem;
-  background:rgba(0,0,0,0.6);
-  padding:10px;
-  border-radius:10px;
-  border:1px dashed #00ffcc;
-}
-canvas{
-  margin-top:20px;
-  border:3px solid #00ffcc;
-  border-radius:15px;
-  background:#001a10;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>DrinkxLab - Mix Your Own Drink</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background: #121212;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffaa;
+    }
+    .lab-container {
+      background: #1e1e2f;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0,255,200,0.3);
+    }
+    select, input, button {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #00ffaa;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00cc88;
+    }
+    #recipe {
+      margin-top: 20px;
+      background: #2a2a3d;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: left;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
-<header>⚗️ DrinxLab – Visual Mix</header>
+  <h1>🥼 DrinkxLab ⚗️</h1>
+  <div class="lab-container">
+    <label for="flavors">Pilih Rasa (multi-select):</label><br>
+    <select id="flavors" multiple size="10">
+      <option value="mango">Mango</option>
+      <option value="lychee">Lychee</option>
+      <option value="lemon">Lemon</option>
+      <option value="grape">Grape</option>
+      <option value="orange">Orange</option>
+      <option value="matcha">Matcha Latte</option>
+      <option value="chocolate">Coklat Susu</option>
+      <option value="vanilla">Vanilla Milk</option>
+      <option value="caramel">Caramel Latte</option>
+      <option value="strawberry">Strawberry Milkshake</option>
+    </select><br>
 
-<div class="card">
-  <label for="strength">🔬 Flavor Strength (%):</label>
-  <input type="range" id="strength" min="1" max="100" value="50">
-  <span id="strengthValue">50%</span>
+    <label for="size">Ukuran Cup:</label>
+    <select id="size">
+      <option value="250">250ml</option>
+      <option value="350">350ml</option>
+      <option value="500">500ml</option>
+    </select><br>
 
-  <label>🧪 Choose Flavors:</label>
-  <label><input type="checkbox" name="flavor" value="Mango"> 🥭 Mango</label>
-  <label><input type="checkbox" name="flavor" value="Strawberry"> 🍓 Strawberry</label>
-  <label><input type="checkbox" name="flavor" value="Blueberry"> 🫐 Blueberry</label>
-  <label><input type="checkbox" name="flavor" value="Mint"> 🌿 Mint</label>
-  <label><input type="checkbox" name="flavor" value="Chocolate"> 🍫 Chocolate</label>
-  <label><input type="checkbox" name="flavor" value="Lemon"> 🍋 Lemon</label>
-  <label><input type="checkbox" name="flavor" value="Grape"> 🍇 Grape</label>
-  <label><input type="checkbox" name="flavor" value="Orange"> 🍊 Orange</label>
-  <label><input type="checkbox" name="flavor" value="Coconut"> 🥥 Coconut</label>
+    <label for="strength">Kekuatan Rasa (%):</label>
+    <input type="number" id="strength" min="10" max="100" value="50"> % <br>
 
-  <label for="size">⚖️ Flask Size:</label>
-  <select id="size">
-    <option value="250">Small Flask (250ml)</option>
-    <option value="350">Medium Flask (350ml)</option>
-    <option value="500">Large Flask (500ml)</option>
-    <option value="700">XL Flask (700ml)</option>
-  </select>
+    <button onclick="generateRecipe()">Generate Resep</button>
 
-  <label for="ice">❄️ Ice Level:</label>
-  <select id="ice">
-    <option value="0">No Ice</option>
-    <option value="3">Low</option>
-    <option value="5">Standard</option>
-    <option value="8">High</option>
-  </select>
-
-  <label for="sugar">🍬 Sugar Level:</label>
-  <select id="sugar">
-    <option value="0">0%</option>
-    <option value="5">25%</option>
-    <option value="10">50%</option>
-    <option value="15">75%</option>
-    <option value="20">100%</option>
-  </select>
-
-  <label for="message">📝 Notes:</label>
-  <textarea id="message" rows="2" placeholder="e.g. extra bubbles"></textarea>
-
-  <button id="generateBtn">🔮 Generate Recipe</button>
-  <div class="result" id="resultBox">🧾 Recipe will appear here...</div>
-</div>
-
-<canvas id="flaskCanvas" width="200" height="300"></canvas>
+    <div id="recipe"></div>
+  </div>
 
 <script>
-const strengthSlider = document.getElementById("strength");
-const strengthValue = document.getElementById("strengthValue");
-strengthSlider.oninput=()=>{strengthValue.textContent=strengthSlider.value+"%";}
+function generateRecipe() {
+  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
+  const size = parseInt(document.getElementById("size").value);
+  const strength = parseInt(document.getElementById("strength").value);
 
-const flavorColors={
-  "Mango":"#ffa500",
-  "Strawberry":"#ff4d6d",
-  "Blueberry":"#4d4dff",
-  "Mint":"#00ffcc",
-  "Chocolate":"#5a381e",
-  "Lemon":"#fff44f",
-  "Grape":"#a020f0",
-  "Orange":"#ff7f00",
-  "Coconut":"#f5f5f5"
-};
-
-document.getElementById("generateBtn").addEventListener("click",()=>{
-  const selectedFlavors=Array.from(document.querySelectorAll('input[name="flavor"]:checked')).map(f=>f.value);
-  const strength=parseInt(document.getElementById("strength").value);
-  const size=parseInt(document.getElementById("size").value);
-  const ice=parseInt(document.getElementById("ice").value);
-  const sugar=parseInt(document.getElementById("sugar").value);
-  const message=document.getElementById("message").value.trim();
-  const resultBox=document.getElementById("resultBox");
-
-  if(selectedFlavors.length===0){
-    resultBox.innerHTML="⚠️ Please select at least one flavor.";
+  if (flavors.length === 0) {
+    document.getElementById("recipe").innerText = "❌ Pilih minimal 1 rasa!";
     return;
   }
 
-  let totalSyrup=Math.round(size*(strength/100));
-  let syrupPer=Math.round(totalSyrup/selectedFlavors.length);
+  let recipe = "🥤 Resep Minuman DrinkxLab\n\n";
+  let baseLiquid = "";
+  let flavorLiquid = "";
+  let ice = Math.round(size * 0.25); // 25% es
+  let remaining = size - ice;
 
-  let report=`<h3>🧪 Recipe:</h3>
-  Flask: ${size}ml<br>
-  Strength: ${strength}% (${totalSyrup}ml syrup)<br>
-  Sugar: ${sugar} g<br>
-  Ice: ${ice} cubes<br>`;
-  if(message) report+=`Notes: ${message}<br>`;
-  report+="<br><b>Flavors:</b><br>";
-  selectedFlavors.forEach(f=>{report+=`- ${f}: ${syrupPer} ml<br>`;});
-  resultBox.innerHTML=report;
+  // Tentukan apakah ada rasa creamy
+  let creamy = ["matcha","chocolate","vanilla","caramel","strawberry"];
+  let hasCreamy = flavors.some(f => creamy.includes(f));
 
-  // draw flask
-  const c=document.getElementById("flaskCanvas");
-  const ctx=c.getContext("2d");
-  ctx.clearRect(0,0,c.width,c.height);
+  if (hasCreamy) {
+    baseLiquid = Math.round(remaining * 0.5) + " ml susu segar";
+  } else {
+    baseLiquid = Math.round(remaining * 0.5) + " ml air dingin";
+  }
 
-  // draw flask outline
-  ctx.strokeStyle="#00ffcc";
-  ctx.lineWidth=4;
-  ctx.beginPath();
-  ctx.moveTo(60,20);
-  ctx.lineTo(60,260);
-  ctx.lineTo(140,260);
-  ctx.lineTo(140,20);
-  ctx.stroke();
+  recipe += `• ${baseLiquid}\n`;
 
-  // fill with layered flavors
-  let currentY=260;
-  const totalHeight=240;
-  const layerHeight=totalHeight/selectedFlavors.length;
-  selectedFlavors.forEach((f,i)=>{
-    ctx.fillStyle=flavorColors[f]||"#ccc";
-    ctx.fillRect(62,currentY-layerHeight,76,layerHeight);
-    currentY-=layerHeight;
+  // Bagikan volume rasa
+  let flavorPortion = Math.round((remaining * 0.5) / flavors.length);
+  flavors.forEach(f => {
+    let name = "";
+    switch(f) {
+      case "mango": name = "Sirup Mango"; break;
+      case "lychee": name = "Sirup Lychee"; break;
+      case "lemon": name = "Sirup Lemon"; break;
+      case "grape": name = "Sirup Anggur"; break;
+      case "orange": name = "Sirup Jeruk"; break;
+      case "matcha": name = "Bubuk Matcha + sedikit gula"; break;
+      case "chocolate": name = "Sirup/Bubuk Coklat"; break;
+      case "vanilla": name = "Syrup Vanilla"; break;
+      case "caramel": name = "Caramel Syrup"; break;
+      case "strawberry": name = "Strawberry Puree"; break;
+    }
+    recipe += `• ${flavorPortion} ml ${name}\n`;
   });
 
-  // ice cubes
-  ctx.fillStyle="rgba(200,255,255,0.7)";
-  for(let i=0;i<ice;i++){
-    let x=70+Math.random()*50;
-    let y=50+Math.random()*180;
-    ctx.fillRect(x,y,10,10);
-  }
-});
+  recipe += `• ${ice} g es batu\n`;
+
+  recipe += "\n✨ Opsional: whipped cream / boba / topping sesuai selera";
+
+  document.getElementById("recipe").innerText = recipe;
+}
 </script>
 </body>
 </html>
