@@ -33,6 +33,7 @@ body,label,select,button,textarea,h2,p,li,option,span{
   margin:20px auto;
   max-width:400px;
   box-shadow:0 0 15px #00eaff;
+  word-wrap: break-word;
 }
 select,input[type="range"],textarea{
   width:90%;
@@ -86,6 +87,15 @@ button:hover{
 <select id="language">
 <option value="id">Indonesia</option>
 <option value="en">English</option>
+</select>
+
+<label for="mood">🎨 Pilih Mood Minuman / Choose Mood:</label>
+<select id="mood">
+<option value="Manis">Manis / Sweet</option>
+<option value="Asam">Asam / Sour</option>
+<option value="Segar">Segar / Fresh</option>
+<option value="Creamy">Creamy / Smooth</option>
+<option value="Fruity">Fruity / Fruity</option>
 </select>
 
 <label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
@@ -150,22 +160,22 @@ button:hover{
 
 <script>
 const langText = {
-  id: { result:"📋 Resep Minuman Anda:" },
-  en: { result:"📋 Your Drink Recipe:" }
+  id:{result:"📋 Resep Minuman Anda:"},
+  en:{result:"📋 Your Drink Recipe:"}
 };
-
-document.getElementById("strength").addEventListener("input", function(){
-  document.getElementById("strengthValue").textContent = this.value+"%";
+document.getElementById("strength").addEventListener("input",function(){
+  document.getElementById("strengthValue").textContent=this.value+"%";
 });
 
 function generateRecipe(){
-  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
-  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
-  const strength = parseInt(document.getElementById("strength").value);
-  const size = parseInt(document.getElementById("size").value);
-  const iceLevel = parseInt(document.getElementById("ice").value);
-  const notes = document.getElementById("notes").value;
-  const base = document.getElementById("base").value;
+  const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings=Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
+  const strength=parseInt(document.getElementById("strength").value);
+  const size=parseInt(document.getElementById("size").value);
+  const iceLevel=parseInt(document.getElementById("ice").value);
+  const notes=document.getElementById("notes").value;
+  const base=document.getElementById("base").value;
+  const mood=document.getElementById("mood").value;
 
   if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
 
@@ -175,33 +185,20 @@ function generateRecipe(){
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
 
-    const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
-    const iceVolume = iceCubes*5; // tiap kubus 5ml
+    const iceCubes=iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
+    const iceVolume=iceCubes*5;
 
-    const totalSyrup = size*0.3*(strength/100); // max 30% size
-    const remainingLiquid = size - totalSyrup - iceVolume;
-
-    const syrupPerFlavor = (totalSyrup/flavors.length).toFixed(1);
-    const baseAmount = remainingLiquid.toFixed(1);
+    const totalSyrup=size*0.3*(strength/100);
+    const remainingLiquid=size-totalSyrup-iceVolume;
+    const syrupPerFlavor=(totalSyrup/flavors.length).toFixed(1);
+    const baseAmount=remainingLiquid.toFixed(1);
 
     let recipe=`<h2>${langText[document.getElementById("language").value].result}</h2>`;
+    recipe+=`<p><b>Mood:</b> ${mood}</p>`;
     recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
     recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
     recipe+=`<p><b>Base:</b> ${base} ${base==='milk'?'(susu)':base==='water'?'(air)':'(soda)'}</p>`;
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
     recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
     flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml</li>`);
-    recipe+=`<li>Tambahkan base: ${baseAmount} ml</li>`;
-    if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
-    if(notes) recipe+=`<li>Pesan tambahan: ${notes}</li>`;
-    recipe+=`</ol>`;
-
-    const resultDiv=document.getElementById("result");
-    resultDiv.innerHTML=recipe;
-    resultDiv.style.display="block";
-  },800);
-}
-</script>
-
-</body>
-</html>
+    recipe+=
