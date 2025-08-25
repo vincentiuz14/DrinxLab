@@ -5,17 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DrinxLab – Mood & Custom Drinks</title>
 <style>
-body {
-  margin:0; font-family:'Segoe UI', sans-serif; background:linear-gradient(135deg,#0a0a0a,#1a0029); color:#fff; text-align:center; padding:20px;
-}
-.logo {
-  font-size:3em; font-weight:bold; color:#39ff14; text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14; margin-bottom:20px; animation:flicker 2s infinite alternate;
-}
+body {margin:0; font-family:'Segoe UI', sans-serif; background:linear-gradient(135deg,#0a0a0a,#1a0029); color:#fff; text-align:center; padding:20px;}
+.logo {font-size:3em; font-weight:bold; color:#39ff14; text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14; margin-bottom:20px; animation:flicker 2s infinite alternate;}
 @keyframes flicker{from{opacity:1;}to{opacity:0.85;}}
 body,label,select,button,textarea,h2,p,li,option,span{text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;}
-.form-section, .result {
-  background: rgba(20,20,40,0.9); border:2px solid #39ff14; border-radius:12px; padding:15px; margin:20px auto; max-width:400px; box-shadow:0 0 15px #00eaff; word-wrap:break-word;
-}
+.form-section, .result {background: rgba(20,20,40,0.9); border:2px solid #39ff14; border-radius:12px; padding:15px; margin:20px auto; max-width:400px; box-shadow:0 0 15px #00eaff; word-wrap:break-word;}
 select,input[type="range"],textarea {width:90%; padding:10px; margin:5px auto; border-radius:8px; border:2px solid #39ff14; background:#111; color:#fff; font-size:1em; display:block;}
 button {margin-top:20px; padding:12px 30px; background:#00eaff; border:none; border-radius:10px; color:#000; font-weight:bold; font-size:1.1em; cursor:pointer; box-shadow:0 0 15px #00eaff,0 0 30px #39ff14; transition:0.3s;}
 button:hover{background:#39ff14; box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
@@ -106,7 +100,7 @@ const presetRecipes = {
   senang: {flavors:["Orange","Mango"], toppings:["Boba"], base:"soda"},
   santai: {flavors:["Blueberry","Matcha"], toppings:["Whipped Cream"], base:"susu"},
   sedih: {flavors:["Blueberry","Lychee"], toppings:[], base:"air"},
-  enerjik: {flavors:["Strawberry","Raspberry"], toppings:["Boba"], base:"soda"},
+  enerjik: {flavors:["Strawberry","Mango"], toppings:["Boba"], base:"soda"},
   romantis: {flavors:["Strawberry","Lychee"], toppings:["Jelly"], base:"susu"}
 };
 
@@ -118,17 +112,14 @@ document.getElementById("preset").addEventListener("change", function(){
   const mood = this.value;
   if(mood && presetRecipes[mood]){
     const recipe = presetRecipes[mood];
-    // Set flavors
     const flavorOptions = document.getElementById("flavors").options;
     for(let i=0;i<flavorOptions.length;i++){
       flavorOptions[i].selected = recipe.flavors.includes(flavorOptions[i].value);
     }
-    // Set toppings
     const toppingOptions = document.getElementById("toppings").options;
     for(let i=0;i<toppingOptions.length;i++){
       toppingOptions[i].selected = recipe.toppings.includes(toppingOptions[i].value);
     }
-    // Set base
     document.getElementById("base").value = recipe.base;
   }
 });
@@ -149,11 +140,14 @@ function generateRecipe(){
 
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
-    // Hitung es
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
-    const iceVolume = iceCubes*5; // 5 ml per kubus
-
-    const totalSyrup = size*0.3*(strength/100);
+    const iceVolume = iceCubes*5;
+    const totalSyrup = size*0.25*(strength/100);
     const remainingLiquid = size - totalSyrup - iceVolume;
+    const perFlavor = (totalSyrup/flavors.length).toFixed(1);
 
-    let perFlavor = (totalSyrup / flavors.length).
+    let recipeHTML = `<h2>📋 Resep Minuman Anda:</h2>`;
+    recipeHTML += `<p><b>Ukuran:</b> ${size} ml</p>`;
+    recipeHTML += `<p><b>Dasar:</b> ${base}</p>`;
+    recipeHTML += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
+    recipeHTML += `<p><b>Langkah-langkah:</b></
