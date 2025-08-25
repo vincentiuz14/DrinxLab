@@ -3,53 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrinxLab – Mix Your Drink</title>
+  <title>DrinxLab – Experimental Drinks</title>
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #0f0f0f, #1a1a2e);
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       color: #fff;
       text-align: center;
     }
     header {
-      padding: 20px;
-      font-size: 2rem;
+      padding: 25px;
+      font-size: 2.5rem;
       font-weight: bold;
-      color: #00e6ff;
-      text-shadow: 0 0 10px #00e6ff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-      animation: glowPulse 2s infinite alternate;
-    }
-    @keyframes glowPulse {
-      from { text-shadow: 0 0 10px #00e6ff, 0 0 20px #00ffff; }
-      to   { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
     }
     .card {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.08);
       padding: 20px;
       margin: 20px auto;
       border-radius: 15px;
       max-width: 500px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 0 15px rgba(0,255,255,0.3);
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
     }
     label {
       display: block;
       margin-top: 15px;
-      font-size: 1.1rem;
-      color: #00e6ff;
-      text-shadow: 0 0 5px #00e6ff, 0 0 10px #00ffff;
+      font-size: 1.2rem;
+      text-shadow: 0 0 5px #0ff;
     }
-    select, input[type=range], textarea {
+    select, input, textarea {
       margin-top: 10px;
       width: 100%;
       padding: 10px;
       border-radius: 10px;
       border: none;
       font-size: 1rem;
-      background: #111;
-      color: #fff;
-      box-shadow: 0 0 5px #00e6ff;
     }
     button {
       margin-top: 20px;
@@ -57,46 +47,39 @@
       width: 100%;
       border: none;
       border-radius: 10px;
-      background: #ff4b2b;
+      background: #00c6ff;
       color: white;
       font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow: 0 0 10px #ff4b2b;
-      text-shadow: 0 0 10px #fff, 0 0 20px #ffcccc;
-      animation: glowPulseRed 2s infinite alternate;
-    }
-    @keyframes glowPulseRed {
-      from { box-shadow: 0 0 10px #ff4b2b; }
-      to   { box-shadow: 0 0 25px #ff4b2b, 0 0 50px #ff6666; }
+      text-shadow: 0 0 5px #000;
     }
     button:hover {
-      background: #ff416c;
+      background: #0072ff;
+      box-shadow: 0 0 15px #00f;
     }
     .result {
       margin-top: 20px;
-      font-size: 1rem;
-      background: rgba(0,0,0,0.6);
+      font-size: 1.1rem;
+      background: rgba(0,0,0,0.5);
       padding: 15px;
       border-radius: 10px;
-      box-shadow: inset 0 0 10px #00e6ff;
-      text-shadow: 0 0 5px #00e6ff, 0 0 15px #00ffff;
+      text-shadow: 0 0 5px #0ff;
     }
     iframe {
       border-radius: 15px;
       width: 90%;
       height: 250px;
       margin-top: 20px;
-      box-shadow: 0 0 15px #00e6ff;
     }
   </style>
 </head>
 <body>
-  <header>🔬 DrinxLab – Experimental Drinks</header>
+  <header>🧪 DrinxLab – Experimental Drinks</header>
 
   <div class="card">
-    <label for="flavor">Choose Flavors (multi-select):</label>
+    <label for="flavor">Choose flavors (multiple allowed):</label>
     <select id="flavor" multiple size="8">
       <option value="Mango">🥭 Mango</option>
       <option value="Strawberry">🍓 Strawberry</option>
@@ -104,71 +87,78 @@
       <option value="Chocolate">🍫 Chocolate</option>
       <option value="Coffee">☕ Coffee</option>
       <option value="Vanilla">🍦 Vanilla</option>
-      <option value="Taro">🌿 Taro</option>
-      <option value="Milk Tea">🧋 Milk Tea</option>
       <option value="Cola">🥤 Cola</option>
-      <option value="Lemon">🍋 Lemon</option>
-      <option value="Lychee">🍒 Lychee</option>
-      <option value="Coconut">🥥 Coconut</option>
+      <option value="Caramel">🍯 Caramel</option>
     </select>
 
-    <label for="size">Choose Cup Size:</label>
+    <label for="size">Choose drink size:</label>
     <select id="size">
       <option value="250">Small (250ml)</option>
       <option value="350">Medium (350ml)</option>
       <option value="500">Large (500ml)</option>
     </select>
 
-    <label for="ice">Choose Ice Level:</label>
+    <label for="strength">Flavor Strength:</label>
+    <input type="range" id="strength" min="10" max="100" value="50">
+    <span id="strengthValue">50%</span>
+
+    <label for="ice">Ice Level:</label>
     <select id="ice">
-      <option>No Ice</option>
-      <option>Less Ice</option>
-      <option>Regular Ice</option>
-      <option>Extra Ice</option>
+      <option value="0">No Ice</option>
+      <option value="25">Less Ice</option>
+      <option value="50">Normal Ice</option>
+      <option value="75">Extra Ice</option>
     </select>
 
-    <label for="note">Extra notes (optional):</label>
-    <textarea id="note" rows="2" placeholder="Add sugar level, toppings, etc."></textarea>
+    <label for="note">Extra note for the drink maker:</label>
+    <textarea id="note" placeholder="Write special requests..."></textarea>
 
-    <button onclick="generateDrink()">⚡ Generate Recipe ⚡</button>
+    <button onclick="generateDrink()">Generate Drink</button>
 
-    <div class="result" id="resultBox">🍹 Your recipe will appear here 👇</div>
+    <div class="result" id="resultBox">Your recipe will appear here 👇</div>
   </div>
 
-  <div class="card">
-    <h2 style="text-shadow:0 0 8px #00ffcc,0 0 15px #00ffff;">📍 Nearby Cafes</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.669887589828!2d106.781!3d-6.200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6e3cafes!5e0!3m2!1sen!2sid!4v000000000" allowfullscreen></iframe>
+  <div class="map">
+    <h2>📍 Nearby Cafes</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.597...YOUR_EMBED_LINK..." allowfullscreen></iframe>
   </div>
 
   <script>
+    const strengthSlider = document.getElementById("strength");
+    const strengthValue = document.getElementById("strengthValue");
+
+    strengthSlider.oninput = () => {
+      strengthValue.textContent = strengthSlider.value + "%";
+    };
+
     function generateDrink() {
-      const flavors = Array.from(document.getElementById("flavor").selectedOptions).map(o => o.value);
-      const size = document.getElementById("size").value;
+      const flavors = Array.from(document.getElementById("flavor").selectedOptions).map(opt => opt.value);
+      const size = parseInt(document.getElementById("size").value);
+      const strength = parseInt(strengthSlider.value);
       const ice = document.getElementById("ice").value;
       const note = document.getElementById("note").value;
-      const resultBox = document.getElementById("resultBox");
 
       if (flavors.length === 0) {
-        resultBox.innerHTML = "⚠️ Please choose at least one flavor!";
+        alert("Please choose at least one flavor!");
         return;
       }
 
-      let base = size - 50; 
-      let syrup = Math.round((size * 0.15) * flavors.length); 
-      let milk = Math.round(size * 0.4);
-      let water = size - (milk + syrup);
+      let base = size - (strength * flavors.length); 
+      if (base < 50) base = 50; 
 
-      resultBox.innerHTML = `
-        🧪 <b>Your Custom Drink Recipe</b><br><br>
-        - Cup size: ${size}ml<br>
-        - Flavors: ${flavors.join(", ")}<br>
-        - Base liquid: ${water}ml water<br>
-        - Milk: ${milk}ml milk<br>
-        - Syrup: ${syrup}ml (${flavors.join(" + ")})<br>
-        - Ice: ${ice}<br>
-        ${note ? "- Extra: " + note + "<br>" : ""}
-        <br>✅ Mix well & enjoy your glowing lab drink! ⚗️
-      `;
+      let recipe = `🍹 Your Custom Drink:<br>`;
+      recipe += `- Size: ${size}ml<br>`;
+      recipe += `- Base Liquid: ${base}ml milk/sparkling water<br>`;
+      flavors.forEach(f => {
+        recipe += `- ${Math.round(strength)}ml ${f} syrup<br>`;
+      });
+      recipe += `- Ice: ${ice}%<br>`;
+      if (note.trim() !== "") {
+        recipe += `- Note: ${note}<br>`;
+      }
+      recipe += `✨ Enjoy your lab creation!`;
+
+      document.getElementById("resultBox").innerHTML = recipe;
     }
   </script>
 </body>
