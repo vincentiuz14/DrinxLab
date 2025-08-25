@@ -1,22 +1,80 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DrinxLab – Custom Drinks</title>
 <style>
-  body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
-  .logo{font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
-  @keyframes flicker{from{opacity:1;}to{opacity:0.85;}}
-  body,label,select,button,textarea,h2,p,li,option,span{ text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff; }
-  .form-section,.result{background:rgba(20,20,40,0.9);border:2px solid #39ff14;border-radius:12px;padding:15px;margin:20px auto;max-width:400px;box-shadow:0 0 15px #00eaff;word-wrap:break-word;}
-  select,input[type="range"],textarea{width:90%;padding:10px;margin:5px auto;border-radius:8px;border:2px solid #39ff14;background:#111;color:#fff;font-size:1em;display:block;}
-  button{margin-top:20px;padding:12px 30px;background:#00eaff;border:none;border-radius:10px;color:#000;font-weight:bold;font-size:1.1em;cursor:pointer;box-shadow:0 0 15px #00eaff,0 0 30px #39ff14;transition:.3s;text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;}
-  button:hover{background:#39ff14;box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
-  .loading{display:none;margin:20px auto;border:6px solid #333;border-top:6px solid #39ff14;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;}
-  @keyframes spin{100%{transform:rotate(360deg);}}
-  .result{display:none;text-align:left;}
-  .muted{opacity:.9;font-size:.95em}
+body {
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#0a0a0a,#1a0029);
+  color:#fff;
+  text-align:center;
+  padding:20px;
+}
+.logo{
+  font-size:3em;
+  font-weight:bold;
+  color:#39ff14;
+  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;
+  margin-bottom:20px;
+  animation:flicker 2s infinite alternate;
+}
+@keyframes flicker{from{opacity:1;}to{opacity:0.85;}}
+body,label,select,button,textarea,h2,p,li,option,span{
+  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;
+}
+.form-section,.result{
+  background: rgba(20,20,40,0.9);
+  border:2px solid #39ff14;
+  border-radius:12px;
+  padding:15px;
+  margin:20px auto;
+  max-width:400px;
+  box-shadow:0 0 15px #00eaff;
+}
+select,input[type="range"],textarea{
+  width:90%;
+  padding:10px;
+  margin:5px auto;
+  border-radius:8px;
+  border:2px solid #39ff14;
+  background:#111;
+  color:#fff;
+  font-size:1em;
+  display:block;
+}
+button{
+  margin-top:20px;
+  padding:12px 30px;
+  background:#00eaff;
+  border:none;
+  border-radius:10px;
+  color:#000;
+  font-weight:bold;
+  font-size:1.1em;
+  cursor:pointer;
+  box-shadow:0 0 15px #00eaff,0 0 30px #39ff14;
+  transition:0.3s;
+  text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;
+}
+button:hover{
+  background:#39ff14;
+  box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;
+}
+.loading{
+  display:none;
+  margin:20px auto;
+  border:6px solid #333;
+  border-top:6px solid #39ff14;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{100%{transform:rotate(360deg);}}
+.result{display:none;text-align:left;}
 </style>
 </head>
 <body>
@@ -24,179 +82,125 @@
 <div class="logo">✨ DrinxLab ✨</div>
 
 <div class="form-section">
-  <label for="language">🌍 Pilih Bahasa / Choose Language:</label>
-  <select id="language">
-    <option value="id">Indonesia</option>
-    <option value="en">English</option>
-  </select>
+<label for="language">🌍 Pilih Bahasa / Choose Language:</label>
+<select id="language">
+<option value="id">Indonesia</option>
+<option value="en">English</option>
+</select>
 
-  <label for="mood">🎭 Mood Anda / Your Mood:</label>
-  <select id="mood">
-    <option value="Energetic">⚡ Energetic</option>
-    <option value="Relaxed">🌙 Relaxed</option>
-    <option value="Happy">😊 Happy</option>
-    <option value="Romantic">❤️ Romantic</option>
-    <option value="Surprise">🎁 Surprise Me!</option>
-  </select>
+<label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
+<select id="flavors" multiple>
+<option value="Strawberry">🍓 Strawberry</option>
+<option value="Mango">🥭 Mango</option>
+<option value="Lychee">🍒 Lychee</option>
+<option value="Lemon">🍋 Lemon</option>
+<option value="Orange">🍊 Orange</option>
+<option value="Pineapple">🍍 Pineapple</option>
+<option value="Coconut">🥥 Coconut</option>
+<option value="Blueberry">🫐 Blueberry</option>
+<option value="Matcha">🫖 Matcha</option>
+<option value="Chocolate">🍫 Chocolate</option>
+<option value="Vanilla">🍦 Vanilla</option>
+<option value="Caramel">🍯 Caramel</option>
+<option value="Coffee">☕ Coffee</option>
+</select>
 
-  <label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
-  <select id="flavors" multiple>
-    <option value="Strawberry">🍓 Strawberry</option>
-    <option value="Mango">🥭 Mango</option>
-    <option value="Lychee">🍒 Lychee</option>
-    <option value="Lemon">🍋 Lemon</option>
-    <option value="Orange">🍊 Orange</option>
-    <option value="Pineapple">🍍 Pineapple</option>
-    <option value="Coconut">🥥 Coconut</option>
-    <option value="Blueberry">🫐 Blueberry</option>
-    <option value="Matcha">🫖 Matcha</option>
-    <option value="Chocolate">🍫 Chocolate</option>
-    <option value="Vanilla">🍦 Vanilla</option>
-    <option value="Caramel">🍯 Caramel</option>
-    <option value="Coffee">☕ Coffee</option>
-  </select>
+<label for="toppings">🍬 Pilih Topping / Choose Toppings:</label>
+<select id="toppings" multiple>
+<option value="Boba">Boba</option>
+<option value="Jelly">Jelly</option>
+<option value="Whipped Cream">Whipped Cream</option>
+<option value="Chocolate Chips">Chocolate Chips</option>
+<option value="Oreo Crumble">Oreo Crumble</option>
+</select>
 
-  <label for="toppings">🍬 Pilih Topping / Choose Toppings:</label>
-  <select id="toppings" multiple>
-    <option value="Boba">Boba</option>
-    <option value="Jelly">Jelly</option>
-    <option value="Whipped Cream">Whipped Cream</option>
-    <option value="Chocolate Chips">Chocolate Chips</option>
-    <option value="Oreo Crumble">Oreo Crumble</option>
-  </select>
+<label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
+<input type="range" id="strength" min="10" max="100" value="50">
 
-  <label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
-  <input type="range" id="strength" min="10" max="100" value="50" />
+<label for="size">🥤 Ukuran Minuman / Drink Size:</label>
+<select id="size">
+<option value="250">250 ml</option>
+<option value="350">350 ml</option>
+<option value="500">500 ml</option>
+</select>
 
-  <label for="size">🥤 Ukuran Minuman / Drink Size:</label>
-  <select id="size">
-    <option value="250">250 ml</option>
-    <option value="350">350 ml</option>
-    <option value="500">500 ml</option>
-  </select>
+<label for="ice">🧊 Tingkat Es / Ice Level:</label>
+<select id="ice">
+<option value="0">Tanpa Es / No Ice</option>
+<option value="25">Sedikit Es / Light Ice</option>
+<option value="50">Normal Ice</option>
+<option value="75">Banyak Es / Extra Ice</option>
+</select>
 
-  <label for="ice">🧊 Tingkat Es / Ice Level:</label>
-  <select id="ice">
-    <option value="0">Tanpa Es / No Ice</option>
-    <option value="25">Sedikit Es / Light Ice</option>
-    <option value="50">Normal Ice</option>
-    <option value="75">Banyak Es / Extra Ice</option>
-  </select>
+<label for="base">💧 Dasar Minuman / Base Liquid:</label>
+<select id="base">
+<option value="milk">Susu</option>
+<option value="water">Air</option>
+<option value="soda">Soda</option>
+</select>
 
-  <label for="base">💧 Dasar Minuman / Base Liquid:</label>
-  <select id="base">
-    <option value="milk">Susu</option>
-    <option value="water">Air</option>
-    <option value="soda">Soda</option>
-  </select>
+<label for="notes">✍️ Pesan Tambahan / Extra Notes:</label>
+<textarea id="notes" rows="2" placeholder="Contoh: kurang manis, tambah topping..."></textarea>
 
-  <label for="notes">✍️ Pesan Tambahan / Extra Notes:</label>
-  <textarea id="notes" rows="2" placeholder="Contoh: kurang manis, tambah topping..."></textarea>
-
-  <button onclick="generateRecipe()">🔬 Generate Resep</button>
-  <div class="loading" id="loading"></div>
+<button onclick="generateRecipe()">🔬 Generate Resep</button>
+<div class="loading" id="loading"></div>
 </div>
 
 <div class="result" id="result"></div>
 
 <script>
-  const langText = {
-    id: { result: "📋 Resep Minuman Anda:", total:"Total", base:"Base", steps:"Step by Step" },
-    en: { result: "📋 Your Drink Recipe:", total:"Total", base:"Base", steps:"Step by Step" }
-  };
+const langText = {
+  id: { result:"📋 Resep Minuman Anda:" },
+  en: { result:"📋 Your Drink Recipe:" }
+};
 
-  const baseLabel = { milk:"Susu", water:"Air", soda:"Soda" };
+document.getElementById("strength").addEventListener("input", function(){
+  document.getElementById("strengthValue").textContent = this.value+"%";
+});
 
-  document.getElementById("strength").addEventListener("input", function(){
-    document.getElementById("strengthValue").textContent = this.value + "%";
-  });
+function generateRecipe(){
+  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
+  const strength = parseInt(document.getElementById("strength").value);
+  const size = parseInt(document.getElementById("size").value);
+  const iceLevel = parseInt(document.getElementById("ice").value);
+  const notes = document.getElementById("notes").value;
+  const base = document.getElementById("base").value;
 
-  // helper pembulatan 1 desimal
-  const round1 = x => Math.round(x*10)/10;
+  if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
 
-  function generateRecipe(){
-    try {
-      const lang = document.getElementById("language").value;
-      let mood = document.getElementById("mood").value;
-      const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
-      const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
-      const strength = parseInt(document.getElementById("strength").value);
-      const size = parseInt(document.getElementById("size").value);
-      const iceLevel = parseInt(document.getElementById("ice").value);
-      const base = document.getElementById("base").value;
-      const notes = document.getElementById("notes").value.trim();
+  document.getElementById("loading").style.display="block";
+  document.getElementById("result").style.display="none";
 
-      if (flavors.length === 0) { alert(lang==='id'?'Pilih minimal 1 rasa!':'Pick at least 1 flavor!'); return; }
+  setTimeout(()=>{
+    document.getElementById("loading").style.display="none";
 
-      if (mood === "Surprise") {
-        const moods = ["Energetic","Relaxed","Happy","Romantic"];
-        mood = moods[Math.floor(Math.random()*moods.length)];
-      }
+    const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
+    const iceVolume = iceCubes*5; // tiap kubus 5ml
 
-      // tampilkan loading
-      const loader = document.getElementById("loading");
-      const res = document.getElementById("result");
-      loader.style.display = "block";
-      res.style.display = "none";
+    const totalSyrup = size*0.3*(strength/100); // max 30% size
+    const remainingLiquid = size - totalSyrup - iceVolume;
 
-      setTimeout(()=>{
-        // hitung es (5 ml per kubus)
-        const iceCubes = iceLevel===0?0 : iceLevel===25?3 : iceLevel===50?5 : 8;
-        const iceVolume = iceCubes * 5;
+    const syrupPerFlavor = (totalSyrup/flavors.length).toFixed(1);
+    const baseAmount = remainingLiquid.toFixed(1);
 
-        // batas syrup 25% dari size, dikalikan strength (10-100%)
-        const totalSyrupRaw = size * 0.25 * (strength/100);
-        // jadikan pembulatan 1 desimal agar rapi
-        let totalSyrup = round1(totalSyrupRaw);
+    let recipe=`<h2>${langText[document.getElementById("language").value].result}</h2>`;
+    recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
+    recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
+    recipe+=`<p><b>Base:</b> ${base} ${base==='milk'?'(susu)':base==='water'?'(air)':'(soda)'}</p>`;
+    recipe+=`<p><b>Step by Step:</b></p><ol>`;
+    recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
+    flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml</li>`);
+    recipe+=`<li>Tambahkan base: ${baseAmount} ml</li>`;
+    if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
+    if(notes) recipe+=`<li>Pesan tambahan: ${notes}</li>`;
+    recipe+=`</ol>`;
 
-        // bagi rata ke tiap flavor, lalu koreksi rounding di flavor terakhir agar jumlah tepat
-        const per = totalSyrup / flavors.length;
-        let perList = Array(flavors.length).fill( round1(per) );
-        // koreksi selisih
-        const sumRounded = round1(perList.reduce((a,b)=>a+b,0));
-        const diff = round1(totalSyrup - sumRounded);
-        perList[perList.length-1] = round1(perList[perList.length-1] + diff);
-
-        // base = sisa volume setelah es + total syrup
-        let baseAmount = round1(size - iceVolume - perList.reduce((a,b)=>a+b,0));
-        if (baseAmount < 0) { // kalau berlebih karena es & syrup, kurangi syrup sedikit
-          // turunkan syrup supaya tidak negatif
-          const need = Math.abs(baseAmount);
-          const reduceEach = round1(need / flavors.length);
-          perList = perList.map((v,i)=> i<flavors.length-1 ? round1(Math.max(0, v - reduceEach)) : round1(Math.max(0, v - (need - reduceEach*(flavors.length-1)))) );
-          totalSyrup = round1(perList.reduce((a,b)=>a+b,0));
-          baseAmount = round1(size - iceVolume - totalSyrup);
-        }
-
-        // rakit HTML hasil
-        let html = "";
-        html += `<h2>${langText[lang].result}</h2>`;
-        html += `<p><b>Mood:</b> ${mood}</p>`;
-        html += `<p><b>Ukuran:</b> ${size} ml</p>`;
-        html += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
-        html += `<p><b>${langText[lang].base}:</b> ${baseLabel[base]} (${base})</p>`;
-        html += `<p><b>${langText[lang].steps]}:</b></p><ol>`;
-        html += `<li>Masukkan es: <b>${iceCubes}</b> kubus (${round1(iceVolume)} ml)</li>`;
-        flavors.forEach((f,idx)=>{
-          html += `<li>Tambahkan sirup <b>${f}</b>: <b>${perList[idx].toFixed(1)}</b> ml</li>`;
-        });
-        html += `<li>Tambahkan <b>${baseLabel[base]}</b>: <b>${baseAmount.toFixed(1)}</b> ml</li>`;
-        if (toppings.length>0) html += `<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
-        if (notes) html += `<li>Catatan: ${notes}</li>`;
-        html += `</ol>`;
-
-        const totalNow = round1(iceVolume + perList.reduce((a,b)=>a+b,0) + baseAmount);
-        html += `<p class="muted"><b>Total:</b> ${totalNow.toFixed(1)} ml (target ${size} ml)</p>`;
-
-        loader.style.display = "none";
-        res.innerHTML = html;
-        res.style.display = "block";
-      }, 400);
-    } catch (e) {
-      alert("Error: " + e.message);
-      console.error(e);
-    }
-  }
+    const resultDiv=document.getElementById("result");
+    resultDiv.innerHTML=recipe;
+    resultDiv.style.display="block";
+  },800);
+}
 </script>
 
 </body>
