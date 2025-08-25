@@ -4,216 +4,215 @@
 <meta charset="UTF-8">
 <title>DrinxLab Interaktif</title>
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0a0a0a, #1a0029);
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-  }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a, #1a0029);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
 
-  /* Neon Logo */
-  .logo {
-    font-size: 3em;
-    font-weight: bold;
-    color: #39ff14;
-    text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff, 0 0 20px #39ff14;
-    margin-bottom: 20px;
-    animation: flicker 2s infinite alternate;
-  }
+/* Neon Logo */
+.logo {
+  font-size: 3em;
+  font-weight: bold;
+  color: #39ff14;
+  text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff, 0 0 20px #39ff14;
+  margin-bottom: 20px;
+  animation: flicker 2s infinite alternate;
+}
+@keyframes flicker { from { opacity: 1; } to { opacity: 0.85; } }
 
-  @keyframes flicker { from { opacity: 1; } to { opacity: 0.85; } }
+/* Semua teks neon */
+body, label, select, button, textarea, h2, p, li, option, span {
+  text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff;
+}
 
-  /* Semua teks neon */
-  body, label, select, button, textarea, h2, p, li, option, span {
-    text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff;
-  }
+.form-section {
+  background: rgba(20,20,40,0.9);
+  border: 2px solid #39ff14;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 650px;
+  box-shadow: 0 0 15px #00eaff;
+}
 
-  .form-section {
-    background: rgba(20,20,40,0.9);
-    border: 2px solid #39ff14;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 650px;
-    box-shadow: 0 0 15px #00eaff;
-  }
+label { display: block; margin: 12px 0 5px; font-weight: bold; }
+select, textarea {
+  width: 90%;
+  padding: 8px;
+  margin: 5px auto;
+  border-radius: 8px;
+  border: 2px solid #39ff14;
+  background: #111;
+  color: #fff;
+  font-size: 1em;
+  display: block;
+}
 
-  label { display: block; margin: 12px 0 5px; font-weight: bold; }
+/* Slider */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 90%;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #39ff14 0%, #ff00ff 100%);
+  outline: none;
+  margin: 5px auto;
+  display: block;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #00eaff;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00eaff;
+}
 
-  select, textarea {
-    width: 90%;
-    padding: 8px;
-    margin: 5px auto;
-    border-radius: 8px;
-    border: 2px solid #39ff14;
-    background: #111;
-    color: #fff;
-    font-size: 1em;
-    display: block;
-  }
+button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  background: #00eaff;
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00eaff;
+  transition: 0.3s;
+}
+button:hover {
+  background: #39ff14;
+  box-shadow: 0 0 20px #39ff14;
+}
 
-  /* Slider */
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 90%;
-    height: 12px;
-    border-radius: 6px;
-    background: linear-gradient(to right, #39ff14 0%, #ff00ff 100%);
-    outline: none;
-    margin: 5px auto;
-    display: block;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #00eaff;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00eaff;
-  }
+.loading {
+  display: none;
+  margin: 15px auto;
+  border: 6px solid #333;
+  border-top: 6px solid #39ff14;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-  button {
-    margin-top: 15px;
-    padding: 10px 25px;
-    background: #00eaff;
-    border: none;
-    border-radius: 8px;
-    color: #000;
-    font-weight: bold;
-    font-size: 1em;
-    cursor: pointer;
-    box-shadow: 0 0 15px #00eaff;
-    transition: 0.3s;
-  }
-  button:hover {
-    background: #39ff14;
-    box-shadow: 0 0 20px #39ff14;
-  }
-
-  .loading {
-    display: none;
-    margin: 15px auto;
-    border: 6px solid #333;
-    border-top: 6px solid #39ff14;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-
-  .result {
-    margin-top: 15px;
-    padding: 15px;
-    background: rgba(0,0,0,0.6);
-    border-radius: 10px;
-    border: 2px solid #00eaff;
-    text-align: left;
-    max-width: 650px;
-    margin-left: auto;
-    margin-right: auto;
-    display: none;
-  }
-
-  /* Topping icons */
-  .topping-icon { margin-right: 5px; font-size: 1.1em; }
+.result {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  border: 2px solid #00eaff;
+  text-align: left;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+}
+.topping-icon { margin-right: 5px; font-size: 1.1em; }
 </style>
 </head>
 <body>
-  <div class="logo">✨ DrinxLab ✨</div>
 
-  <div class="form-section">
-    <label for="flavors">🧪 Pilih Rasa:</label>
-    <select id="flavors" multiple>
-      <option value="Strawberry">🍓 Strawberry</option>
-      <option value="Mango">🥭 Mango</option>
-      <option value="Lychee">🍒 Lychee</option>
-      <option value="Lemon">🍋 Lemon</option>
-      <option value="Orange">🍊 Orange</option>
-      <option value="Pineapple">🍍 Pineapple</option>
-      <option value="Coconut">🥥 Coconut</option>
-      <option value="Blueberry">🫐 Blueberry</option>
-      <option value="Matcha">🫖 Matcha</option>
-      <option value="Chocolate">🍫 Chocolate</option>
-      <option value="Vanilla">🍦 Vanilla</option>
-      <option value="Caramel">🍯 Caramel</option>
-      <option value="Coffee">☕ Coffee</option>
-    </select>
+<div class="logo">✨ DrinxLab ✨</div>
 
-    <label for="toppings">🍬 Pilih Topping:</label>
-    <select id="toppings" multiple>
-      <option value="Boba">🟤 Boba</option>
-      <option value="Jelly">🔵 Jelly</option>
-      <option value="Whipped Cream">⚪ Whipped Cream</option>
-      <option value="Chocolate Chips">🟤 Chocolate Chips</option>
-      <option value="Oreo Crumble">⚫ Oreo Crumble</option>
-    </select>
+<div class="form-section">
+  <label for="flavors">🧪 Pilih Rasa:</label>
+  <select id="flavors" multiple>
+    <option value="Strawberry">🍓 Strawberry</option>
+    <option value="Mango">🥭 Mango</option>
+    <option value="Lychee">🍒 Lychee</option>
+    <option value="Lemon">🍋 Lemon</option>
+    <option value="Orange">🍊 Orange</option>
+    <option value="Pineapple">🍍 Pineapple</option>
+    <option value="Coconut">🥥 Coconut</option>
+    <option value="Blueberry">🫐 Blueberry</option>
+    <option value="Matcha">🫖 Matcha</option>
+    <option value="Chocolate">🍫 Chocolate</option>
+    <option value="Vanilla">🍦 Vanilla</option>
+    <option value="Caramel">🍯 Caramel</option>
+    <option value="Coffee">☕ Coffee</option>
+  </select>
 
-    <label for="strength">⚡ Kekuatan Rasa: <span id="strengthValue">50%</span></label>
-    <input type="range" id="strength" min="10" max="100" value="50">
+  <label for="toppings">🍬 Pilih Topping:</label>
+  <select id="toppings" multiple>
+    <option value="Boba">🟤 Boba</option>
+    <option value="Jelly">🔵 Jelly</option>
+    <option value="Whipped Cream">⚪ Whipped Cream</option>
+    <option value="Chocolate Chips">🟤 Chocolate Chips</option>
+    <option value="Oreo Crumble">⚫ Oreo Crumble</option>
+  </select>
 
-    <label for="size">🥤 Ukuran Minuman:</label>
-    <select id="size">
-      <option value="250">250 ml</option>
-      <option value="350">350 ml</option>
-      <option value="500">500 ml</option>
-    </select>
+  <label for="strength">⚡ Kekuatan Rasa: <span id="strengthValue">50%</span></label>
+  <input type="range" id="strength" min="10" max="100" value="50">
 
-    <label for="ice">🧊 Tingkat Es:</label>
-    <select id="ice">
-      <option value="0">Tanpa Es</option>
-      <option value="25">Sedikit Es</option>
-      <option value="50">Normal Es</option>
-      <option value="75">Banyak Es</option>
-    </select>
+  <label for="size">🥤 Ukuran Minuman:</label>
+  <select id="size">
+    <option value="250">250 ml</option>
+    <option value="350">350 ml</option>
+    <option value="500">500 ml</option>
+  </select>
 
-    <label for="notes">✍️ Pesan Tambahan:</label>
-    <textarea id="notes" rows="2" placeholder="Kurang manis, tambah topping..."></textarea>
+  <label for="ice">🧊 Tingkat Es:</label>
+  <select id="ice">
+    <option value="0">Tanpa Es</option>
+    <option value="25">Sedikit Es</option>
+    <option value="50">Normal Es</option>
+    <option value="75">Banyak Es</option>
+  </select>
 
-    <button onclick="generateRecipe()">🔬 Generate Resep</button>
-    <div class="loading" id="loading"></div>
-  </div>
+  <label for="notes">✍️ Pesan Tambahan:</label>
+  <textarea id="notes" rows="2" placeholder="Kurang manis, tambah topping..."></textarea>
 
-  <div class="result" id="result"></div>
+  <button onclick="generateRecipe()">🔬 Generate Resep</button>
+  <div class="loading" id="loading"></div>
+</div>
 
-  <script>
-    const strengthSlider = document.getElementById("strength");
-    const strengthValue = document.getElementById("strengthValue");
+<div class="result" id="result"></div>
 
-    strengthSlider.addEventListener("input", () => {
-      strengthValue.textContent = strengthSlider.value + "%";
-      const val = strengthSlider.value;
-      strengthSlider.style.background = `linear-gradient(to right, #39ff14 0%, #ff00ff ${val}%, #111 ${val}%)`;
+<script>
+const strengthSlider = document.getElementById("strength");
+const strengthValue = document.getElementById("strengthValue");
+
+strengthSlider.addEventListener("input", () => {
+  strengthValue.textContent = strengthSlider.value + "%";
+  const val = strengthSlider.value;
+  strengthSlider.style.background = `linear-gradient(to right, #39ff14 0%, #ff00ff ${val}%, #111 ${val}%)`;
+});
+
+function generateRecipe() {
+  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
+  const strength = parseInt(strengthSlider.value);
+  const size = parseInt(document.getElementById("size").value);
+  const ice = parseInt(document.getElementById("ice").value);
+  const notes = document.getElementById("notes").value;
+
+  if(flavors.length === 0){ alert("Pilih minimal 1 rasa!"); return; }
+
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("result").style.display = "none";
+
+  setTimeout(()=>{
+    document.getElementById("loading").style.display="none";
+    const baseLiquid = size*0.5;
+    const flavorAmount = (size*(strength/100))/flavors.length;
+    const iceAmount = size*(ice/100);
+
+    let recipe = `<h2>📋 Resep Minuman Anda:</h2>`;
+    recipe += `<p><b>Ukuran:</b> ${size} ml</p>`;
+    recipe += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
+    recipe += `<p><b>Step by Step:</b></p><ol>`;
+    recipe += `<li>Masukkan es: ${iceAmount.toFixed(1)} ml</li>`;
+    flavors.forEach(f=>{
+      recipe += `<li>Tambahkan ${f}: ${flavorAmount.toFixed(1)} ml</li>`;
     });
-
-    function generateRecipe() {
-      const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
-      const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
-      const strength = parseInt(strengthSlider.value);
-      const size = parseInt(document.getElementById("size").value);
-      const ice = parseInt(document.getElementById("ice").value);
-      const notes = document.getElementById("notes").value;
-
-      if(flavors.length === 0){ alert("Pilih minimal 1 rasa!"); return; }
-
-      document.getElementById("loading").style.display = "block";
-      document.getElementById("result").style.display = "none";
-
-      setTimeout(()=>{
-        document.getElementById("loading").style.display="none";
-        const baseLiquid = size*0.5;
-        const flavorAmount = (size*(strength/100))/flavors.length;
-        const iceAmount = size*(ice/100);
-
-        let recipe = `<h2>📋 Resep Minuman Anda:</h2>`;
-        recipe += `<p><b>Ukuran:</b> ${size} ml</p>`;
-        recipe += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
-        recipe += `<p><b>Step by Step:</b></p><ol>`;
-        recipe += `<li>Masukkan es: ${iceAmount.toFixed(1)} ml</li>`;
-        flavors.forEach(f=>{
-          recipe += `<
+    recipe += `<li>Tambahkan air/susu: ${(baseLiquid - iceAmount).toFixed(1)} ml</li>`;
+    if(t
