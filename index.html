@@ -2,137 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DrinkxLab - Mix Your Own Drink</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrinxLab – Mix Your Drink</title>
   <style>
     body {
-      font-family: 'Trebuchet MS', sans-serif;
-      background: #121212;
-      color: #f0f0f0;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #0f0f0f, #1a1a2e);
+      color: #fff;
       text-align: center;
+    }
+    header {
       padding: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00e6ff;
+      text-shadow: 0 0 10px #00e6ff;
     }
-    h1 {
-      color: #00ffcc;
-      text-shadow: 0 0 10px #00ffaa;
-    }
-    .lab-container {
-      background: #1e1e2f;
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      margin: 20px auto;
       border-radius: 15px;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0,255,200,0.3);
+      max-width: 500px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0,255,255,0.3);
     }
-    select, input, button {
-      margin: 10px;
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 1.1rem;
+      color: #00e6ff;
+    }
+    select, input[type=range], textarea {
+      margin-top: 10px;
+      width: 100%;
       padding: 10px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: none;
+      font-size: 1rem;
     }
     button {
-      background: #00ffaa;
+      margin-top: 20px;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #ff4b2b;
+      color: white;
+      font-size: 1.2rem;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff4b2b;
     }
     button:hover {
-      background: #00cc88;
+      background: #ff416c;
+      box-shadow: 0 0 15px #ff416c;
     }
-    #recipe {
+    .result {
       margin-top: 20px;
-      background: #2a2a3d;
+      font-size: 1rem;
+      background: rgba(0,0,0,0.5);
       padding: 15px;
-      border-radius: 12px;
-      text-align: left;
-      white-space: pre-line;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px #00e6ff;
+    }
+    iframe {
+      border-radius: 15px;
+      width: 90%;
+      height: 250px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>🥼 DrinkxLab ⚗️</h1>
-  <div class="lab-container">
-    <label for="flavors">Pilih Rasa (multi-select):</label><br>
-    <select id="flavors" multiple size="10">
-      <option value="mango">Mango</option>
-      <option value="lychee">Lychee</option>
-      <option value="lemon">Lemon</option>
-      <option value="grape">Grape</option>
-      <option value="orange">Orange</option>
-      <option value="matcha">Matcha Latte</option>
-      <option value="chocolate">Coklat Susu</option>
-      <option value="vanilla">Vanilla Milk</option>
-      <option value="caramel">Caramel Latte</option>
-      <option value="strawberry">Strawberry Milkshake</option>
-    </select><br>
+  <header>🔬 DrinxLab – Experimental Drinks</header>
 
-    <label for="size">Ukuran Cup:</label>
+  <div class="card">
+    <label for="flavor">Choose Flavors (multi-select):</label>
+    <select id="flavor" multiple size="8">
+      <option value="Mango">🥭 Mango</option>
+      <option value="Strawberry">🍓 Strawberry</option>
+      <option value="Matcha">🍵 Matcha</option>
+      <option value="Chocolate">🍫 Chocolate</option>
+      <option value="Coffee">☕ Coffee</option>
+      <option value="Vanilla">🍦 Vanilla</option>
+      <option value="Taro">🌿 Taro</option>
+      <option value="Milk Tea">🧋 Milk Tea</option>
+      <option value="Cola">🥤 Cola</option>
+      <option value="Lemon">🍋 Lemon</option>
+      <option value="Lychee">🍒 Lychee</option>
+      <option value="Coconut">🥥 Coconut</option>
+    </select>
+
+    <label for="size">Choose Cup Size:</label>
     <select id="size">
-      <option value="250">250ml</option>
-      <option value="350">350ml</option>
-      <option value="500">500ml</option>
-    </select><br>
+      <option value="250">Small (250ml)</option>
+      <option value="350">Medium (350ml)</option>
+      <option value="500">Large (500ml)</option>
+    </select>
 
-    <label for="strength">Kekuatan Rasa (%):</label>
-    <input type="number" id="strength" min="10" max="100" value="50"> % <br>
+    <label for="ice">Choose Ice Level:</label>
+    <select id="ice">
+      <option>No Ice</option>
+      <option>Less Ice</option>
+      <option>Regular Ice</option>
+      <option>Extra Ice</option>
+    </select>
 
-    <button onclick="generateRecipe()">Generate Resep</button>
+    <label for="note">Extra notes (optional):</label>
+    <textarea id="note" rows="2" placeholder="Add sugar level, toppings, etc."></textarea>
 
-    <div id="recipe"></div>
+    <button onclick="generateDrink()">Generate Recipe</button>
+
+    <div class="result" id="resultBox">🍹 Your recipe will appear here 👇</div>
   </div>
 
-<script>
-function generateRecipe() {
-  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
-  const size = parseInt(document.getElementById("size").value);
-  const strength = parseInt(document.getElementById("strength").value);
+  <div class="card">
+    <h2>📍 Nearby Cafes</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.669887589828!2d106.781!3d-6.200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6e3cafes!5e0!3m2!1sen!2sid!4v000000000" allowfullscreen></iframe>
+    <p style="font-size:0.8rem;opacity:0.7">Tip: Replace with your own city or favorite cafes list.</p>
+  </div>
 
-  if (flavors.length === 0) {
-    document.getElementById("recipe").innerText = "❌ Pilih minimal 1 rasa!";
-    return;
-  }
+  <script>
+    function generateDrink() {
+      const flavors = Array.from(document.getElementById("flavor").selectedOptions).map(o => o.value);
+      const size = document.getElementById("size").value;
+      const ice = document.getElementById("ice").value;
+      const note = document.getElementById("note").value;
+      const resultBox = document.getElementById("resultBox");
 
-  let recipe = "🥤 Resep Minuman DrinkxLab\n\n";
-  let baseLiquid = "";
-  let flavorLiquid = "";
-  let ice = Math.round(size * 0.25); // 25% es
-  let remaining = size - ice;
+      if (flavors.length === 0) {
+        resultBox.innerHTML = "⚠️ Please choose at least one flavor!";
+        return;
+      }
 
-  // Tentukan apakah ada rasa creamy
-  let creamy = ["matcha","chocolate","vanilla","caramel","strawberry"];
-  let hasCreamy = flavors.some(f => creamy.includes(f));
+      let base = size - 50; // ml base (water/milk)
+      let syrup = Math.round((size * 0.15) * flavors.length); // syrup depends on flavor
+      let milk = Math.round(size * 0.4);
+      let water = size - (milk + syrup);
 
-  if (hasCreamy) {
-    baseLiquid = Math.round(remaining * 0.5) + " ml susu segar";
-  } else {
-    baseLiquid = Math.round(remaining * 0.5) + " ml air dingin";
-  }
-
-  recipe += `• ${baseLiquid}\n`;
-
-  // Bagikan volume rasa
-  let flavorPortion = Math.round((remaining * 0.5) / flavors.length);
-  flavors.forEach(f => {
-    let name = "";
-    switch(f) {
-      case "mango": name = "Sirup Mango"; break;
-      case "lychee": name = "Sirup Lychee"; break;
-      case "lemon": name = "Sirup Lemon"; break;
-      case "grape": name = "Sirup Anggur"; break;
-      case "orange": name = "Sirup Jeruk"; break;
-      case "matcha": name = "Bubuk Matcha + sedikit gula"; break;
-      case "chocolate": name = "Sirup/Bubuk Coklat"; break;
-      case "vanilla": name = "Syrup Vanilla"; break;
-      case "caramel": name = "Caramel Syrup"; break;
-      case "strawberry": name = "Strawberry Puree"; break;
+      resultBox.innerHTML = `
+        🧪 <b>Your Custom Drink Recipe</b><br><br>
+        - Cup size: ${size}ml<br>
+        - Flavors: ${flavors.join(", ")}<br>
+        - Base liquid: ${water}ml water<br>
+        - Milk: ${milk}ml milk<br>
+        - Syrup: ${syrup}ml (${flavors.join(" + ")})<br>
+        - Ice: ${ice}<br>
+        ${note ? "- Extra: " + note + "<br>" : ""}
+        <br>✅ Mix well & enjoy your lab drink! ⚗️
+      `;
     }
-    recipe += `• ${flavorPortion} ml ${name}\n`;
-  });
-
-  recipe += `• ${ice} g es batu\n`;
-
-  recipe += "\n✨ Opsional: whipped cream / boba / topping sesuai selera";
-
-  document.getElementById("recipe").innerText = recipe;
-}
-</script>
+  </script>
 </body>
 </html>
