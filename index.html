@@ -4,22 +4,8 @@
 <meta charset="UTF-8">
 <title>DrinxLab Interaktif</title>
 <style>
-body {
-  margin:0;
-  font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#0a0a0a,#1a0029);
-  color:#fff;
-  text-align:center;
-  padding:20px;
-}
-.logo {
-  font-size:3em;
-  font-weight:bold;
-  color:#39ff14;
-  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;
-  margin-bottom:20px;
-  animation:flicker 2s infinite alternate;
-}
+body {margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
+.logo {font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
 @keyframes flicker {from{opacity:1;}to{opacity:0.85;}}
 body,label,select,button,textarea,h2,p,li,option,span{text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;}
 .form-section{background:rgba(20,20,40,0.9);border:2px solid #39ff14;border-radius:12px;padding:20px;margin:20px auto;max-width:700px;box-shadow:0 0 15px #00eaff;}
@@ -96,46 +82,52 @@ button:hover{background:#39ff14;box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
 <div class="result" id="result"></div>
 
 <script>
-const milkFlavors = ["Matcha","Chocolate","Vanilla","Caramel","Coffee"];
-document.getElementById("strength").addEventListener("input", function(){
-  document.getElementById("strengthValue").textContent = this.value + "%";
-});
+const milkFlavors=["Matcha","Chocolate","Vanilla","Caramel","Coffee"];
+document.getElementById("strength").addEventListener("input",function(){document.getElementById("strengthValue").textContent=this.value+"%";});
 
 function generateRecipe(){
-  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
-  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
-  const strength = parseInt(document.getElementById("strength").value);
-  const size = parseInt(document.getElementById("size").value);
-  const ice = parseInt(document.getElementById("ice").value);
-  const notes = document.getElementById("notes").value;
+  const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings=Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
+  const strength=parseInt(document.getElementById("strength").value);
+  const size=parseInt(document.getElementById("size").value);
+  const iceLevel=parseInt(document.getElementById("ice").value);
+  const notes=document.getElementById("notes").value;
+
   if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
+
   document.getElementById("loading").style.display="block";
   document.getElementById("result").style.display="none";
+
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
-    let milkFlav = flavors.filter(f=>milkFlavors.includes(f));
-    let waterFlav = flavors.filter(f=>!milkFlavors.includes(f));
-    const iceAmount = size*(ice/100);
-    let recipe = `<h2>📋 Resep Minuman Anda:</h2>`;
-    recipe += `<p><b>Ukuran:</b> ${size} ml</p>`;
-    recipe += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
-    recipe += `<p><b>Step by Step:</b></p><ol>`;
-    recipe += `<li>Masukkan es: ${iceAmount.toFixed(1)} ml</li>`;
+    const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
+    let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
+    let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
+
+    let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
+    recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
+    recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
+    recipe+=`<p><b>Step by Step:</b></p><ol>`;
+    recipe+=`<li>Masukkan es: ${iceCubes} kubus</li>`;
+
     if(waterFlav.length>0){
-      const waterAmount = ((size*0.5 - iceAmount)/waterFlav.length).toFixed(1);
+      const waterAmount=((size*0.5*0.8)/waterFlav.length).toFixed(1);
       waterFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} sirup/juice: ${waterAmount} ml</li>`);
-      recipe += `<li>Tambahkan air: ${(size*0.5 - iceAmount).toFixed(1)} ml</li>`;
+      recipe+=`<li>Tambahkan air: ${(size*0.5*0.8).toFixed(1)} ml</li>`;
     }
+
     if(milkFlav.length>0){
-      const milkAmount = ((size*0.5)/milkFlav.length).toFixed(1);
+      const milkAmount=((size*0.5*0.8)/milkFlav.length).toFixed(1);
       milkFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup/milk: ${milkAmount} ml</li>`);
-      recipe += `<li>Tambahkan susu: ${(size*0.5).toFixed(1)} ml</li>`;
+      recipe+=`<li>Tambahkan susu: ${(size*0.5*0.8).toFixed(1)} ml</li>`;
     }
+
     if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
     if(notes) recipe+=`<li>Pesan tambahan: ${notes}</li>`;
-    recipe += `</ol>`;
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = recipe;
+    recipe+=`</ol>`;
+
+    const resultDiv=document.getElementById("result");
+    resultDiv.innerHTML=recipe;
     resultDiv.style.display="block";
   },1000);
 }
