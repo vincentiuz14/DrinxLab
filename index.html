@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>DrinxLab Presisi & Seimbang</title>
+<title>DrinxLab Final</title>
 <style>
 body {margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
 .logo {font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
@@ -106,8 +106,8 @@ function generateRecipe(){
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
     const iceVolume = iceCubes*5;
 
-    let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
-    let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
+    let milkSyrupFlavors=flavors.filter(f=>milkFlavors.includes(f));
+    let waterSyrupFlavors=flavors.filter(f=>!milkFlavors.includes(f));
 
     const maxSyrup = size*0.3;
     const totalSyrup = maxSyrup*(strength/100);
@@ -120,19 +120,16 @@ function generateRecipe(){
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
     recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
 
-    if(milkFlav.length>0){
-      const milkSyrup=(totalSyrup/milkFlav.length).toFixed(1);
-      milkFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${milkSyrup} ml</li>`);
+    if(milkSyrupFlavors.length>0){
+      const milkSyrup=(totalSyrup/milkSyrupFlavors.length).toFixed(1);
+      milkSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${milkSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan susu: ${remainingLiquid.toFixed(1)} ml</li>`;
     }
 
-    if(waterFlav.length>0){
-      const waterSyrup=(totalSyrup/waterFlav.length).toFixed(1);
-      waterFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${waterSyrup} ml</li>`);
-    }
-
-    if(remainingLiquid>0){
-      if(milkFlav.length>0) recipe+=`<li>Tambahkan susu: ${(remainingLiquid/2).toFixed(1)} ml</li>`;
-      if(waterFlav.length>0) recipe+=`<li>Tambahkan air: ${(remainingLiquid/2).toFixed(1)} ml</li>`;
+    if(waterSyrupFlavors.length>0){
+      const waterSyrup=(totalSyrup/waterSyrupFlavors.length).toFixed(1);
+      waterSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${waterSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan air: ${remainingLiquid.toFixed(1)} ml</li>`;
     }
 
     if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
@@ -143,7 +140,7 @@ function generateRecipe(){
     resultDiv.innerHTML=recipe;
     resultDiv.style.display="block";
 
-  },1000);
+  },800);
 }
 </script>
 
