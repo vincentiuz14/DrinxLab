@@ -1,148 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DrinkxLab</title>
   <style>
-    body {
-      background-color: #0a0a0a;
-      color: #00ffcc;
-      font-family: 'Trebuchet MS', sans-serif;
-      text-align: center;
-      padding: 20px;
+    :root{
+      --neon:#39ff14; --cyan:#00ffcc; --bg:#0d0d0d; --panel:#171717; --text:#ffffff;
     }
-    h1, h2 {
-      color: #00ffcc;
-      text-shadow: 0 0 15px #00ffcc, 0 0 30px #0099ff;
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: "Courier New", monospace; text-align:center;
     }
-    label, p {
-      font-size: 20px;
-      text-shadow: 0 0 8px #00ffaa;
+    h1{
+      margin:18px 0; color:var(--neon);
+      text-shadow:0 0 10px var(--neon), 0 0 20px var(--cyan);
+      font-size:28px;
     }
-    select, input, button {
-      margin: 10px;
-      padding: 15px;
-      font-size: 20px;
-      background: #111;
-      color: #00ffcc;
-      border: 2px solid #00ffaa;
-      border-radius: 8px;
+    .card{
+      width:90%; max-width:640px; margin:14px auto; padding:18px;
+      background:rgba(23,23,23,.92); border:2px solid var(--neon);
+      border-radius:12px; box-shadow:0 0 18px var(--neon);
+      text-align:left;
     }
-    #flavors {
-      width: 60%;
-      height: 250px;
-      font-size: 20px;
-      background: #111;
-      border: 2px solid #00ffaa;
-      border-radius: 8px;
-      overflow-y: auto;
-      box-shadow: inset 0 0 15px #00ffaa;
+    label{ display:block; font-size:16px; margin:10px 0 6px; text-shadow:0 0 5px var(--cyan); }
+    select, textarea, input[type="range"]{
+      width:100%; border:none; border-radius:8px; padding:10px; margin-bottom:14px; font-size:16px;
+      background:#111; color:var(--cyan);
     }
-    button {
-      cursor: pointer;
-      text-shadow: 0 0 5px #00ffcc;
+    #flavors{ height:160px; overflow:auto; box-shadow:inset 0 0 12px var(--cyan); }
+    .row{ display:flex; gap:12px; }
+    .row > *{ flex:1; }
+    button{
+      width:100%; background:var(--neon); color:#000; border:none; border-radius:8px;
+      padding:12px 16px; font-size:16px; font-weight:700; cursor:pointer; transition:.2s;
+      text-shadow:0 0 4px #000;
     }
-    button:hover {
-      background: #00ffaa;
-      color: #000;
-      text-shadow: none;
+    button:hover{ background:var(--cyan); box-shadow:0 0 16px var(--cyan); }
+    .loading{ display:none; color:var(--cyan); text-align:center; margin:10px 0; font-size:16px; text-shadow:0 0 10px var(--cyan); }
+    .spinner{ display:inline-block; width:16px; height:16px; border:3px solid rgba(0,255,204,.25); border-top:3px solid var(--cyan); border-radius:50%; animation:spin 1s linear infinite; vertical-align:-3px; margin-right:6px;}
+    @keyframes spin{ to{ transform:rotate(360deg);} }
+    #result{
+      margin-top:14px; padding:14px; border:2px dashed var(--cyan); border-radius:10px;
+      background:#101010; box-shadow:0 0 14px var(--cyan);
+      white-space:pre-line; font-size:16px;
     }
-    #recipe {
-      margin-top: 20px;
-      padding: 20px;
-      border: 2px solid #00ffaa;
-      border-radius: 10px;
-      background: #111;
-      box-shadow: 0 0 20px #00ffcc;
-      font-size: 18px;
-      white-space: pre-line;
+    iframe{
+      width:100%; height:320px; border:none; border-radius:12px; margin-top:12px;
+      box-shadow:0 0 15px var(--neon);
     }
-    iframe {
-      margin-top: 25px;
-      border: 3px solid #00ffaa;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #00ccff;
-    }
+    .muted{opacity:.85}
   </style>
 </head>
 <body>
-  <h1>DrinkxLab ⚗️</h1>
-  <p>Pilih rasa, ukuran, kekuatan rasa, dan es untuk menciptakan minumanmu!</p>
+  <h1 id="title">🥼 DrinkxLab ⚗️</h1>
 
-  <label for="flavors">Pilih Rasa (multi select):</label><br>
-  <select id="flavors" multiple>
-    <option>Strawberry</option>
-    <option>Mango</option>
-    <option>Lychee</option>
-    <option>Blueberry</option>
-    <option>Lemon</option>
-    <option>Peach</option>
-    <option>Matcha</option>
-    <option>Chocolate</option>
-    <option>Vanilla</option>
-    <option>Caramel</option>
-    <option>Coffee</option>
-    <option>Taro</option>
-    <option>Cookies & Cream</option>
-    <option>Honeydew</option>
-    <option>Coconut</option>
-  </select><br>
+  <div class="card">
+    <label for="lang">🌐 Pilih Bahasa / Language</label>
+    <select id="lang" onchange="setLang()">
+      <option value="id">Indonesia</option>
+      <option value="en">English</option>
+    </select>
 
-  <label for="size">Ukuran Minuman:</label>
-  <select id="size">
-    <option value="250">250ml</option>
-    <option value="350">350ml</option>
-    <option value="500">500ml</option>
-  </select><br>
+    <label id="flavorLabel">Pilih Rasa (bisa banyak)</label>
+    <select id="flavors" multiple>
+      <!-- Buah -->
+      <option>Strawberry</option><option>Mango</option><option>Lychee</option>
+      <option>Blueberry</option><option>Lemon</option><option>Peach</option>
+      <option>Grape</option><option>Passion Fruit</option><option>Guava</option>
+      <!-- Susu/teh/kopi -->
+      <option>Matcha</option><option>Chocolate</option><option>Vanilla</option>
+      <option>Caramel</option><option>Coffee</option><option>Milk Tea</option>
+      <option>Taro</option><option>Coconut</option><option>Cookies & Cream</option>
+    </select>
 
-  <label for="strength">Kekuatan Rasa (%):</label>
-  <input type="number" id="strength" min="10" max="100" value="50"> %<br>
+    <label id="strengthLabel">Kekuatan Rasa</label>
+    <div class="row">
+      <input type="range" id="strength" min="10" max="100" value="50" step="5" oninput="sv.innerText=this.value+'%'">
+      <div style="width:70px; text-align:center; align-content:center;"><span id="sv">50%</span></div>
+    </div>
 
-  <label for="ice">Level Es:</label>
-  <select id="ice">
-    <option>No Ice</option>
-    <option>Less Ice</option>
-    <option>Normal Ice</option>
-    <option>Extra Ice</option>
-  </select><br>
+    <div class="row">
+      <div>
+        <label id="sizeLabel">Ukuran Gelas</label>
+        <select id="size">
+          <option value="250">Small (250 ml)</option>
+          <option value="350">Medium (350 ml)</option>
+          <option value="500">Large (500 ml)</option>
+        </select>
+      </div>
+      <div>
+        <label id="iceLabel">Tingkat Es</label>
+        <select id="ice">
+          <option value="0">Tanpa Es</option>
+          <option value="25">Sedikit (25%)</option>
+          <option value="50">Normal (50%)</option>
+          <option value="100">Full (100%)</option>
+        </select>
+      </div>
+    </div>
 
-  <button onclick="generateRecipe()">Generate Drink</button>
+    <label id="noteLabel">Pesan untuk Pembuat Minuman</label>
+    <textarea id="note" rows="3" placeholder="Contoh: tanpa gula tambahan, boba sedikit"></textarea>
 
-  <div id="recipe"></div>
+    <button id="genBtn" onclick="generate()">🔬 Generate Resep</button>
+    <div id="loading" class="loading"><span class="spinner"></span><span id="loadingText">Membuat resep...</span></div>
+    <div id="result"></div>
+  </div>
 
-  <h2>Cafe Terdekat</h2>
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.63173203025!2d106.743!3d-6.186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f73c5c01b3%3A0xe51a5c123c5b2f1!2sJakarta%20Barat!5e0!3m2!1sen!2sid!4v1700000000000"
-    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy">
-  </iframe>
+  <div class="card">
+    <h3 id="mapTitle" style="text-align:center; margin-top:0;">📍 Cafe Terdekat</h3>
+    <!-- Satu map embed (contoh area Jakarta Barat). Ganti src ini dengan "Bagikan → Sematkan peta" dari Google Maps sesuai lokasimu -->
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d991.657880406325!2d106.7899!3d-6.1776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6b2b8d9a2ed%3A0x0000000000000000!2sCoffee%20Shop!5e0!3m2!1sen!2sid!4v1700000000000"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="muted" id="mapHint" style="margin-top:8px; text-align:center;">
+      (Tip: di Google Maps → Bagikan → Sematkan peta → Salin HTML → ganti atribut <code>src</code> di atas)
+    </div>
+  </div>
 
   <script>
-    function generateRecipe() {
-      let flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
-      let size = parseInt(document.getElementById("size").value);
-      let strength = parseInt(document.getElementById("strength").value);
-      let ice = document.getElementById("ice").value;
-
-      if (flavors.length === 0) {
-        document.getElementById("recipe").innerText = "⚠️ Pilih minimal 1 rasa dulu!";
-        return;
+    // i18n text
+    const T = {
+      id:{
+        title:"🥼 DrinkxLab ⚗️",
+        flavorLabel:"Pilih Rasa (bisa banyak)",
+        strengthLabel:"Kekuatan Rasa",
+        sizeLabel:"Ukuran Gelas",
+        iceLabel:"Tingkat Es",
+        noteLabel:"Pesan untuk Pembuat Minuman",
+        genBtn:"🔬 Generate Resep",
+        loading:"Membuat resep...",
+        mapTitle:"📍 Cafe Terdekat",
+        outTitle:"📖 Resep Minuman",
+        warn:"Pilih minimal satu rasa!",
+        labels:{
+          size:"Ukuran", flavors:"Rasa", strength:"Kekuatan Rasa",
+          ice:"Tingkat Es", base:"Air", milk:"Susu",
+          syrup:"Sirup/Bubuk", iceItem:"Es Batu", note:"Pesan Tambahan"
+        },
+        stepsTitle:"Langkah",
+        steps:[
+          "Masukkan sirup/bubuk ke gelas.",
+          "Tuang susu, aduk sampai larut.",
+          "Tambahkan air, koreksi rasa.",
+          "Masukkan es sesuai level, aduk ringan.",
+          "Sajikan."
+        ]
+      },
+      en:{
+        title:"🥼 DrinkxLab ⚗️",
+        flavorLabel:"Choose Flavors (multiple)",
+        strengthLabel:"Flavor Strength",
+        sizeLabel:"Cup Size",
+        iceLabel:"Ice Level",
+        noteLabel:"Note for Barista",
+        genBtn:"🔬 Generate Recipe",
+        loading:"Generating recipe...",
+        mapTitle:"📍 Nearby Cafe",
+        outTitle:"📖 Drink Recipe",
+        warn:"Please select at least one flavor!",
+        labels:{
+          size:"Size", flavors:"Flavors", strength:"Strength",
+          ice:"Ice Level", base:"Water", milk:"Milk",
+          syrup:"Syrup/Powder", iceItem:"Ice", note:"Additional Note"
+        },
+        stepsTitle:"Steps",
+        steps:[
+          "Add syrup/powder into the cup.",
+          "Pour milk, stir until dissolved.",
+          "Add water, adjust taste.",
+          "Add ice per level, stir gently.",
+          "Serve."
+        ]
       }
+    };
 
-      let baseLiquid = Math.round(size * 0.6); 
-      let flavorLiquid = Math.round((size * (strength / 100)) / flavors.length);
-      let milk = Math.round(size * 0.3);
-
-      let recipe = `🔬 Resep Minumanmu:\n\nUkuran: ${size}ml\nKekuatan Rasa: ${strength}%\nEs: ${ice}\n\nBase Liquid: ${baseLiquid}ml air/soda\nSusu/cream: ${milk}ml`;
-
-      flavors.forEach(f => {
-        recipe += `\n- ${flavorLiquid}ml sirup ${f}`;
-      });
-
-      recipe += `\n\n✨ Campur rata, tambahkan es (${ice}), dan siap dinikmati!`;
-
-      document.getElementById("recipe").innerText = recipe;
+    // set language
+    function setLang(){
+      const lang=document.getElementById('lang').value, t=T[lang];
+      title.innerText=t.title;
+      flavorLabel.innerText=t.flavorLabel;
+      strengthLabel.innerText=t.strengthLabel;
+      sizeLabel.innerText=t.sizeLabel;
+      iceLabel.innerText=t.iceLabel;
+      noteLabel.innerText=t.noteLabel;
+      genBtn.innerText=t.genBtn;
+      loadingText.innerText=t.loading;
+      mapTitle.innerText=t.mapTitle;
+      mapHint.innerHTML = lang==='id'
+        ? '(Tip: di Google Maps → Bagikan → Sematkan peta → Salin HTML → ganti atribut <code>src</code> di atas)'
+        : '(Tip: Google Maps → Share → Embed a map → Copy HTML → replace the <code>src</code> above)';
     }
+
+    // generate recipe
+    function generate(){
+      const lang=document.getElementById('lang').value, t=T[lang];
+      const flavors=[...document.getElementById('flavors').selectedOptions].map(o=>o.value);
+      const size=+document.getElementById('size').value;
+      const strength=+document.getElementById('strength').value;
+      const ice=+document.getElementById('ice').value;
+      const note=document.getElementById('note').value.trim();
+
+      if(!flavors.length){ alert(t.warn); return; }
+
+      // show loading
+      loading.style.display='block';
+
+      // calc (example formula: 50% water, 30% milk, flavor volume split by strength)
+      setTimeout(()=>{
+        loading.style.display='none';
+
+        const water=Math.round(size*0.5);
+        const milk =Math.round(size*0.3);
+        const flavorTotal=Math.round(size*(strength/100));
+        const perFlavor=Math.max(1, Math.round(flavorTotal/Math.max(1,flavors.length)));
+
+        // Build output
+        let out=`${t.outTitle}\n\n`+
+          `${t.labels.size}: ${size} ml\n`+
+          `${t.labels.flavors}: ${flavors.join(", ")}\n`+
+          `${t.labels.strength}: ${strength}%\n`+
+          `${t.labels.ice}: ${ice}%\n\n`+
+          `— Komposisi / Composition —\n`+
+          `• ${t.labels.base}: ${water} ml\n`+
+          `• ${t.labels.milk}: ${milk} ml\n`;
+
+        flavors.forEach(f=> out+=`• ${t.labels.syrup} ${f}: ${perFlavor} ml\n`);
+        if(ice>0) out+=`• ${t.labels.iceItem}: ${ice}% dari gelas\n`;
+        if(note) out+=`\n${t.labels.note}: ${note}\n`;
+
+        // Steps
+        out+=`\n${t.stepsTitle} / ${T[lang].stepsTitle}\n`;
+        T[lang].steps.forEach((s,i)=> out+=`${i+1}. ${s}\n`);
+
+        result.textContent=out;
+      }, 700);
+    }
+
+    // init
+    setLang();
   </script>
 </body>
 </html>
