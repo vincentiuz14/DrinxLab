@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>DrinxLab Interaktif</title>
+<title>DrinxLab Presisi</title>
 <style>
 body {margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
 .logo {font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
@@ -103,38 +103,40 @@ function generateRecipe(){
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
 
+    // Hitung es
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
+    const iceVolume = iceCubes*5; // ml per kubus
 
+    // Bagi rasa milk & water
     let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
     let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
 
-    const maxSyrup = size * 0.35; // Maks 35% total untuk sirup
+    // Sirup
+    const maxSyrup = size * 0.35;
     const totalSyrup = maxSyrup * (strength/100);
+
+    // Air & susu agar total = size
+    const remainingLiquid = size - totalSyrup - iceVolume;
 
     let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
     recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
     recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
-    recipe+=`<li>Masukkan es: ${iceCubes} kubus</li>`;
+    recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
 
-    // Sirup rasa milk
     if(milkFlav.length>0){
       const milkSyrup=(totalSyrup/milkFlav.length).toFixed(1);
       milkFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${milkSyrup} ml</li>`);
     }
 
-    // Sirup rasa water
     if(waterFlav.length>0){
       const waterSyrup=(totalSyrup/waterFlav.length).toFixed(1);
       waterFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${waterSyrup} ml</li>`);
     }
 
-    // Air dan susu sisa
-    const totalIce = iceCubes*5; // estimasi tiap kubus 5ml
-    const baseLiquid = size - totalSyrup - totalIce;
-    if(baseLiquid>0){
-      if(milkFlav.length>0) recipe+=`<li>Tambahkan susu: ${(baseLiquid*0.5).toFixed(1)} ml</li>`;
-      if(waterFlav.length>0) recipe+=`<li>Tambahkan air: ${(baseLiquid*0.5).toFixed(1)} ml</li>`;
+    if(remainingLiquid>0){
+      if(milkFlav.length>0) recipe+=`<li>Tambahkan susu: ${(remainingLiquid/2).toFixed(1)} ml</li>`;
+      if(waterFlav.length>0) recipe+=`<li>Tambahkan air: ${(remainingLiquid/2).toFixed(1)} ml</li>`;
     }
 
     if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
