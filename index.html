@@ -17,7 +17,12 @@
       font-size: 2rem;
       font-weight: bold;
       color: #00e6ff;
-      text-shadow: 0 0 10px #00e6ff;
+      text-shadow: 0 0 10px #00e6ff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+      animation: glowPulse 2s infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 10px #00e6ff, 0 0 20px #00ffff; }
+      to   { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
     }
     .card {
       background: rgba(255, 255, 255, 0.05);
@@ -33,6 +38,7 @@
       margin-top: 15px;
       font-size: 1.1rem;
       color: #00e6ff;
+      text-shadow: 0 0 5px #00e6ff, 0 0 10px #00ffff;
     }
     select, input[type=range], textarea {
       margin-top: 10px;
@@ -41,6 +47,9 @@
       border-radius: 10px;
       border: none;
       font-size: 1rem;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 0 5px #00e6ff;
     }
     button {
       margin-top: 20px;
@@ -55,24 +64,31 @@
       cursor: pointer;
       transition: 0.3s;
       box-shadow: 0 0 10px #ff4b2b;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ffcccc;
+      animation: glowPulseRed 2s infinite alternate;
+    }
+    @keyframes glowPulseRed {
+      from { box-shadow: 0 0 10px #ff4b2b; }
+      to   { box-shadow: 0 0 25px #ff4b2b, 0 0 50px #ff6666; }
     }
     button:hover {
       background: #ff416c;
-      box-shadow: 0 0 15px #ff416c;
     }
     .result {
       margin-top: 20px;
       font-size: 1rem;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       padding: 15px;
       border-radius: 10px;
       box-shadow: inset 0 0 10px #00e6ff;
+      text-shadow: 0 0 5px #00e6ff, 0 0 15px #00ffff;
     }
     iframe {
       border-radius: 15px;
       width: 90%;
       height: 250px;
       margin-top: 20px;
+      box-shadow: 0 0 15px #00e6ff;
     }
   </style>
 </head>
@@ -114,15 +130,14 @@
     <label for="note">Extra notes (optional):</label>
     <textarea id="note" rows="2" placeholder="Add sugar level, toppings, etc."></textarea>
 
-    <button onclick="generateDrink()">Generate Recipe</button>
+    <button onclick="generateDrink()">⚡ Generate Recipe ⚡</button>
 
     <div class="result" id="resultBox">🍹 Your recipe will appear here 👇</div>
   </div>
 
   <div class="card">
-    <h2>📍 Nearby Cafes</h2>
+    <h2 style="text-shadow:0 0 8px #00ffcc,0 0 15px #00ffff;">📍 Nearby Cafes</h2>
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.669887589828!2d106.781!3d-6.200!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6e3cafes!5e0!3m2!1sen!2sid!4v000000000" allowfullscreen></iframe>
-    <p style="font-size:0.8rem;opacity:0.7">Tip: Replace with your own city or favorite cafes list.</p>
   </div>
 
   <script>
@@ -138,8 +153,8 @@
         return;
       }
 
-      let base = size - 50; // ml base (water/milk)
-      let syrup = Math.round((size * 0.15) * flavors.length); // syrup depends on flavor
+      let base = size - 50; 
+      let syrup = Math.round((size * 0.15) * flavors.length); 
       let milk = Math.round(size * 0.4);
       let water = size - (milk + syrup);
 
@@ -152,7 +167,7 @@
         - Syrup: ${syrup}ml (${flavors.join(" + ")})<br>
         - Ice: ${ice}<br>
         ${note ? "- Extra: " + note + "<br>" : ""}
-        <br>✅ Mix well & enjoy your lab drink! ⚗️
+        <br>✅ Mix well & enjoy your glowing lab drink! ⚗️
       `;
     }
   </script>
