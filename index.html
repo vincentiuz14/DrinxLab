@@ -103,19 +103,15 @@ function generateRecipe(){
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
 
-    // Hitung es
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
     const iceVolume = iceCubes*5;
 
-    // Bagi rasa milk & water
     let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
     let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
 
-    // Sirup maksimal 30% total
     const maxSyrup = size*0.3;
     const totalSyrup = maxSyrup*(strength/100);
 
-    // Air & susu agar total = size
     const remainingLiquid = size - totalSyrup - iceVolume;
 
     let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
