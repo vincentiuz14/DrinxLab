@@ -3,79 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab – Custom Drink</title>
+<title>DrinxLab – Mood & Custom Drinks</title>
 <style>
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#0a0a0a,#1a0029);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
+  margin:0; font-family:'Segoe UI', sans-serif; background:linear-gradient(135deg,#0a0a0a,#1a0029); color:#fff; text-align:center; padding:20px;
 }
 .logo {
-  font-size: 3em;
-  font-weight: bold;
-  color: #39ff14;
-  text-shadow: 0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;
-  margin-bottom: 20px;
-  animation: flicker 2s infinite alternate;
+  font-size:3em; font-weight:bold; color:#39ff14; text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14; margin-bottom:20px; animation:flicker 2s infinite alternate;
 }
-@keyframes flicker {from{opacity:1;}to{opacity:0.85;}}
-body,label,select,button,textarea,h2,p,li,option,span{
-  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;
-}
+@keyframes flicker{from{opacity:1;}to{opacity:0.85;}}
+body,label,select,button,textarea,h2,p,li,option,span{text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;}
 .form-section, .result {
-  background: rgba(20,20,40,0.9);
-  border: 2px solid #39ff14;
-  border-radius: 12px;
-  padding: 15px;
-  margin: 20px auto;
-  max-width: 400px;
-  box-shadow: 0 0 15px #00eaff;
-  word-wrap: break-word;
+  background: rgba(20,20,40,0.9); border:2px solid #39ff14; border-radius:12px; padding:15px; margin:20px auto; max-width:400px; box-shadow:0 0 15px #00eaff; word-wrap:break-word;
 }
-select,input[type="range"],textarea{
-  width: 90%;
-  padding: 10px;
-  margin: 5px auto;
-  border-radius: 8px;
-  border: 2px solid #39ff14;
-  background: #111;
-  color: #fff;
-  font-size: 1em;
-  display: block;
-}
-button{
-  margin-top: 20px;
-  padding: 12px 30px;
-  background: #00eaff;
-  border: none;
-  border-radius: 10px;
-  color: #000;
-  font-weight: bold;
-  font-size: 1.1em;
-  cursor: pointer;
-  box-shadow: 0 0 15px #00eaff,0 0 30px #39ff14;
-  transition: 0.3s;
-  text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;
-}
-button:hover{
-  background:#39ff14;
-  box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;
-}
-.loading{
-  display:none;
-  margin:20px auto;
-  border:6px solid #333;
-  border-top:6px solid #39ff14;
-  border-radius:50%;
-  width:40px;
-  height:40px;
-  animation:spin 1s linear infinite;
-}
+select,input[type="range"],textarea {width:90%; padding:10px; margin:5px auto; border-radius:8px; border:2px solid #39ff14; background:#111; color:#fff; font-size:1em; display:block;}
+button {margin-top:20px; padding:12px 30px; background:#00eaff; border:none; border-radius:10px; color:#000; font-weight:bold; font-size:1.1em; cursor:pointer; box-shadow:0 0 15px #00eaff,0 0 30px #39ff14; transition:0.3s;}
+button:hover{background:#39ff14; box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
+.loading{display:none; margin:20px auto; border:6px solid #333; border-top:6px solid #39ff14; border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite;}
 @keyframes spin{100%{transform:rotate(360deg);}}
-.result{display:none;text-align:left;}
+.result{display:none; text-align:left;}
 </style>
 </head>
 <body>
@@ -83,121 +29,131 @@ button:hover{
 <div class="logo">✨ DrinxLab ✨</div>
 
 <div class="form-section">
-  <label for="language">🌍 Pilih Bahasa / Choose Language:</label>
-  <select id="language">
-    <option value="id">Indonesia</option>
-    <option value="en">English</option>
-  </select>
 
-  <label for="base">🥛 Pilih Dasar Minuman / Choose Base:</label>
-  <select id="base">
-    <option value="milk">Susu / Milk</option>
-    <option value="water">Air / Water</option>
-    <option value="soda">Soda</option>
-  </select>
+<label for="preset">🎨 Pilih Mood / Preset:</label>
+<select id="preset">
+  <option value="">-- Pilih Mood --</option>
+  <option value="senang">Senang 🌟</option>
+  <option value="santai">Santai 🌌</option>
+  <option value="sedih">Sedih 🌊</option>
+  <option value="enerjik">Enerjik 💖</option>
+  <option value="romantis">Romantis 💜</option>
+</select>
 
-  <label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
-  <select id="flavors" multiple>
-    <option value="Strawberry">🍓 Strawberry</option>
-    <option value="Mango">🥭 Mango</option>
-    <option value="Lychee">🍒 Lychee</option>
-    <option value="Lemon">🍋 Lemon</option>
-    <option value="Orange">🍊 Orange</option>
-    <option value="Pineapple">🍍 Pineapple</option>
-    <option value="Coconut">🥥 Coconut</option>
-    <option value="Blueberry">🫐 Blueberry</option>
-    <option value="Matcha">🫖 Matcha</option>
-    <option value="Chocolate">🍫 Chocolate</option>
-    <option value="Vanilla">🍦 Vanilla</option>
-    <option value="Caramel">🍯 Caramel</option>
-    <option value="Coffee">☕ Coffee</option>
-  </select>
+<label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
+<select id="flavors" multiple>
+  <option value="Strawberry">🍓 Strawberry</option>
+  <option value="Mango">🥭 Mango</option>
+  <option value="Lychee">🍒 Lychee</option>
+  <option value="Lemon">🍋 Lemon</option>
+  <option value="Orange">🍊 Orange</option>
+  <option value="Pineapple">🍍 Pineapple</option>
+  <option value="Coconut">🥥 Coconut</option>
+  <option value="Blueberry">🫐 Blueberry</option>
+  <option value="Matcha">🫖 Matcha</option>
+  <option value="Chocolate">🍫 Chocolate</option>
+  <option value="Vanilla">🍦 Vanilla</option>
+  <option value="Caramel">🍯 Caramel</option>
+  <option value="Coffee">☕ Coffee</option>
+</select>
 
-  <label for="toppings">🍬 Pilih Topping / Choose Toppings:</label>
-  <select id="toppings" multiple>
-    <option value="Boba">Boba</option>
-    <option value="Jelly">Jelly</option>
-    <option value="Whipped Cream">Whipped Cream</option>
-    <option value="Chocolate Chips">Chocolate Chips</option>
-    <option value="Oreo Crumble">Oreo Crumble</option>
-  </select>
+<label for="toppings">🍬 Pilih Topping / Choose Toppings:</label>
+<select id="toppings" multiple>
+  <option value="Boba">Boba</option>
+  <option value="Jelly">Jelly</option>
+  <option value="Whipped Cream">Whipped Cream</option>
+  <option value="Chocolate Chips">Chocolate Chips</option>
+  <option value="Oreo Crumble">Oreo Crumble</option>
+</select>
 
-  <label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
-  <input type="range" id="strength" min="10" max="100" value="50">
+<label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
+<input type="range" id="strength" min="10" max="100" value="50">
 
-  <label for="size">🥤 Ukuran Minuman / Drink Size:</label>
-  <select id="size">
-    <option value="250">250 ml</option>
-    <option value="350">350 ml</option>
-    <option value="500">500 ml</option>
-  </select>
+<label for="base">🥛 Pilih Dasar / Base Liquid:</label>
+<select id="base">
+  <option value="air">Air</option>
+  <option value="susu">Susu</option>
+  <option value="soda">Soda</option>
+</select>
 
-  <label for="ice">🧊 Tingkat Es / Ice Level:</label>
-  <select id="ice">
-    <option value="0">Tanpa Es / No Ice</option>
-    <option value="25">Sedikit Es / Light Ice</option>
-    <option value="50">Normal Ice</option>
-    <option value="75">Banyak Es / Extra Ice</option>
-  </select>
+<label for="size">🥤 Ukuran Minuman / Drink Size:</label>
+<select id="size">
+  <option value="250">250 ml</option>
+  <option value="350">350 ml</option>
+  <option value="500">500 ml</option>
+</select>
 
-  <label for="notes">✍️ Pesan Tambahan / Extra Notes:</label>
-  <textarea id="notes" rows="2" placeholder="Contoh: kurang manis, tambah topping..."></textarea>
+<label for="ice">🧊 Tingkat Es / Ice Level:</label>
+<select id="ice">
+  <option value="0">Tanpa Es / No Ice</option>
+  <option value="25">Sedikit Es / Light Ice</option>
+  <option value="50">Normal Ice</option>
+  <option value="75">Banyak Es / Extra Ice</option>
+</select>
 
-  <button onclick="generateRecipe()">🔬 Generate Resep</button>
-  <div class="loading" id="loading"></div>
+<label for="notes">✍️ Pesan Tambahan / Extra Notes:</label>
+<textarea id="notes" rows="2" placeholder="Contoh: kurang manis, tambah topping..."></textarea>
+
+<button onclick="generateRecipe()">🔬 Generate Resep</button>
+<div class="loading" id="loading"></div>
+
 </div>
 
 <div class="result" id="result"></div>
 
 <script>
+const presetRecipes = {
+  senang: {flavors:["Orange","Mango"], toppings:["Boba"], base:"soda"},
+  santai: {flavors:["Blueberry","Matcha"], toppings:["Whipped Cream"], base:"susu"},
+  sedih: {flavors:["Blueberry","Lychee"], toppings:[], base:"air"},
+  enerjik: {flavors:["Strawberry","Raspberry"], toppings:["Boba"], base:"soda"},
+  romantis: {flavors:["Strawberry","Lychee"], toppings:["Jelly"], base:"susu"}
+};
+
 document.getElementById("strength").addEventListener("input", function(){
-  document.getElementById("strengthValue").textContent = this.value + "%";
+  document.getElementById("strengthValue").textContent = this.value+"%";
+});
+
+document.getElementById("preset").addEventListener("change", function(){
+  const mood = this.value;
+  if(mood && presetRecipes[mood]){
+    const recipe = presetRecipes[mood];
+    // Set flavors
+    const flavorOptions = document.getElementById("flavors").options;
+    for(let i=0;i<flavorOptions.length;i++){
+      flavorOptions[i].selected = recipe.flavors.includes(flavorOptions[i].value);
+    }
+    // Set toppings
+    const toppingOptions = document.getElementById("toppings").options;
+    for(let i=0;i<toppingOptions.length;i++){
+      toppingOptions[i].selected = recipe.toppings.includes(toppingOptions[i].value);
+    }
+    // Set base
+    document.getElementById("base").value = recipe.base;
+  }
 });
 
 function generateRecipe(){
-  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
-  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o => o.value);
-  const base = document.getElementById("base").value;
+  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
   const strength = parseInt(document.getElementById("strength").value);
+  const base = document.getElementById("base").value;
   const size = parseInt(document.getElementById("size").value);
   const iceLevel = parseInt(document.getElementById("ice").value);
   const notes = document.getElementById("notes").value;
 
-  if(flavors.length===0){ alert("Pilih minimal 1 rasa!"); return; }
+  if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
 
   document.getElementById("loading").style.display="block";
   document.getElementById("result").style.display="none";
 
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
-
+    // Hitung es
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
-    const iceVolume = iceCubes*5;
+    const iceVolume = iceCubes*5; // 5 ml per kubus
 
-    const maxSyrup = size*0.3;
-    const totalSyrup = maxSyrup*(strength/100);
+    const totalSyrup = size*0.3*(strength/100);
     const remainingLiquid = size - totalSyrup - iceVolume;
 
-    const syrupPerFlavor = (totalSyrup / flavors.length).toFixed(1);
-    let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
-    recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
-    recipe+=`<p><b>Dasar Minuman:</b> ${base==='milk'?'Susu':base==='water'?'Air':'Soda'}</p>`;
-    recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
-    recipe+=`<p><b>Step by Step:</b></p><ol>`;
-    recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
-    flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml</li>`);
-    recipe+=`<li>Tambahkan ${base==='milk'?'susu':base==='water'?'air':'soda'}: ${remainingLiquid.toFixed(1)} ml</li>`;
-    if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
-    if(notes) recipe+=`<li>Pesan tambahan: ${notes}</li>`;
-    recipe+=`</ol>`;
-
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = recipe;
-    resultDiv.style.display="block";
-
-  },800);
-}
-</script>
-
-</body>
-</html>
+    let perFlavor = (totalSyrup / flavors.length).
