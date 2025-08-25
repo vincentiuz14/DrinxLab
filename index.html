@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DrinxLab Neon Glow Multi Flavor</title>
+<title>DrinxLab Final Compact</title>
 <style>
 body {
   margin: 0;
@@ -12,19 +12,18 @@ body {
   color: #fff;
   text-align: center;
   padding: 20px;
-  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff,0 0 20px #39ff14;
 }
 .logo {
   font-size: 3em;
   font-weight: bold;
   color: #39ff14;
-  text-shadow:0 0 10px #39ff14,0 0 20px #00eaff,0 0 30px #ff00ff;
+  text-shadow: 0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;
   margin-bottom: 20px;
   animation: flicker 2s infinite alternate;
 }
 @keyframes flicker {from{opacity:1;}to{opacity:0.85;}}
 body,label,select,button,textarea,h2,p,li,option,span{
-  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff,0 0 20px #39ff14;
+  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;
 }
 .form-section, .result {
   background: rgba(20,20,40,0.9);
@@ -59,6 +58,7 @@ button{
   cursor: pointer;
   box-shadow: 0 0 15px #00eaff,0 0 30px #39ff14;
   transition: 0.3s;
+  text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;
 }
 button:hover{
   background:#39ff14;
@@ -154,7 +154,9 @@ function generateRecipe(){
   const size=parseInt(document.getElementById("size").value);
   const iceLevel=parseInt(document.getElementById("ice").value);
   const notes=document.getElementById("notes").value;
+
   if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
+
   document.getElementById("loading").style.display="block";
   document.getElementById("result").style.display="none";
 
@@ -170,8 +172,7 @@ function generateRecipe(){
     const maxSyrup = size*0.3;
     const totalSyrup = maxSyrup*(strength/100);
 
-    const liquidPerMilk = milkSyrupFlavors.length>0?(size - iceVolume - totalSyrup)/2:0;
-    const liquidPerWater = waterSyrupFlavors.length>0?(size - iceVolume - totalSyrup)/2:0;
+    const remainingLiquid = size - totalSyrup - iceVolume;
 
     let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
     recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
@@ -182,13 +183,13 @@ function generateRecipe(){
     if(milkSyrupFlavors.length>0){
       const milkSyrup=(totalSyrup/milkSyrupFlavors.length).toFixed(1);
       milkSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${milkSyrup} ml</li>`);
-      recipe+=`<li>Tambahkan susu: ${liquidPerMilk.toFixed(1)} ml</li>`;
+      recipe+=`<li>Tambahkan susu: ${remainingLiquid.toFixed(1)} ml</li>`;
     }
 
     if(waterSyrupFlavors.length>0){
       const waterSyrup=(totalSyrup/waterSyrupFlavors.length).toFixed(1);
       waterSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${waterSyrup} ml</li>`);
-      recipe+=`<li>Tambahkan air: ${liquidPerWater.toFixed(1)} ml</li>`;
+      recipe+=`<li>Tambahkan air: ${remainingLiquid.toFixed(1)} ml</li>`;
     }
 
     if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
