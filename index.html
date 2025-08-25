@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>DrinxLab Presisi</title>
+<title>DrinxLab Presisi & Seimbang</title>
 <style>
 body {margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
 .logo {font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
@@ -105,15 +105,15 @@ function generateRecipe(){
 
     // Hitung es
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
-    const iceVolume = iceCubes*5; // ml per kubus
+    const iceVolume = iceCubes*5;
 
     // Bagi rasa milk & water
     let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
     let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
 
-    // Sirup
-    const maxSyrup = size * 0.35;
-    const totalSyrup = maxSyrup * (strength/100);
+    // Sirup maksimal 30% total
+    const maxSyrup = size*0.3;
+    const totalSyrup = maxSyrup*(strength/100);
 
     // Air & susu agar total = size
     const remainingLiquid = size - totalSyrup - iceVolume;
