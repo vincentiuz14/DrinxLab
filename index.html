@@ -2,19 +2,80 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>DrinxLab Final</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrinxLab Final Compact</title>
 <style>
-body {margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0a0a0a,#1a0029);color:#fff;text-align:center;padding:20px;}
-.logo {font-size:3em;font-weight:bold;color:#39ff14;text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;margin-bottom:20px;animation:flicker 2s infinite alternate;}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#0a0a0a,#1a0029);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+.logo {
+  font-size: 3em;
+  font-weight: bold;
+  color: #39ff14;
+  text-shadow: 0 0 5px #39ff14,0 0 10px #00eaff,0 0 20px #39ff14;
+  margin-bottom: 20px;
+  animation: flicker 2s infinite alternate;
+}
 @keyframes flicker {from{opacity:1;}to{opacity:0.85;}}
-body,label,select,button,textarea,h2,p,li,option,span{text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;}
-.form-section{background:rgba(20,20,40,0.9);border:2px solid #39ff14;border-radius:12px;padding:20px;margin:20px auto;max-width:700px;box-shadow:0 0 15px #00eaff;}
-select,input[type="range"],textarea{width:90%;padding:10px;margin:5px auto;border-radius:8px;border:2px solid #39ff14;background:#111;color:#fff;font-size:1em;display:block;}
-button{margin-top:20px;padding:12px 30px;background:#00eaff;border:none;border-radius:10px;color:#000;font-weight:bold;font-size:1.1em;cursor:pointer;box-shadow:0 0 15px #00eaff,0 0 30px #39ff14;transition:0.3s;text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;}
-button:hover{background:#39ff14;box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
-.loading{display:none;margin:20px auto;border:6px solid #333;border-top:6px solid #39ff14;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;}
+body,label,select,button,textarea,h2,p,li,option,span{
+  text-shadow:0 0 5px #39ff14,0 0 10px #00eaff,0 0 15px #ff00ff;
+}
+.form-section, .result {
+  background: rgba(20,20,40,0.9);
+  border: 2px solid #39ff14;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 400px;
+  box-shadow: 0 0 15px #00eaff;
+  word-wrap: break-word;
+}
+select,input[type="range"],textarea{
+  width: 90%;
+  padding: 10px;
+  margin: 5px auto;
+  border-radius: 8px;
+  border: 2px solid #39ff14;
+  background: #111;
+  color: #fff;
+  font-size: 1em;
+  display: block;
+}
+button{
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: #00eaff;
+  border: none;
+  border-radius: 10px;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 0 0 15px #00eaff,0 0 30px #39ff14;
+  transition: 0.3s;
+  text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff;
+}
+button:hover{
+  background:#39ff14;
+  box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;
+}
+.loading{
+  display:none;
+  margin:20px auto;
+  border:6px solid #333;
+  border-top:6px solid #39ff14;
+  border-radius:50%;
+  width:40px;
+  height:40px;
+  animation:spin 1s linear infinite;
+}
 @keyframes spin{100%{transform:rotate(360deg);}}
-.result{margin-top:20px;padding:20px;background:rgba(0,0,0,0.6);border-radius:12px;border:2px solid #00eaff;text-align:left;max-width:700px;margin-left:auto;margin-right:auto;display:none;}
+.result{display:none;text-align:left;}
 </style>
 </head>
 <body>
@@ -86,7 +147,6 @@ const milkFlavors=["Matcha","Chocolate","Vanilla","Caramel","Coffee"];
 document.getElementById("strength").addEventListener("input",function(){
   document.getElementById("strengthValue").textContent=this.value+"%";
 });
-
 function generateRecipe(){
   const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
   const toppings=Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
