@@ -3,162 +3,181 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrinxLab – Experimental Drinks</title>
+  <title>DrinkxLab</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
       text-align: center;
-    }
-    header {
-      padding: 25px;
-      font-size: 2.5rem;
-      font-weight: bold;
-      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.08);
       padding: 20px;
-      margin: 20px auto;
-      border-radius: 15px;
-      max-width: 500px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,255,255,0.3);
     }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-size: 1.2rem;
-      text-shadow: 0 0 5px #0ff;
+    h1, h2 {
+      color: #00ffcc;
+      text-shadow: 0 0 15px #00ffcc, 0 0 30px #0099ff;
     }
-    select, input, textarea {
-      margin-top: 10px;
-      width: 100%;
+    label, p {
+      font-size: 18px;
+      text-shadow: 0 0 8px #00ffaa;
+    }
+    select, input, button {
+      margin: 10px;
       padding: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 1rem;
+      background: #111;
+      color: #00ffcc;
+      border: 2px solid #00ffaa;
+      border-radius: 8px;
+      font-size: 16px;
     }
     button {
-      margin-top: 20px;
-      padding: 15px;
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      background: #00c6ff;
-      color: white;
-      font-size: 1.2rem;
-      font-weight: bold;
       cursor: pointer;
-      transition: 0.3s;
-      text-shadow: 0 0 5px #000;
+      text-shadow: 0 0 5px #00ffcc;
     }
     button:hover {
-      background: #0072ff;
-      box-shadow: 0 0 15px #00f;
+      background: #00ffaa;
+      color: #000;
+      text-shadow: none;
     }
-    .result {
+    #recipe {
       margin-top: 20px;
-      font-size: 1.1rem;
-      background: rgba(0,0,0,0.5);
       padding: 15px;
+      border: 2px dashed #00ffaa;
       border-radius: 10px;
-      text-shadow: 0 0 5px #0ff;
+      background: rgba(0,255,170,0.05);
+      text-align: left;
+      white-space: pre-line;
+      display: none;
+      animation: glowPulse 2s infinite alternate;
     }
     iframe {
-      border-radius: 15px;
-      width: 90%;
-      height: 250px;
-      margin-top: 20px;
+      margin: 15px 0;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+    }
+
+    /* Loading animation */
+    .loading {
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 0 5px #00ffcc;
+    }
+    .loading::after {
+      content: '';
+      animation: dots 1.5s infinite;
+    }
+    @keyframes dots {
+      0%   { content: ''; }
+      33%  { content: '.'; }
+      66%  { content: '..'; }
+      100% { content: '...'; }
+    }
+
+    /* Glow pulse animation */
+    @keyframes glowPulse {
+      from { box-shadow: 0 0 10px #00ffcc; }
+      to   { box-shadow: 0 0 30px #0099ff; }
     }
   </style>
 </head>
 <body>
-  <header>🧪 DrinxLab – Experimental Drinks</header>
+  <h1>⚗️ DrinkxLab - Custom Drink Generator ⚗️</h1>
 
-  <div class="card">
-    <label for="flavor">Choose flavors (multiple allowed):</label>
-    <select id="flavor" multiple size="8">
-      <option value="Mango">🥭 Mango</option>
-      <option value="Strawberry">🍓 Strawberry</option>
-      <option value="Matcha">🍵 Matcha</option>
-      <option value="Chocolate">🍫 Chocolate</option>
-      <option value="Coffee">☕ Coffee</option>
-      <option value="Vanilla">🍦 Vanilla</option>
-      <option value="Cola">🥤 Cola</option>
-      <option value="Caramel">🍯 Caramel</option>
-    </select>
+  <label>Choose Flavors (multi-select):</label><br>
+  <select id="flavors" multiple size="10">
+    <option>Strawberry</option>
+    <option>Mango</option>
+    <option>Lychee</option>
+    <option>Peach</option>
+    <option>Blueberry</option>
+    <option>Matcha</option>
+    <option>Chocolate</option>
+    <option>Vanilla</option>
+    <option>Coffee</option>
+    <option>Caramel</option>
+    <option>Honeydew</option>
+    <option>Taro</option>
+    <option>Coconut</option>
+  </select><br>
 
-    <label for="size">Choose drink size:</label>
-    <select id="size">
-      <option value="250">Small (250ml)</option>
-      <option value="350">Medium (350ml)</option>
-      <option value="500">Large (500ml)</option>
-    </select>
+  <label>Choose Size:</label>
+  <select id="size">
+    <option value="250">Small (250ml)</option>
+    <option value="350">Medium (350ml)</option>
+    <option value="500">Large (500ml)</option>
+  </select><br>
 
-    <label for="strength">Flavor Strength:</label>
-    <input type="range" id="strength" min="10" max="100" value="50">
-    <span id="strengthValue">50%</span>
+  <label>Sweetness / Flavor Strength (%):</label>
+  <input type="number" id="strength" value="50" min="10" max="100"> %<br>
 
-    <label for="ice">Ice Level:</label>
-    <select id="ice">
-      <option value="0">No Ice</option>
-      <option value="25">Less Ice</option>
-      <option value="50">Normal Ice</option>
-      <option value="75">Extra Ice</option>
-    </select>
+  <label>Ice Level:</label>
+  <select id="ice">
+    <option>No Ice</option>
+    <option>Less Ice</option>
+    <option>Normal Ice</option>
+    <option>Extra Ice</option>
+  </select><br>
 
-    <label for="note">Extra note for the drink maker:</label>
-    <textarea id="note" placeholder="Write special requests..."></textarea>
+  <label>Extra Note to Barista:</label><br>
+  <input type="text" id="note" placeholder="e.g. make it creamy"><br>
 
-    <button onclick="generateDrink()">Generate Drink</button>
+  <button id="generateBtn" onclick="generateRecipe()">Generate Drink</button>
 
-    <div class="result" id="resultBox">Your recipe will appear here 👇</div>
-  </div>
+  <div id="recipe"></div>
 
-  <div class="map">
-    <h2>📍 Nearby Cafes</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.597...YOUR_EMBED_LINK..." allowfullscreen></iframe>
-  </div>
+  <h2>📍 Cafe Terdekat</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.78650456483!2d106.781!3d-6.176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5bfb0cafe1!2sStarbucks!5e0!3m2!1sid!2sid!4v1700000000000" width="100%" height="250" allowfullscreen="" loading="lazy"></iframe>
+
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.776245406186!2d106.789!3d-6.182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5bfb0cafe2!2sKopi%20Kenangan!5e0!3m2!1sid!2sid!4v1700000000001" width="100%" height="250" allowfullscreen="" loading="lazy"></iframe>
+
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.762347066495!2d106.770!3d-6.190!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5bfb0cafe3!2sJanji%20Jiwa!5e0!3m2!1sid!2sid!4v1700000000002" width="100%" height="250" allowfullscreen="" loading="lazy"></iframe>
 
   <script>
-    const strengthSlider = document.getElementById("strength");
-    const strengthValue = document.getElementById("strengthValue");
+    function generateRecipe() {
+      const btn = document.getElementById("generateBtn");
+      const recipeBox = document.getElementById("recipe");
 
-    strengthSlider.oninput = () => {
-      strengthValue.textContent = strengthSlider.value + "%";
-    };
+      btn.disabled = true;
+      btn.innerText = "Mixing Drink";
+      btn.classList.add("loading");
+      recipeBox.style.display = "none";
 
-    function generateDrink() {
-      const flavors = Array.from(document.getElementById("flavor").selectedOptions).map(opt => opt.value);
-      const size = parseInt(document.getElementById("size").value);
-      const strength = parseInt(strengthSlider.value);
-      const ice = document.getElementById("ice").value;
-      const note = document.getElementById("note").value;
+      setTimeout(() => {
+        const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
+        const size = parseInt(document.getElementById("size").value);
+        const strength = parseInt(document.getElementById("strength").value);
+        const ice = document.getElementById("ice").value;
+        const note = document.getElementById("note").value;
 
-      if (flavors.length === 0) {
-        alert("Please choose at least one flavor!");
-        return;
-      }
+        if (flavors.length === 0) {
+          alert("Please select at least one flavor!");
+          btn.disabled = false;
+          btn.innerText = "Generate Drink";
+          btn.classList.remove("loading");
+          return;
+        }
 
-      let base = size - (strength * flavors.length); 
-      if (base < 50) base = 50; 
+        let baseLiquid = size * 0.6; // 60% base = milk+water
+        let milk = baseLiquid * 0.7;
+        let water = baseLiquid * 0.3;
+        let syrupTotal = (size * (strength/100)) / flavors.length;
 
-      let recipe = `🍹 Your Custom Drink:<br>`;
-      recipe += `- Size: ${size}ml<br>`;
-      recipe += `- Base Liquid: ${base}ml milk/sparkling water<br>`;
-      flavors.forEach(f => {
-        recipe += `- ${Math.round(strength)}ml ${f} syrup<br>`;
-      });
-      recipe += `- Ice: ${ice}%<br>`;
-      if (note.trim() !== "") {
-        recipe += `- Note: ${note}<br>`;
-      }
-      recipe += `✨ Enjoy your lab creation!`;
+        let recipe = `🔬 DrinkxLab Recipe 🔬\n\n`;
+        recipe += `Size: ${size}ml\n`;
+        recipe += `Flavors: ${flavors.join(", ")}\n\n`;
+        recipe += `Base: ${milk.toFixed(0)}ml Milk + ${water.toFixed(0)}ml Water\n`;
+        flavors.forEach(f => {
+          recipe += `- ${f} Syrup: ${syrupTotal.toFixed(0)}ml\n`;
+        });
+        recipe += `Ice: ${ice}\n`;
+        if (note) recipe += `Note: ${note}\n`;
 
-      document.getElementById("resultBox").innerHTML = recipe;
+        recipeBox.innerText = recipe;
+        recipeBox.style.display = "block";
+
+        btn.disabled = false;
+        btn.innerText = "Generate Drink";
+        btn.classList.remove("loading");
+      }, 1500);
     }
   </script>
 </body>
