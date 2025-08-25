@@ -13,11 +13,23 @@
       padding: 20px;
     }
 
-    h1 {
-      font-size: 3em;
+    /* Neon Logo */
+    .logo {
+      font-size: 3.5em;
+      font-weight: bold;
       color: #39ff14;
-      text-shadow: 0 0 10px #39ff14, 0 0 20px #00eaff;
-      margin-bottom: 10px;
+      text-shadow: 
+        0 0 5px #39ff14, 
+        0 0 10px #00eaff, 
+        0 0 20px #39ff14, 
+        0 0 40px #00eaff;
+      margin-bottom: 20px;
+      animation: flicker 2s infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { opacity: 1; }
+      to { opacity: 0.85; }
     }
 
     .form-section {
@@ -26,7 +38,7 @@
       border-radius: 12px;
       padding: 20px;
       margin: 20px auto;
-      max-width: 600px;
+      max-width: 650px;
       box-shadow: 0 0 15px #00eaff;
     }
 
@@ -89,7 +101,7 @@
       border-radius: 12px;
       border: 2px solid #00eaff;
       text-align: left;
-      max-width: 600px;
+      max-width: 650px;
       margin-left: auto;
       margin-right: auto;
       display: none;
@@ -97,7 +109,7 @@
   </style>
 </head>
 <body>
-  <h1>DrinxLab</h1>
+  <div class="logo">✨ DrinxLab ✨</div>
 
   <div class="form-section">
     <label for="language">🌍 Pilih Bahasa / Choose Language:</label>
@@ -108,14 +120,19 @@
 
     <label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
     <select id="flavors" multiple>
-      <option value="Strawberry">Strawberry</option>
-      <option value="Mango">Mango</option>
-      <option value="Lychee">Lychee</option>
-      <option value="Matcha">Matcha</option>
-      <option value="Chocolate">Chocolate</option>
-      <option value="Vanilla">Vanilla</option>
-      <option value="Caramel">Caramel</option>
-      <option value="Coffee">Coffee</option>
+      <option value="Strawberry">🍓 Strawberry</option>
+      <option value="Mango">🥭 Mango</option>
+      <option value="Lychee">🍒 Lychee</option>
+      <option value="Lemon">🍋 Lemon</option>
+      <option value="Orange">🍊 Orange</option>
+      <option value="Pineapple">🍍 Pineapple</option>
+      <option value="Coconut">🥥 Coconut</option>
+      <option value="Blueberry">🫐 Blueberry</option>
+      <option value="Matcha">🫖 Matcha</option>
+      <option value="Chocolate">🍫 Chocolate</option>
+      <option value="Vanilla">🍦 Vanilla</option>
+      <option value="Caramel">🍯 Caramel</option>
+      <option value="Coffee">☕ Coffee</option>
     </select>
 
     <label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
