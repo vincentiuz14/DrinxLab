@@ -18,18 +18,16 @@
       font-size: 3.5em;
       font-weight: bold;
       color: #39ff14;
-      text-shadow: 
-        0 0 5px #39ff14, 
-        0 0 10px #00eaff, 
-        0 0 20px #39ff14, 
-        0 0 40px #00eaff;
+      text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff, 0 0 20px #39ff14, 0 0 40px #00eaff;
       margin-bottom: 20px;
       animation: flicker 2s infinite alternate;
     }
 
-    @keyframes flicker {
-      from { opacity: 1; }
-      to { opacity: 0.85; }
+    @keyframes flicker { from { opacity: 1; } to { opacity: 0.85; } }
+
+    /* Semua font glowing */
+    body, label, select, button, textarea, h2, p, li, option, span {
+      text-shadow: 0 0 5px #39ff14, 0 0 10px #00eaff, 0 0 15px #ff00ff;
     }
 
     .form-section {
@@ -38,14 +36,8 @@
       border-radius: 12px;
       padding: 20px;
       margin: 20px auto;
-      max-width: 650px;
+      max-width: 700px;
       box-shadow: 0 0 15px #00eaff;
-    }
-
-    label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
     }
 
     select, input[type="range"], textarea {
@@ -72,6 +64,7 @@
       cursor: pointer;
       box-shadow: 0 0 15px #00eaff, 0 0 30px #39ff14;
       transition: 0.3s;
+      text-shadow: 0 0 5px #39ff14, 0 0 10px #ff00ff;
     }
 
     button:hover {
@@ -90,9 +83,7 @@
       animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
     .result {
       margin-top: 20px;
@@ -101,7 +92,7 @@
       border-radius: 12px;
       border: 2px solid #00eaff;
       text-align: left;
-      max-width: 650px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
       display: none;
@@ -135,6 +126,15 @@
       <option value="Coffee">☕ Coffee</option>
     </select>
 
+    <label for="toppings">🍬 Pilih Topping / Choose Toppings:</label>
+    <select id="toppings" multiple>
+      <option value="Boba">Boba</option>
+      <option value="Jelly">Jelly</option>
+      <option value="Whipped Cream">Whipped Cream</option>
+      <option value="Chocolate Chips">Chocolate Chips</option>
+      <option value="Oreo Crumble">Oreo Crumble</option>
+    </select>
+
     <label for="strength">⚡ Kekuatan Rasa / Flavor Strength: <span id="strengthValue">50%</span></label>
     <input type="range" id="strength" min="10" max="100" value="50">
 
@@ -164,57 +164,30 @@
 
   <script>
     const langText = {
-      id: {
-        flavors: "🧪 Pilih Rasa",
-        strength: "⚡ Kekuatan Rasa",
-        size: "🥤 Ukuran Minuman",
-        ice: "🧊 Tingkat Es",
-        notes: "✍️ Pesan Tambahan",
-        button: "🔬 Generate Resep",
-        result: "📋 Resep Minuman Anda:"
-      },
-      en: {
-        flavors: "🧪 Choose Flavors",
-        strength: "⚡ Flavor Strength",
-        size: "🥤 Drink Size",
-        ice: "🧊 Ice Level",
-        notes: "✍️ Extra Notes",
-        button: "🔬 Generate Recipe",
-        result: "📋 Your Drink Recipe:"
-      }
+      id: { result: "📋 Resep Minuman Anda:" },
+      en: { result: "📋 Your Drink Recipe:" }
     };
 
     document.getElementById("strength").addEventListener("input", function() {
       document.getElementById("strengthValue").textContent = this.value + "%";
     });
 
-    document.getElementById("language").addEventListener("change", function() {
-      const l = this.value;
-      document.querySelector("label[for='flavors']").textContent = langText[l].flavors;
-      document.querySelector("label[for='strength']").childNodes[0].textContent = langText[l].strength + ": ";
-      document.querySelector("label[for='size']").textContent = langText[l].size;
-      document.querySelector("label[for='ice']").textContent = langText[l].ice;
-      document.querySelector("label[for='notes']").textContent = langText[l].notes;
-      document.querySelector("button").textContent = langText[l].button;
-    });
-
     function generateRecipe() {
       const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o => o.value);
+      const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o => o.value);
       const strength = parseInt(document.getElementById("strength").value);
       const size = parseInt(document.getElementById("size").value);
       const ice = parseInt(document.getElementById("ice").value);
       const notes = document.getElementById("notes").value;
 
-      if (flavors.length === 0) {
-        alert("Pilih minimal 1 rasa!");
-        return;
-      }
+      if(flavors.length === 0){ alert("Pilih minimal 1 rasa!"); return; }
 
       document.getElementById("loading").style.display = "block";
       document.getElementById("result").style.display = "none";
 
       setTimeout(() => {
         document.getElementById("loading").style.display = "none";
+
         const baseLiquid = size * 0.5;
         const flavorAmount = (size * (strength / 100)) / flavors.length;
         const iceAmount = size * (ice / 100);
@@ -222,13 +195,17 @@
         let recipe = `<h2>${langText[document.getElementById("language").value].result}</h2>`;
         recipe += `<p><b>Ukuran:</b> ${size} ml</p>`;
         recipe += `<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
-        recipe += `<p><b>Detail Resep:</b></p><ul>`;
+        recipe += `<p><b>Detail Resep:</b></p><ol>`;
+        recipe += `<li>Masukkan es: ${iceAmount.toFixed(1)} ml</li>`;
         flavors.forEach(f => {
-          recipe += `<li>${f}: ${flavorAmount.toFixed(1)} ml</li>`;
+          recipe += `<li>Tambahkan ${f}: ${flavorAmount.toFixed(1)} ml</li>`;
         });
-        recipe += `<li>Air / Susu: ${(baseLiquid - iceAmount).toFixed(1)} ml</li>`;
-        recipe += `<li>Es: ${iceAmount.toFixed(1)} ml</li></ul>`;
-        if (notes) recipe += `<p><b>Pesan Tambahan:</b> ${notes}</p>`;
+        recipe += `<li>Tambahkan air/susu: ${(baseLiquid - iceAmount).toFixed(1)} ml</li>`;
+        if(toppings.length > 0){
+          recipe += `<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
+        }
+        if(notes) recipe += `<li>Pesan tambahan: ${notes}</li>`;
+        recipe += `</ol>`;
 
         const resultDiv = document.getElementById("result");
         resultDiv.innerHTML = recipe;
