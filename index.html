@@ -83,7 +83,9 @@ button:hover{background:#39ff14;box-shadow:0 0 20px #39ff14,0 0 40px #00eaff;}
 
 <script>
 const milkFlavors=["Matcha","Chocolate","Vanilla","Caramel","Coffee"];
-document.getElementById("strength").addEventListener("input",function(){document.getElementById("strengthValue").textContent=this.value+"%";});
+document.getElementById("strength").addEventListener("input",function(){
+  document.getElementById("strengthValue").textContent=this.value+"%";
+});
 
 function generateRecipe(){
   const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
@@ -100,6 +102,7 @@ function generateRecipe(){
 
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
+
     const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
     let milkFlav=flavors.filter(f=>milkFlavors.includes(f));
     let waterFlav=flavors.filter(f=>!milkFlavors.includes(f));
@@ -110,16 +113,20 @@ function generateRecipe(){
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
     recipe+=`<li>Masukkan es: ${iceCubes} kubus</li>`;
 
+    // Rasa buah / air
     if(waterFlav.length>0){
-      const waterAmount=((size*0.5*0.8)/waterFlav.length).toFixed(1);
-      waterFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} sirup/juice: ${waterAmount} ml</li>`);
-      recipe+=`<li>Tambahkan air: ${(size*0.5*0.8).toFixed(1)} ml</li>`;
+      const waterSyrup=((size*0.5)*(strength/100)/waterFlav.length).toFixed(1);
+      const waterBase=(size*0.5 - ((size*0.5)*(strength/100))).toFixed(1);
+      waterFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} sirup/juice: ${waterSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan air: ${waterBase} ml</li>`;
     }
 
+    // Rasa milk
     if(milkFlav.length>0){
-      const milkAmount=((size*0.5*0.8)/milkFlav.length).toFixed(1);
-      milkFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup/milk: ${milkAmount} ml</li>`);
-      recipe+=`<li>Tambahkan susu: ${(size*0.5*0.8).toFixed(1)} ml</li>`;
+      const milkSyrup=((size*0.5)*(strength/100)/milkFlav.length).toFixed(1);
+      const milkBase=(size*0.5 - ((size*0.5)*(strength/100))).toFixed(1);
+      milkFlav.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup/milk: ${milkSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan susu: ${milkBase} ml</li>`;
     }
 
     if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
@@ -129,6 +136,7 @@ function generateRecipe(){
     const resultDiv=document.getElementById("result");
     resultDiv.innerHTML=recipe;
     resultDiv.style.display="block";
+
   },1000);
 }
 </script>
