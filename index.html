@@ -159,13 +159,8 @@ button:hover{
 <div class="result" id="result"></div>
 
 <script>
-const langText = {
-  id:{result:"📋 Resep Minuman Anda:"},
-  en:{result:"📋 Your Drink Recipe:"}
-};
-document.getElementById("strength").addEventListener("input",function(){
-  document.getElementById("strengthValue").textContent=this.value+"%";
-});
+const langText = {id:{result:"📋 Resep Minuman Anda:"}, en:{result:"📋 Your Drink Recipe:"}};
+document.getElementById("strength").addEventListener("input", function(){document.getElementById("strengthValue").textContent=this.value+"%";});
 
 function generateRecipe(){
   const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
@@ -178,7 +173,6 @@ function generateRecipe(){
   const mood=document.getElementById("mood").value;
 
   if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
-
   document.getElementById("loading").style.display="block";
   document.getElementById("result").style.display="none";
 
@@ -201,4 +195,4 @@ function generateRecipe(){
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
     recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
     flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml</li>`);
-    recipe+=
+    recipe+=`<li>Tambahkan
