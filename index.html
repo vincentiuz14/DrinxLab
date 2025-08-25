@@ -89,13 +89,12 @@ button:hover{
 <option value="en">English</option>
 </select>
 
-<label for="mood">🎨 Pilih Mood Minuman / Choose Mood:</label>
+<label for="mood">🎭 Pilih Mood Minuman / Drink Mood:</label>
 <select id="mood">
-<option value="Manis">Manis / Sweet</option>
-<option value="Asam">Asam / Sour</option>
-<option value="Segar">Segar / Fresh</option>
-<option value="Creamy">Creamy / Smooth</option>
-<option value="Fruity">Fruity / Fruity</option>
+<option value="Sweet">Sweet / Manis</option>
+<option value="Fruity">Fruity / Buah</option>
+<option value="Refreshing">Refreshing / Segar</option>
+<option value="Chocolatey">Chocolatey / Coklat</option>
 </select>
 
 <label for="flavors">🧪 Pilih Rasa / Choose Flavors:</label>
@@ -159,33 +158,41 @@ button:hover{
 <div class="result" id="result"></div>
 
 <script>
-const langText = {id:{result:"📋 Resep Minuman Anda:"}, en:{result:"📋 Your Drink Recipe:"}};
-document.getElementById("strength").addEventListener("input", function(){document.getElementById("strengthValue").textContent=this.value+"%";});
+const langText = {
+  id: { result:"📋 Resep Minuman Anda:" },
+  en: { result:"📋 Your Drink Recipe:" }
+};
+
+document.getElementById("strength").addEventListener("input", function(){
+  document.getElementById("strengthValue").textContent = this.value+"%";
+});
 
 function generateRecipe(){
-  const flavors=Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
-  const toppings=Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
-  const strength=parseInt(document.getElementById("strength").value);
-  const size=parseInt(document.getElementById("size").value);
-  const iceLevel=parseInt(document.getElementById("ice").value);
-  const notes=document.getElementById("notes").value;
-  const base=document.getElementById("base").value;
-  const mood=document.getElementById("mood").value;
+  const flavors = Array.from(document.getElementById("flavors").selectedOptions).map(o=>o.value);
+  const toppings = Array.from(document.getElementById("toppings").selectedOptions).map(o=>o.value);
+  const strength = parseInt(document.getElementById("strength").value);
+  const size = parseInt(document.getElementById("size").value);
+  const iceLevel = parseInt(document.getElementById("ice").value);
+  const notes = document.getElementById("notes").value;
+  const base = document.getElementById("base").value;
+  const mood = document.getElementById("mood").value;
 
   if(flavors.length===0){alert("Pilih minimal 1 rasa!"); return;}
+
   document.getElementById("loading").style.display="block";
   document.getElementById("result").style.display="none";
 
   setTimeout(()=>{
     document.getElementById("loading").style.display="none";
 
-    const iceCubes=iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
-    const iceVolume=iceCubes*5;
+    const iceCubes = iceLevel===0?0:iceLevel===25?3:iceLevel===50?5:8;
+    const iceVolume = iceCubes*5; // tiap kubus 5ml
 
-    const totalSyrup=size*0.3*(strength/100);
-    const remainingLiquid=size-totalSyrup-iceVolume;
-    const syrupPerFlavor=(totalSyrup/flavors.length).toFixed(1);
-    const baseAmount=remainingLiquid.toFixed(1);
+    const totalSyrup = size*0.25*(strength/100); // max 25% size
+    const remainingLiquid = size - totalSyrup - iceVolume;
+
+    const syrupPerFlavor = (totalSyrup/flavors.length).toFixed(1);
+    const baseAmount = remainingLiquid.toFixed(1);
 
     let recipe=`<h2>${langText[document.getElementById("language").value].result}</h2>`;
     recipe+=`<p><b>Mood:</b> ${mood}</p>`;
@@ -194,5 +201,4 @@ function generateRecipe(){
     recipe+=`<p><b>Base:</b> ${base} ${base==='milk'?'(susu)':base==='water'?'(air)':'(soda)'}</p>`;
     recipe+=`<p><b>Step by Step:</b></p><ol>`;
     recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
-    flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml</li>`);
-    recipe+=`<li>Tambahkan
+    flavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${syrupPerFlavor} ml
