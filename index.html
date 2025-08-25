@@ -174,4 +174,34 @@ function generateRecipe(){
     const liquidPerWater = waterSyrupFlavors.length>0?(size - iceVolume - totalSyrup)/2:0;
 
     let recipe=`<h2>📋 Resep Minuman Anda:</h2>`;
-    recipe+=`<
+    recipe+=`<p><b>Ukuran:</b> ${size} ml</p>`;
+    recipe+=`<p><b>Rasa:</b> ${flavors.join(", ")}</p>`;
+    recipe+=`<p><b>Step by Step:</b></p><ol>`;
+    recipe+=`<li>Masukkan es: ${iceCubes} kubus (${iceVolume} ml)</li>`;
+
+    if(milkSyrupFlavors.length>0){
+      const milkSyrup=(totalSyrup/milkSyrupFlavors.length).toFixed(1);
+      milkSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${milkSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan susu: ${liquidPerMilk.toFixed(1)} ml</li>`;
+    }
+
+    if(waterSyrupFlavors.length>0){
+      const waterSyrup=(totalSyrup/waterSyrupFlavors.length).toFixed(1);
+      waterSyrupFlavors.forEach(f=>recipe+=`<li>Tambahkan ${f} syrup: ${waterSyrup} ml</li>`);
+      recipe+=`<li>Tambahkan air: ${liquidPerWater.toFixed(1)} ml</li>`;
+    }
+
+    if(toppings.length>0) recipe+=`<li>Tambahkan topping: ${toppings.join(", ")}</li>`;
+    if(notes) recipe+=`<li>Pesan tambahan: ${notes}</li>`;
+    recipe+=`</ol>`;
+
+    const resultDiv=document.getElementById("result");
+    resultDiv.innerHTML=recipe;
+    resultDiv.style.display="block";
+
+  },800);
+}
+</script>
+
+</body>
+</html>
