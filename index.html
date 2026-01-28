@@ -1,10 +1,9 @@
 function updateFlavor() {
-  let category = document.getElementById("flavorCategory").value;
-  let flavor = document.getElementById("flavor");
+  const category = document.getElementById("flavorCategory").value;
+  const flavorSelect = document.getElementById("flavor");
+  flavorSelect.innerHTML = "";
 
-  flavor.innerHTML = "";
-
-  let flavors = {
+  const flavors = {
     manis: ["Original Sweet", "Brown Sugar", "Vanilla", "Caramel", "Honey"],
     cokelat: ["Chocolate", "Dark Chocolate", "Cookies & Cream"],
     teh: ["Matcha", "Jasmine", "Thai Tea"],
@@ -13,33 +12,66 @@ function updateFlavor() {
   };
 
   if (flavors[category]) {
-    flavors[category].forEach(item => {
-      let option = document.createElement("option");
-      option.text = item;
-      flavor.add(option);
+    flavors[category].forEach(rasa => {
+      const opt = document.createElement("option");
+      opt.value = rasa;
+      opt.textContent = rasa;
+      flavorSelect.appendChild(opt);
     });
   }
 }
 
 function buatPesanan() {
-  let size = document.getElementById("size").value;
-  let category = document.getElementById("flavorCategory").value;
-  let flavor = document.getElementById("flavor").value;
-  let sugar = document.getElementById("sugar").value;
-  let ice = document.getElementById("ice").value;
-  let note = document.getElementById("note").value;
-  let status = document.getElementById("status");
+  const size = document.getElementById("size").value;
+  const category = document.getElementById("flavorCategory").value;
+  const flavor = document.getElementById("flavor").value;
+  const sugar = document.getElementById("sugar").value;
+  const ice = document.getElementById("ice").value;
+  const note = document.getElementById("note").value;
+  const status = document.getElementById("status");
 
-  status.innerHTML = "⚗️ Sedang meracik formula di laboratorium...";
+  // Harga dasar (premium)
+  const basePrice = {
+    Small: 32000,
+    Medium: 38000,
+    Large: 45000
+  };
 
-  setTimeout(() => {
+  let price = basePrice[size];
+
+  // Rasa premium
+  const premiumFlavors = [
+    "Brown Sugar",
+    "Caramel",
+    "Matcha",
+    "Dark Chocolate",
+    "Thai Tea"
+  ];
+
+  if (premiumFlavors.includes(flavor)) {
+    price += 6000;
+  }
+
+  // Jumlah es
+  const iceCount = {
+    Small: { "No Ice": 0, "Less Ice": 3, "Normal Ice": 5, "Extra Ice": 7 },
+    Medium: { "No Ice": 0, "Less Ice": 5, "Normal Ice": 8, "Extra Ice": 10 },
+    Large: { "No Ice": 0, "Less Ice": 7, "Normal Ice": 12, "Extra Ice": 15 }
+  };
+
+  // Status awal
+  status.innerHTML = "🧪 Sedang meracik formula di laboratorium...";
+
+  // Jeda 5 detik
+  setTimeout(function () {
     status.innerHTML = `
-      ✅ PESANAN SELESAI<br><br>
+      ✅ <b>PESANAN SELESAI</b><br><br>
       🧪 Ukuran: ${size}<br>
       🍬 Rasa: ${category} → ${flavor}<br>
       🍯 Gula: ${sugar}<br>
-      🧊 Es: ${ice}<br>
-      📝 Catatan: ${note || "-"}
+      🧊 Es: ${ice} (${iceCount[size][ice]} batu es)<br>
+      📝 Catatan: ${note || "-"}<br><br>
+      💰 <b>Total Harga: Rp${price.toLocaleString("id-ID")}</b>
     `;
   }, 5000);
 }
