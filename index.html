@@ -1,40 +1,79 @@
-/**
- * =====================================================
- * DrinkXLab - GitHub Pages Safe Script
- * =====================================================
- * Deskripsi:
- * Script ini digunakan untuk mengatur pemesanan
- * minuman di aplikasi DrinkXLab.
- *
- * Fitur utama:
- * - Pilihan kategori rasa & rasa dinamis
- * - Ukuran minuman
- * - Level gula & es
- * - Catatan untuk pembuat
- * - Perhitungan harga premium
- * - Simulasi proses pembuatan (delay 5 detik)
- *
- * Catatan:
- * Script ini aman dijalankan di GitHub Pages
- * tanpa error walaupun elemen HTML belum siap.
- * =====================================================
- */
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🧪 DrinkXLab</title>
+</head>
+<body>
 
-/**
- * updateFlavor()
- * -----------------------------------------------------
- * Fungsi untuk memperbarui pilihan rasa berdasarkan
- * kategori yang dipilih oleh pengguna.
- */
-function updateFlavor() {
-  const category = document.getElementById("flavorCategory").value;
-  const flavorSelect = document.getElementById("flavor");
+<h1>🧪 DrinkXLab</h1>
 
-  if (!flavorSelect) return;
-  flavorSelect.innerHTML = "";
+<!-- Ukuran -->
+<label>Ukuran</label>
+<select id="size">
+  <option value="Small">Small</option>
+  <option value="Medium">Medium</option>
+  <option value="Large">Large</option>
+</select>
 
-  const flavors = {
-    manis: ["Original Sweet", "Brown Sugar", "Vanilla", "Caramel", "Honey"],
+<br><br>
+
+<!-- Kategori Rasa -->
+<label>Kategori Rasa</label>
+<select id="flavorCategory" onchange="updateFlavor()">
+  <option value="">Pilih</option>
+  <option value="manis">Manis</option>
+  <option value="cokelat">Cokelat</option>
+  <option value="teh">Teh</option>
+  <option value="buah">Buah</option>
+  <option value="kopi">Kopi</option>
+</select>
+
+<br><br>
+
+<!-- Rasa -->
+<label>Rasa</label>
+<select id="flavor"></select>
+
+<br><br>
+
+<!-- Gula -->
+<label>Gula</label>
+<select id="sugar">
+  <option>0%</option>
+  <option>25%</option>
+  <option>50%</option>
+  <option>75%</option>
+  <option>100%</option>
+</select>
+
+<br><br>
+
+<!-- Es -->
+<label>Es</label>
+<select id="ice">
+  <option>No Ice</option>
+  <option>Less Ice</option>
+  <option>Normal Ice</option>
+  <option>Extra Ice</option>
+</select>
+
+<br><br>
+
+<!-- Catatan -->
+<label>Pesan untuk pembuat</label><br>
+<textarea id="note"></textarea>
+
+<br><br>
+
+<button onclick="buatPesanan()">Buat Pesanan</button>
+
+<p id="status"></p>
+
+<!-- WAJIB -->
+<script src="script.js"></script>
+</body>
+</html>    manis: ["Original Sweet", "Brown Sugar", "Vanilla", "Caramel", "Honey"],
     cokelat: ["Chocolate", "Dark Chocolate", "Cookies & Cream"],
     teh: ["Matcha", "Jasmine", "Thai Tea"],
     buah: ["Strawberry", "Mango", "Lychee"],
