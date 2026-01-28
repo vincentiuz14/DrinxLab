@@ -1,6 +1,36 @@
+/**
+ * =====================================================
+ * DrinkXLab - GitHub Pages Safe Script
+ * =====================================================
+ * Deskripsi:
+ * Script ini digunakan untuk mengatur pemesanan
+ * minuman di aplikasi DrinkXLab.
+ *
+ * Fitur utama:
+ * - Pilihan kategori rasa & rasa dinamis
+ * - Ukuran minuman
+ * - Level gula & es
+ * - Catatan untuk pembuat
+ * - Perhitungan harga premium
+ * - Simulasi proses pembuatan (delay 5 detik)
+ *
+ * Catatan:
+ * Script ini aman dijalankan di GitHub Pages
+ * tanpa error walaupun elemen HTML belum siap.
+ * =====================================================
+ */
+
+/**
+ * updateFlavor()
+ * -----------------------------------------------------
+ * Fungsi untuk memperbarui pilihan rasa berdasarkan
+ * kategori yang dipilih oleh pengguna.
+ */
 function updateFlavor() {
   const category = document.getElementById("flavorCategory").value;
   const flavorSelect = document.getElementById("flavor");
+
+  if (!flavorSelect) return;
   flavorSelect.innerHTML = "";
 
   const flavors = {
@@ -11,35 +41,50 @@ function updateFlavor() {
     kopi: ["Coffee", "Mocha", "Vanilla Coffee", "Caramel Coffee"]
   };
 
-  if (flavors[category]) {
-    flavors[category].forEach(rasa => {
-      const opt = document.createElement("option");
-      opt.value = rasa;
-      opt.textContent = rasa;
-      flavorSelect.appendChild(opt);
-    });
-  }
+  if (!flavors[category]) return;
+
+  flavors[category].forEach(rasa => {
+    const opt = document.createElement("option");
+    opt.value = rasa;
+    opt.textContent = rasa;
+    flavorSelect.appendChild(opt);
+  });
 }
 
+/**
+ * buatPesanan()
+ * -----------------------------------------------------
+ * Fungsi utama untuk memproses pesanan minuman:
+ * - Mengambil input pengguna
+ * - Menghitung harga
+ * - Menampilkan status pembuatan
+ * - Menampilkan hasil setelah jeda 5 detik
+ */
 function buatPesanan() {
-  const size = document.getElementById("size").value;
-  const category = document.getElementById("flavorCategory").value;
-  const flavor = document.getElementById("flavor").value;
-  const sugar = document.getElementById("sugar").value;
-  const ice = document.getElementById("ice").value;
-  const note = document.getElementById("note").value;
+  const size = document.getElementById("size")?.value;
+  const category = document.getElementById("flavorCategory")?.value;
+  const flavor = document.getElementById("flavor")?.value;
+  const sugar = document.getElementById("sugar")?.value;
+  const ice = document.getElementById("ice")?.value;
+  const note = document.getElementById("note")?.value;
   const status = document.getElementById("status");
 
-  // Harga dasar (premium)
+  if (!status) return;
+
+  /**
+   * Harga dasar berdasarkan ukuran
+   */
   const basePrice = {
     Small: 32000,
     Medium: 38000,
     Large: 45000
   };
 
-  let price = basePrice[size];
+  let price = basePrice[size] || 0;
 
-  // Rasa premium
+  /**
+   * Daftar rasa premium (biaya tambahan)
+   */
   const premiumFlavors = [
     "Brown Sugar",
     "Caramel",
@@ -52,24 +97,26 @@ function buatPesanan() {
     price += 6000;
   }
 
-  // Jumlah es
+  /**
+   * Jumlah es berdasarkan ukuran dan pilihan es
+   */
   const iceCount = {
     Small: { "No Ice": 0, "Less Ice": 3, "Normal Ice": 5, "Extra Ice": 7 },
     Medium: { "No Ice": 0, "Less Ice": 5, "Normal Ice": 8, "Extra Ice": 10 },
     Large: { "No Ice": 0, "Less Ice": 7, "Normal Ice": 12, "Extra Ice": 15 }
   };
 
-  // Status awal
+  // Status awal pembuatan
   status.innerHTML = "🧪 Sedang meracik formula di laboratorium...";
 
-  // Jeda 5 detik
-  setTimeout(function () {
+  // Simulasi proses pembuatan (delay 5 detik)
+  setTimeout(() => {
     status.innerHTML = `
       ✅ <b>PESANAN SELESAI</b><br><br>
       🧪 Ukuran: ${size}<br>
       🍬 Rasa: ${category} → ${flavor}<br>
       🍯 Gula: ${sugar}<br>
-      🧊 Es: ${ice} (${iceCount[size][ice]} batu es)<br>
+      🧊 Es: ${ice} (${iceCount[size]?.[ice] ?? 0} batu es)<br>
       📝 Catatan: ${note || "-"}<br><br>
       💰 <b>Total Harga: Rp${price.toLocaleString("id-ID")}</b>
     `;
