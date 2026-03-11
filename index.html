@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -170,6 +170,7 @@
             box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            transition: all 0.5s ease;
         }
 
         .login-card::before {
@@ -282,6 +283,346 @@
             transform: translateY(0);
         }
 
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Queue Section - Initially Hidden */
+        .queue-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .queue-card {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+            border: 3px solid #8B0000;
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 25px 80px rgba(139, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .queue-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .queue-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .queue-header h2 {
+            font-family: 'Pirata One', cursive;
+            font-size: 3rem;
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .queue-number-display {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+            border: 3px solid #ff0000;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
+        }
+
+        .queue-label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #ff4444;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .queue-number {
+            font-family: 'Pirata One', cursive;
+            font-size: 8rem;
+            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            animation: numberPulse 2s infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .queue-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-item {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .status-item:hover {
+            border-color: #8B0000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.2);
+        }
+
+        .status-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .status-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .status-value.waiting {
+            color: #ffaa00;
+        }
+
+        .status-value.processing {
+            color: #00ff88;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid #333;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8B0000, #ff0000, #8B0000);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            animation: progressShine 2s infinite;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        @keyframes progressShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .queue-info {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .queue-info p {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .queue-info strong {
+            color: #ff4444;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-secondary {
+            padding: 15px 30px;
+            background: transparent;
+            border: 2px solid #8B0000;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(139, 0, 0, 0.2);
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Global Queue Info Section */
+        .global-queue-info {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(15, 15, 15, 0.95));
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .global-queue-info h3 {
+            font-family: 'Cinzel', serif;
+            color: #ff0000;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .queue-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+
+        .stat-number {
+            font-family: 'Pirata One', cursive;
+            font-size: 2rem;
+            color: #ff0000;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Active Queue List */
+        .active-queue {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .queue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #444;
+            transition: all 0.3s ease;
+        }
+
+        .queue-item:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-left-color: #ff0000;
+        }
+
+        .queue-item.current {
+            border-left-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .queue-item.you {
+            border-left-color: #ff0000;
+            background: rgba(255, 0, 0, 0.15);
+            animation: highlight 2s infinite;
+        }
+
+        @keyframes highlight {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); }
+        }
+
+        .queue-item-number {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .queue-item-status {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+        }
+
+        .queue-item-status.processing {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
         /* Features Section */
         .features {
             display: grid;
@@ -364,6 +705,43 @@
             color: #ff4444;
         }
 
+        /* Loading Animation */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-skull {
+            font-size: 4rem;
+            animation: bounce 1s infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #ff0000;
+            letter-spacing: 3px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -374,12 +752,24 @@
                 font-size: 1.8rem;
             }
             
-            .login-card {
+            .login-card, .queue-card {
                 padding: 30px 20px;
             }
             
             header {
                 padding: 15px 20px;
+            }
+
+            .queue-number {
+                font-size: 5rem;
+            }
+
+            .queue-header h2 {
+                font-size: 2rem;
+            }
+
+            .queue-stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -400,6 +790,19 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ff0000;
         }
+
+        /* Hide/Show utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-20px); }
+        }
     </style>
 </head>
 <body>
@@ -414,6 +817,12 @@
         <div class="particle" style="left: 70%; width: 3px; height: 3px; animation-delay: 2.5s;"></div>
         <div class="particle" style="left: 80%; width: 5px; height: 5px; animation-delay: 1.5s;"></div>
         <div class="particle" style="left: 90%; width: 4px; height: 4px; animation-delay: 4.5s;"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-skull">☠️</div>
+        <div class="loading-text">Memproses Boarding Pass...</div>
     </div>
 
     <header>
@@ -432,41 +841,118 @@
     </header>
 
     <div class="container">
-        <div class="hero">
+        <div class="hero" id="heroSection">
             <h1>⚓ Vince BloxStore ⚓</h1>
             <p>Welcome aboard, captain! Enter your credentials to access the treasure vault. We offer premium Roblox joki services with guaranteed safety and speed.</p>
         </div>
 
-        <div class="login-card">
+        <!-- Login Section -->
+        <div class="login-card" id="loginCard">
             <div class="card-header">
                 <div class="crossbones">☠️</div>
                 <h2>Captain's Login</h2>
                 <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">Enter your details to proceed</p>
             </div>
 
-            <form>
+            <form id="loginForm">
                 <div class="form-group">
                     <label>👤 Username</label>
-                    <input type="text" placeholder="Enter your username..." required>
+                    <input type="text" id="username" placeholder="Enter your username..." required>
                 </div>
 
                 <div class="form-group">
                     <label>🔒 Password</label>
-                    <input type="password" placeholder="Enter your password..." required>
+                    <input type="password" id="password" placeholder="Enter your password..." required>
                 </div>
 
                 <div class="form-group">
                     <label>⚔️ Joki</label>
-                    <input type="text" placeholder="Enter joki details..." required>
+                    <input type="text" id="jokiDetails" placeholder="Enter joki details..." required>
                 </div>
 
-                <button type="submit" class="submit-btn">
+                <button type="submit" class="submit-btn" id="submitBtn">
                     Set Sail ⛵
                 </button>
             </form>
         </div>
 
-        <div class="features">
+        <!-- Queue Section (Hidden by default) -->
+        <div class="queue-section" id="queueSection">
+            <div class="queue-card">
+                <div class="queue-header">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">🎫</div>
+                    <h2>Boarding Pass Issued!</h2>
+                    <p style="color: #888; font-family: 'Cinzel', serif; letter-spacing: 2px;">Your position in the crew queue</p>
+                </div>
+
+                <!-- Global Queue Info -->
+                <div class="global-queue-info">
+                    <h3>📊 Status Antrian Global</h3>
+                    <div class="queue-stats">
+                        <div class="stat-box">
+                            <span class="stat-number" id="totalQueue">0</span>
+                            <span class="stat-label">Total Antrian</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number" id="currentlyProcessing">0</span>
+                            <span class="stat-label">Sedang Diproses</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number" id="yourPosition">0</span>
+                            <span class="stat-label">Posisi Anda</span>
+                        </div>
+                    </div>
+                    
+                    <div class="active-queue" id="activeQueueList">
+                        <!-- Queue items will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="queue-number-display">
+                    <span class="queue-label">Nomor Antrian Anda</span>
+                    <div class="queue-number" id="queueNumber">001</div>
+                    <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">Simpan nomor ini untuk referensi</p>
+                </div>
+
+                <div class="queue-status">
+                    <div class="status-item">
+                        <span class="status-icon">⏱️</span>
+                        <div class="status-label">Estimasi Tunggu</div>
+                        <div class="status-value" id="waitTime">-</div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-icon">👥</span>
+                        <div class="status-label">Antrian Depan</div>
+                        <div class="status-value" id="queueAhead">-</div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-icon">📊</span>
+                        <div class="status-label">Status</div>
+                        <div class="status-value waiting" id="queueStatus">Menunggu</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+
+                <div class="queue-info">
+                    <p><strong>⚓ Captain <span id="displayUsername">Unknown</span>,</strong></p>
+                    <p>Joki: <span id="displayJoki" style="color: #fff;">-</span></p>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #888;">
+                        🔔 Anda akan menerima notifikasi ketika giliran Anda tiba. 
+                        Mohon tetap standby dan siapkan akun Roblox Anda.
+                    </p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="refreshQueue()">🔄 Refresh Status</button>
+                    <button class="btn-secondary" onclick="backToHome()">🏠 Kembali</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="features" id="featuresSection">
             <div class="feature-card">
                 <span class="feature-icon">⚡</span>
                 <h3>Fast Delivery</h3>
@@ -496,6 +982,318 @@
     </footer>
 
     <script>
+        // Global Queue Management using LocalStorage
+        const QUEUE_KEY = 'vince_bloxstore_queue';
+        const CURRENT_NUMBER_KEY = 'vince_bloxstore_current_number';
+        const MY_QUEUE_KEY = 'vince_bloxstore_my_queue';
+
+        // Initialize queue system
+        function initQueueSystem() {
+            if (!localStorage.getItem(CURRENT_NUMBER_KEY)) {
+                localStorage.setItem(CURRENT_NUMBER_KEY, '0');
+            }
+            if (!localStorage.getItem(QUEUE_KEY)) {
+                localStorage.setItem(QUEUE_KEY, JSON.stringify([]));
+            }
+        }
+
+        // Get next queue number (global increment)
+        function getNextQueueNumber() {
+            let current = parseInt(localStorage.getItem(CURRENT_NUMBER_KEY) || '0');
+            current++;
+            localStorage.setItem(CURRENT_NUMBER_KEY, current.toString());
+            return current.toString().padStart(3, '0');
+        }
+
+        // Add to queue
+        function addToQueue(userData) {
+            const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+            const queueNumber = getNextQueueNumber();
+            
+            const queueItem = {
+                number: queueNumber,
+                username: userData.username,
+                joki: userData.joki,
+                timestamp: new Date().toISOString(),
+                status: 'waiting'
+            };
+            
+            queue.push(queueItem);
+            localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+            
+            // Save my queue number
+            localStorage.setItem(MY_QUEUE_KEY, queueNumber);
+            
+            return queueItem;
+        }
+
+        // Get queue position
+        function getQueuePosition(queueNumber) {
+            const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+            const index = queue.findIndex(item => item.number === queueNumber);
+            return index + 1; // 1-based position
+        }
+
+        // Get people ahead
+        function getPeopleAhead(queueNumber) {
+            const position = getQueuePosition(queueNumber);
+            return position - 1;
+        }
+
+        // Calculate wait time (5 mins per person)
+        function calculateWaitTime(peopleAhead) {
+            const minutes = peopleAhead * 5;
+            if (minutes < 60) {
+                return minutes + ' menit';
+            } else {
+                const hours = Math.floor(minutes / 60);
+                const mins = minutes % 60;
+                return hours + ' jam ' + mins + ' menit';
+            }
+        }
+
+        // Get processing item
+        function getProcessingItem() {
+            const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+            return queue.find(item => item.status === 'processing');
+        }
+
+        // Update queue display
+        function updateQueueDisplay() {
+            const myNumber = localStorage.getItem(MY_QUEUE_KEY);
+            if (!myNumber) return;
+
+            const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+            const myItem = queue.find(item => item.number === myNumber);
+            
+            if (!myItem) return;
+
+            const position = getQueuePosition(myNumber);
+            const peopleAhead = getPeopleAhead(myNumber);
+            const processingItem = getProcessingItem();
+            
+            // Update stats
+            document.getElementById('totalQueue').textContent = queue.length;
+            document.getElementById('currentlyProcessing').textContent = processingItem ? processingItem.number : '-';
+            document.getElementById('yourPosition').textContent = position;
+            
+            // Update my display
+            document.getElementById('queueNumber').textContent = myNumber;
+            document.getElementById('queueAhead').textContent = peopleAhead + ' orang';
+            document.getElementById('waitTime').textContent = calculateWaitTime(peopleAhead);
+            
+            // Update progress bar
+            const total = queue.length;
+            const progress = total > 0 ? ((position - 1) / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = (100 - progress) + '%';
+            
+            // Update status
+            if (peopleAhead === 0) {
+                document.getElementById('queueStatus').textContent = 'Sedang Diproses!';
+                document.getElementById('queueStatus').className = 'status-value processing';
+                document.getElementById('progressBar').style.width = '100%';
+            } else {
+                document.getElementById('queueStatus').textContent = 'Menunggu';
+                document.getElementById('queueStatus').className = 'status-value waiting';
+            }
+
+            // Update active queue list
+            updateActiveQueueList(queue, myNumber, processingItem);
+        }
+
+        // Update active queue list display
+        function updateActiveQueueList(queue, myNumber, processingItem) {
+            const listContainer = document.getElementById('activeQueueList');
+            listContainer.innerHTML = '';
+            
+            // Show first 10 items
+            queue.slice(0, 10).forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'queue-item';
+                
+                if (item.number === myNumber) {
+                    div.classList.add('you');
+                } else if (processingItem && item.number === processingItem.number) {
+                    div.classList.add('current');
+                }
+                
+                const isProcessing = processingItem && item.number === processingItem.number;
+                
+                div.innerHTML = `
+                    <span class="queue-item-number">#${item.number} - ${item.username}</span>
+                    <span class="queue-item-status ${isProcessing ? 'processing' : ''}">
+                        ${isProcessing ? '🔥 Diproses' : '⏳ Menunggu'}
+                    </span>
+                `;
+                
+                listContainer.appendChild(div);
+            });
+            
+            if (queue.length > 10) {
+                const more = document.createElement('div');
+                more.style.textAlign = 'center';
+                more.style.color = '#666';
+                more.style.padding = '10px';
+                more.textContent = `... dan ${queue.length - 10} antrian lainnya`;
+                listContainer.appendChild(more);
+            }
+        }
+
+        // Simulate queue processing (for demo purposes)
+        function simulateQueueProcessing() {
+            setInterval(() => {
+                const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+                if (queue.length === 0) return;
+                
+                // Find first waiting item
+                const firstWaiting = queue.find(item => item.status === 'waiting');
+                const currentlyProcessing = queue.find(item => item.status === 'processing');
+                
+                // If there's a processing item, complete it
+                if (currentlyProcessing && Math.random() > 0.7) {
+                    currentlyProcessing.status = 'completed';
+                }
+                
+                // Process next item
+                if (firstWaiting && (!currentlyProcessing || currentlyProcessing.status === 'completed')) {
+                    firstWaiting.status = 'processing';
+                }
+                
+                // Remove completed items occasionally
+                const cleanedQueue = queue.filter(item => item.status !== 'completed');
+                
+                localStorage.setItem(QUEUE_KEY, JSON.stringify(cleanedQueue));
+                updateQueueDisplay();
+                
+                // Check if it's my turn
+                const myNumber = localStorage.getItem(MY_QUEUE_KEY);
+                if (myNumber && firstWaiting && firstWaiting.number === myNumber) {
+                    showNotification('🏴‍☠️ Ahoy Captain! Giliran Anda telah tiba!');
+                }
+            }, 10000); // Check every 10 seconds
+        }
+
+        // Show notification
+        function showNotification(message) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Vince BloxStore', {
+                    body: message,
+                    icon: '☠️'
+                });
+            } else {
+                // Fallback to alert if no permission
+                setTimeout(() => {
+                    alert(message);
+                }, 1000);
+            }
+        }
+
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Form submission handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const username = document.getElementById('username').value;
+            const joki = document.getElementById('jokiDetails').value;
+            
+            // Show loading
+            document.getElementById('loadingOverlay').classList.add('active');
+            btn.disabled = true;
+            btn.innerHTML = '⚓ Processing...';
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                // Add to global queue
+                const queueItem = addToQueue({
+                    username: username,
+                    joki: joki
+                });
+                
+                // Update display
+                document.getElementById('displayUsername').textContent = username;
+                document.getElementById('displayJoki').textContent = joki;
+                
+                // Hide loading
+                document.getElementById('loadingOverlay').classList.remove('active');
+                
+                // Transition to queue view
+                document.getElementById('loginCard').classList.add('fade-out');
+                document.getElementById('heroSection').classList.add('fade-out');
+                document.getElementById('featuresSection').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('loginCard').style.display = 'none';
+                    document.getElementById('heroSection').style.display = 'none';
+                    document.getElementById('queueSection').style.display = 'block';
+                    
+                    // Initial update
+                    updateQueueDisplay();
+                    
+                    // Scroll to queue
+                    document.getElementById('queueSection').scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+                
+            }, 1500);
+        });
+
+        // Refresh queue status
+        function refreshQueue() {
+            const btn = event.target;
+            btn.innerHTML = '🔄 Memperbarui...';
+            
+            setTimeout(() => {
+                updateQueueDisplay();
+                btn.innerHTML = '🔄 Refresh Status';
+            }, 800);
+        }
+
+        // Back to home
+        function backToHome() {
+            // Clear my queue data
+            localStorage.removeItem(MY_QUEUE_KEY);
+            location.reload();
+        }
+
+        // Initialize on load
+        initQueueSystem();
+        
+        // If user already has queue number, show queue directly
+        window.addEventListener('load', () => {
+            const myNumber = localStorage.getItem(MY_QUEUE_KEY);
+            if (myNumber) {
+                // Check if still in queue
+                const queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]');
+                const myItem = queue.find(item => item.number === myNumber);
+                
+                if (myItem) {
+                    // Auto show queue view
+                    document.getElementById('loginCard').style.display = 'none';
+                    document.getElementById('heroSection').style.display = 'none';
+                    document.getElementById('featuresSection').style.display = 'none';
+                    document.getElementById('queueSection').style.display = 'block';
+                    
+                    document.getElementById('displayUsername').textContent = myItem.username;
+                    document.getElementById('displayJoki').textContent = myItem.joki;
+                    
+                    updateQueueDisplay();
+                } else {
+                    // Queue completed, clear data
+                    localStorage.removeItem(MY_QUEUE_KEY);
+                }
+            }
+            
+            // Start simulation
+            simulateQueueProcessing();
+            
+            // Update every 5 seconds
+            setInterval(updateQueueDisplay, 5000);
+        });
+
         // Add interactive particles on mouse move
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.95) {
@@ -515,20 +1313,6 @@
                 setTimeout(() => particle.remove(), 2000);
             }
         });
-
-        // Form submission handler
-        document.querySelector('form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const btn = document.querySelector('.submit-btn');
-            btn.innerHTML = '⚓ Sailing...';
-            btn.style.background = 'linear-gradient(135deg, #ff0000, #8B0000)';
-            
-            setTimeout(() => {
-                btn.innerHTML = '⛵ Set Sail';
-                btn.style.background = 'linear-gradient(135deg, #8B0000, #ff0000, #8B0000)';
-                alert('Welcome aboard, Captain! Your request has been received.');
-            }, 1500);
-        });
     </script>
 </body>
-</html>'''
+</html>
