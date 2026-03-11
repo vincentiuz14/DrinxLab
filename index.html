@@ -1168,26 +1168,21 @@
         }
 
         // ============================================
-        // SISTEM ANTRIAN - VERSI SEDERHANA & STABIL
+        // SISTEM ANTRIAN - FIXED
         // ============================================
 
         let myQueueNumber = null;
         let myQueueKey = null;
         let queueListener = null;
 
-        // 🔧 FUNGSI UTAMA: Ambil nomor antrian berikutnya
-        // Logika: Cari nomor tertinggi yang ada di antrian, lalu +1
-        // Kalau antrian kosong, mulai dari 1
         async function getNextQueueNumber() {
             try {
-                // Ambil data antrian sekarang
                 const snapshot = await queueRef.once('value');
                 const queueData = snapshot.val();
                 
                 let maxNumber = 0;
                 
                 if (queueData) {
-                    // Cari nomor tertinggi dari antrian yang ada
                     Object.values(queueData).forEach(item => {
                         const num = parseInt(item.number);
                         if (!isNaN(num) && num > maxNumber) {
@@ -1196,24 +1191,17 @@
                     });
                 }
                 
-                // Nomor berikutnya = max + 1
                 const nextNumber = maxNumber + 1;
-                
-                console.log(`📊 Antrian saat ini: ${maxNumber}, Nomor baru: ${nextNumber}`);
-                
                 return nextNumber.toString().padStart(3, '0');
                 
             } catch (error) {
-                console.error('❌ Error getting queue number:', error);
-                // Fallback: pakai timestamp
-                const fallback = Math.floor(Date.now() / 1000) % 1000;
-                return fallback.toString().padStart(3, '0');
+                console.error('Error:', error);
+                return '001';
             }
         }
 
         async function addToGlobalQueue(userData) {
             try {
-                // 🔧 Langsung ambil nomor berdasarkan antrian yang ada sekarang
                 const queueNumber = await getNextQueueNumber();
                 
                 const queueItem = {
@@ -1236,11 +1224,9 @@
                 localStorage.setItem('myUsername', userData.username);
                 localStorage.setItem('myJoki', userData.joki);
                 
-                console.log(`✅ Berhasil daftar dengan nomor: ${queueNumber}`);
-                
                 return queueItem;
             } catch (error) {
-                console.error('❌ Error:', error);
+                console.error('Error:', error);
                 throw error;
             }
         }
@@ -1266,7 +1252,7 @@
         }
 
         function updateQueueDisplayRealtime(queueData) {
-            const queue = Object.entries(queueData).map(([key, value]) => ({
+            const queue = Object.entries(queueData || {}).map(([key, value]) => ({
                 key: key,
                 ...value
             })).sort((a, b) => a.timestamp - b.timestamp);
@@ -1560,3 +1546,4 @@
     </script>
 </body>
 </html>
+
