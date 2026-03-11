@@ -1118,20 +1118,20 @@
 
     <script>
         const firebaseConfig = {
-    apiKey: "AIzaSyCxs-MWDaky7gO3xfH25UTnEDhYICMRric",
-    authDomain: "vincebloxstore-59632.firebaseapp.com",
-    databaseURL: "https://vincebloxstore-59632-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "vincebloxstore-59632",
-    storageBucket: "vincebloxstore-59632.firebasestorage.app",
-    messagingSenderId: "974154420016",
-    appId: "1:974154420016:web:ce8c807136e87f198182f5"
-};
+            apiKey: "AIzaSyCxs-MWDaky7gO3xfH25UTnEDhYICMRric",
+            authDomain: "vincebloxstore-59632.firebaseapp.com",
+            databaseURL: "https://vincebloxstore-59632-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "vincebloxstore-59632",
+            storageBucket: "vincebloxstore-59632.firebasestorage.app",
+            messagingSenderId: "974154420016",
+            appId: "1:974154420016:web:ce8c807136e87f198182f5"
+        };
 
         // ============================================
         // INISIALISASI FIREBASE
         // ============================================
 
-        let app, database, queueRef, counterRef, connectedRef;
+        let app, database, queueRef, connectedRef;
         let isConnected = false;
 
         function initFirebase() {
@@ -1140,7 +1140,6 @@
                 database = firebase.database();
                 
                 queueRef = database.ref('queue');
-                counterRef = database.ref('counter');
                 connectedRef = database.ref('.info/connected');
                 
                 connectedRef.on('value', (snap) => {
@@ -1169,31 +1168,54 @@
         }
 
         // ============================================
-        // SISTEM ANTRIAN
+        // SISTEM ANTRIAN - VERSI SEDERHANA & STABIL
         // ============================================
 
         let myQueueNumber = null;
         let myQueueKey = null;
         let queueListener = null;
 
+        // 🔧 FUNGSI UTAMA: Ambil nomor antrian berikutnya
+        // Logika: Cari nomor tertinggi yang ada di antrian, lalu +1
+        // Kalau antrian kosong, mulai dari 1
         async function getNextQueueNumber() {
             try {
-                const snapshot = await counterRef.once('value');
-                let current = snapshot.val() || 0;
-                current++;
-                await counterRef.set(current);
-                return current.toString().padStart(3, '0');
+                // Ambil data antrian sekarang
+                const snapshot = await queueRef.once('value');
+                const queueData = snapshot.val();
+                
+                let maxNumber = 0;
+                
+                if (queueData) {
+                    // Cari nomor tertinggi dari antrian yang ada
+                    Object.values(queueData).forEach(item => {
+                        const num = parseInt(item.number);
+                        if (!isNaN(num) && num > maxNumber) {
+                            maxNumber = num;
+                        }
+                    });
+                }
+                
+                // Nomor berikutnya = max + 1
+                const nextNumber = maxNumber + 1;
+                
+                console.log(`📊 Antrian saat ini: ${maxNumber}, Nomor baru: ${nextNumber}`);
+                
+                return nextNumber.toString().padStart(3, '0');
+                
             } catch (error) {
-                console.error('Error:', error);
-                const localCurrent = parseInt(localStorage.getItem('local_counter') || '0') + 1;
-                localStorage.setItem('local_counter', localCurrent);
-                return localCurrent.toString().padStart(3, '0');
+                console.error('❌ Error getting queue number:', error);
+                // Fallback: pakai timestamp
+                const fallback = Math.floor(Date.now() / 1000) % 1000;
+                return fallback.toString().padStart(3, '0');
             }
         }
 
         async function addToGlobalQueue(userData) {
             try {
+                // 🔧 Langsung ambil nomor berdasarkan antrian yang ada sekarang
                 const queueNumber = await getNextQueueNumber();
+                
                 const queueItem = {
                     number: queueNumber,
                     username: userData.username,
@@ -1214,9 +1236,11 @@
                 localStorage.setItem('myUsername', userData.username);
                 localStorage.setItem('myJoki', userData.joki);
                 
+                console.log(`✅ Berhasil daftar dengan nomor: ${queueNumber}`);
+                
                 return queueItem;
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error:', error);
                 throw error;
             }
         }
@@ -1237,9 +1261,7 @@
             
             queueListener = queueRef.on('value', (snapshot) => {
                 const queueData = snapshot.val();
-                if (queueData) {
-                    updateQueueDisplayRealtime(queueData);
-                }
+                updateQueueDisplayRealtime(queueData || {});
             });
         }
 
@@ -1296,6 +1318,11 @@
         function updateActiveQueueList(queue) {
             const listContainer = document.getElementById('activeQueueList');
             listContainer.innerHTML = '';
+            
+            if (queue.length === 0) {
+                listContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Tidak ada antrian aktif</div>';
+                return;
+            }
             
             queue.slice(0, 10).forEach(item => {
                 const div = document.createElement('div');
@@ -1451,9 +1478,7 @@
             
             queueRef.once('value').then((snapshot) => {
                 const queueData = snapshot.val();
-                if (queueData) {
-                    updateQueueDisplayRealtime(queueData);
-                }
+                updateQueueDisplayRealtime(queueData || {});
                 btn.innerHTML = '🔄 Refresh Status';
                 showToast('✅ Diperbarui', 'Status antrian telah diperbarui.');
             });
@@ -1535,5 +1560,3 @@
     </script>
 </body>
 </html>
-
-
