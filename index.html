@@ -1,76 +1,534 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🧪 DrinkXLab</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vince BloxStore - Premium Roblox Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Pirata+One&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.1' fill='%23ff0000'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation: wave 10s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #8B0000;
+            box-shadow: 0 4px 30px rgba(139, 0, 0, 0.5);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .skull-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8B0000, #ff0000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
+        }
+
+        .brand-name {
+            font-family: 'Pirata One', cursive;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff0000, #8B0000, #ff4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: #888;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+        }
+
+        .hero h1 {
+            font-family: 'Pirata One', cursive;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8)); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Login Card */
+        .login-card {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+            border: 2px solid #8B0000;
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 500px;
+            margin: 0 auto 60px;
+            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .card-header .crossbones {
+            font-size: 2rem;
+            color: #8B0000;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: #ff4444;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            background: rgba(20, 0, 0, 0.4);
+        }
+
+        .form-group input::placeholder {
+            color: #555;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #8B0000, #ff0000, #8B0000);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
+        }
+
+        .submit-btn:hover {
+            background-position: 100% 100%;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff0000, transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .feature-card:hover {
+            border-color: #8B0000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Cinzel', serif;
+            color: #ff0000;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 80px;
+            position: relative;
+            z-index: 10;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #ff0000;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ff4444;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .brand-name {
+                font-size: 1.8rem;
+            }
+            
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            header {
+                padding: 15px 20px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8B0000;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff0000;
+        }
+    </style>
 </head>
 <body>
+    <div class="bg-animation">
+        <div class="wave"></div>
+        <div class="particle" style="left: 10%; width: 4px; height: 4px; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; width: 6px; height: 6px; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; width: 3px; height: 3px; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; width: 5px; height: 5px; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; width: 4px; height: 4px; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; width: 6px; height: 6px; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; width: 3px; height: 3px; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; width: 5px; height: 5px; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; width: 4px; height: 4px; animation-delay: 4.5s;"></div>
+    </div>
 
-<h1>🧪 DrinkXLab</h1>
+    <header>
+        <div class="logo">
+            <div class="skull-icon">☠️</div>
+            <div>
+                <div class="brand-name">Vince BloxStore</div>
+                <div class="tagline">Premium Roblox Services</div>
+            </div>
+        </div>
+        <nav style="font-family: 'Cinzel', serif; color: #888;">
+            <span style="margin: 0 15px; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#ff0000'" onmouseout="this.style.color='#888'">Home</span>
+            <span style="margin: 0 15px; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#ff0000'" onmouseout="this.style.color='#888'">Services</span>
+            <span style="margin: 0 15px; cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='#ff0000'" onmouseout="this.style.color='#888'">Queue</span>
+        </nav>
+    </header>
 
-<!-- Ukuran -->
-<label>Ukuran</label>
-<select id="size">
-  <option value="Small">Small</option>
-  <option value="Medium">Medium</option>
-  <option value="Large">Large</option>
-</select>
+    <div class="container">
+        <div class="hero">
+            <h1>⚓ Vince BloxStore ⚓</h1>
+            <p>Welcome aboard, captain! Enter your credentials to access the treasure vault. We offer premium Roblox joki services with guaranteed safety and speed.</p>
+        </div>
 
-<br><br>
+        <div class="login-card">
+            <div class="card-header">
+                <div class="crossbones">☠️</div>
+                <h2>Captain's Login</h2>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">Enter your details to proceed</p>
+            </div>
 
-<!-- Kategori Rasa -->
-<label>Kategori Rasa</label>
-<select id="flavorCategory" onchange="updateFlavor()">
-  <option value="">Pilih</option>
-  <option value="manis">Manis</option>
-  <option value="cokelat">Cokelat</option>
-  <option value="teh">Teh</option>
-  <option value="buah">Buah</option>
-  <option value="kopi">Kopi</option>
-</select>
+            <form>
+                <div class="form-group">
+                    <label>👤 Username</label>
+                    <input type="text" placeholder="Enter your username..." required>
+                </div>
 
-<br><br>
+                <div class="form-group">
+                    <label>🔒 Password</label>
+                    <input type="password" placeholder="Enter your password..." required>
+                </div>
 
-<!-- Rasa -->
-<label>Rasa</label>
-<select id="flavor"></select>
+                <div class="form-group">
+                    <label>⚔️ Joki</label>
+                    <input type="text" placeholder="Enter joki details..." required>
+                </div>
 
-<br><br>
+                <button type="submit" class="submit-btn">
+                    Set Sail ⛵
+                </button>
+            </form>
+        </div>
 
-<!-- Gula -->
-<label>Gula</label>
-<select id="sugar">
-  <option>0%</option>
-  <option>25%</option>
-  <option>50%</option>
-  <option>75%</option>
-  <option>100%</option>
-</select>
+        <div class="features">
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3>Fast Delivery</h3>
+                <p>Quick service completion with 24/7 support for all your Roblox needs.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🛡️</span>
+                <h3>100% Safe</h3>
+                <p>Secure transactions and account protection guaranteed.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💎</span>
+                <h3>Premium Quality</h3>
+                <p>Top-tier joki services from experienced professionals.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🏴‍☠️</span>
+                <h3>Pirate Approved</h3>
+                <p>Trusted by thousands of captains across the seven seas.</p>
+            </div>
+        </div>
+    </div>
 
-<br><br>
+    <footer>
+        <p>© 2026 Vince BloxStore. All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">Not affiliated with Roblox Corporation. This is a fan-made service.</p>
+    </footer>
 
-<!-- Es -->
-<label>Es</label>
-<select id="ice">
-  <option>No Ice</option>
-  <option>Less Ice</option>
-  <option>Normal Ice</option>
-  <option>Extra Ice</option>
-</select>
+    <script>
+        // Add interactive particles on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = 'rgba(255, 0, 0, 0.6)';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.animation = 'float 2s ease-out forwards';
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 2000);
+            }
+        });
 
-<br><br>
-
-<!-- Catatan -->
-<label>Pesan untuk pembuat</label><br>
-<textarea id="note"></textarea>
-
-<br><br>
-
-<button onclick="buatPesanan()">Buat Pesanan</button>
-
-<p id="status"></p>
-
-<!-- WAJIB -->
-<script src="script.js"></script>
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.querySelector('.submit-btn');
+            btn.innerHTML = '⚓ Sailing...';
+            btn.style.background = 'linear-gradient(135deg, #ff0000, #8B0000)';
+            
+            setTimeout(() => {
+                btn.innerHTML = '⛵ Set Sail';
+                btn.style.background = 'linear-gradient(135deg, #8B0000, #ff0000, #8B0000)';
+                alert('Welcome aboard, Captain! Your request has been received.');
+            }, 1500);
+        });
+    </script>
 </body>
-</html>
+</html>'''
