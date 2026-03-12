@@ -11,13 +11,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     
     <style>
-        :root {
-            --primary-red: #ff0000;
-            --dark-red: #8B0000;
-            --bg-dark: #0a0a0a;
-            --card-bg: rgba(20, 20, 20, 0.95);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -420,7 +413,7 @@
 
         .queue-number {
             font-family: 'Pirata One', cursive;
-            font-size: 8rem;
+            font-size: 6rem;
             background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -547,6 +540,7 @@
             justify-content: center;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
         }
 
         .btn-secondary {
@@ -762,10 +756,12 @@
             color: #ff0000;
             text-decoration: none;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         footer a:hover {
             color: #ff4444;
+            text-decoration: underline;
         }
 
         /* Loading Animation */
@@ -836,6 +832,101 @@
             opacity: 0.9;
         }
 
+        /* Terms Page */
+        .terms-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            z-index: 2000;
+            overflow-y: auto;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .terms-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #8B0000;
+        }
+
+        .terms-header h1 {
+            font-family: 'Pirata One', cursive;
+            font-size: 3rem;
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .terms-section {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .terms-section h2 {
+            font-family: 'Cinzel', serif;
+            color: #ff4444;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .terms-section p, .terms-section li {
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .terms-section ul {
+            margin-left: 20px;
+        }
+
+        .terms-section li {
+            margin-bottom: 8px;
+        }
+
+        .close-terms {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #8B0000;
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-terms:hover {
+            background: #ff0000;
+            transform: rotate(90deg);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -852,10 +943,12 @@
             
             header {
                 padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
             }
 
             .queue-number {
-                font-size: 5rem;
+                font-size: 4rem;
             }
 
             .queue-header h2 {
@@ -870,6 +963,18 @@
                 top: auto;
                 bottom: 20px;
                 right: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-secondary {
+                width: 100%;
+            }
+
+            .terms-header h1 {
+                font-size: 2rem;
             }
         }
 
@@ -929,6 +1034,16 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.5; transform: scale(1.2); }
         }
+
+        /* Status update animation */
+        .status-update {
+            animation: statusFlash 0.5s ease;
+        }
+
+        @keyframes statusFlash {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); background: rgba(255, 0, 0, 0.2); }
+        }
     </style>
 </head>
 <body>
@@ -960,6 +1075,111 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-skull">☠️</div>
         <div class="loading-text">Memproses Boarding Pass...</div>
+    </div>
+
+    <!-- Terms of Service Page -->
+    <div class="terms-page" id="termsPage">
+        <button class="close-terms" onclick="closeTerms()">✕</button>
+        <div class="terms-content">
+            <div class="terms-header">
+                <h1>⚓ Terms of Service ⚓</h1>
+                <p style="color: #888; font-family: 'Cinzel', serif;">Vince BloxStore</p>
+            </div>
+
+            <div class="terms-section">
+                <p style="font-style: italic; color: #ff4444; margin-bottom: 20px;">
+                    Dengan membeli layanan di Vince BloxStore, pelanggan dianggap telah membaca, memahami, dan menyetujui semua ketentuan berikut.
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>1. Layanan</h2>
+                <p>Vince BloxStore menyediakan jasa joki Blox Fruits, termasuk namun tidak terbatas pada:</p>
+                <ul>
+                    <li>Leveling</li>
+                    <li>Mastery</li>
+                    <li>Fragment</li>
+                    <li>Quest / Raid</li>
+                    <li>Request tertentu sesuai kesepakatan</li>
+                </ul>
+                <p>Semua layanan dilakukan tanpa cheat dan berusaha seaman mungkin.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>2. Data Akun</h2>
+                <p>Pembeli wajib memberikan:</p>
+                <ul>
+                    <li>Username</li>
+                    <li>Password</li>
+                    <li>Informasi tambahan jika diperlukan</li>
+                </ul>
+                <p>Vince BloxStore tidak bertanggung jawab atas kesalahan data yang diberikan oleh pelanggan.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>3. Keamanan Akun</h2>
+                <ul>
+                    <li>Vince BloxStore tidak menyalahgunakan akun pelanggan.</li>
+                    <li>Disarankan mengganti password setelah joki selesai.</li>
+                    <li>Jika akun terkena hack sebelumnya, itu bukan tanggung jawab Vince BloxStore.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>4. Waktu Pengerjaan</h2>
+                <ul>
+                    <li>Waktu pengerjaan tergantung antrian, tingkat kesulitan, dan request.</li>
+                    <li>Estimasi waktu akan diinformasikan sebelum pengerjaan.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>5. Pembayaran</h2>
+                <ul>
+                    <li>Pembayaran dilakukan di awal (full payment) kecuali ada kesepakatan lain.</li>
+                    <li>Harga dapat berubah sewaktu-waktu.</li>
+                    <li>Pembayaran yang sudah masuk tidak dapat dikembalikan (no refund) kecuali kesalahan dari pihak Vince BloxStore.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>6. Larangan Pelanggan</h2>
+                <p>Pelanggan dilarang:</p>
+                <ul>
+                    <li>Login ke akun saat joki sedang berlangsung.</li>
+                    <li>Mengubah password tanpa pemberitahuan.</li>
+                    <li>Membatalkan sepihak setelah proses dimulai.</li>
+                </ul>
+                <p style="color: #ff4444;">Jika melanggar, garansi pengerjaan bisa dibatalkan.</p>
+            </div>
+
+            <div class="terms-section">
+                <h2>7. Garansi</h2>
+                <ul>
+                    <li>Vince BloxStore menjamin layanan sesuai pesanan.</li>
+                    <li>Jika terjadi kesalahan dari pihak kami, akan diberikan perbaikan atau kompensasi.</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>8. Penolakan Layanan</h2>
+                <p>Vince BloxStore berhak menolak pesanan jika:</p>
+                <ul>
+                    <li>Akun mencurigakan</li>
+                    <li>Permintaan tidak wajar</li>
+                    <li>Melanggar kebijakan game</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>9. Perubahan Terms</h2>
+                <p>Terms of Service dapat diperbarui sewaktu-waktu tanpa pemberitahuan sebelumnya.</p>
+            </div>
+
+            <footer style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+                <p>© 2026 Vince BloxStore. All rights reserved.</p>
+            </footer>
+        </div>
     </div>
 
     <header>
@@ -1069,7 +1289,7 @@
                     <div class="status-item">
                         <span class="status-icon">📊</span>
                         <div class="status-label">Status</div>
-                        <div class="status-value waiting" id="queueStatusText">Menunggu</div>
+                        <div class="status-value waiting" id="queueStatus">Menunggu</div>
                     </div>
                 </div>
 
@@ -1119,7 +1339,7 @@
     </div>
 
     <footer>
-        <p>© 2026 Vince BloxStore. All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+        <p>© 2026 Vince BloxStore. All rights reserved. | <a onclick="openTerms()">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
         <p style="margin-top: 10px; font-size: 0.8rem;">Not affiliated with Roblox Corporation. This is a fan-made service.</p>
     </footer>
 
@@ -1140,8 +1360,6 @@
 
         let app, database, queueRef, connectedRef;
         let isConnected = false;
-        let currentQueueCode = null; // Stores A001, A002 etc
-        let currentQueueKey = null;  // Stores Firebase unique key
 
         function initFirebase() {
             try {
@@ -1177,70 +1395,73 @@
         }
 
         // ============================================
-        // SISTEM ANTRIAN - VERSI KODE (A001, A002)
+        // SISTEM ANTRIAN - DENGAN FORMAT A001
         // ============================================
 
-        // 🔧 FUNGSI UTAMA: Generate Kode A001, A002, dst
-        async function getNextQueueCode() {
+        let myQueueNumber = null;
+        let myQueueKey = null;
+        let queueListener = null;
+        let lastStatus = null;
+
+        // 🔧 FUNGSI UTAMA: Ambil nomor antrian berikutnya dengan format A001
+        async function getNextQueueNumber() {
             try {
                 const snapshot = await queueRef.once('value');
                 const queueData = snapshot.val();
                 
-                let maxNum = 0;
+                let maxNumber = 0;
                 
                 if (queueData) {
                     Object.values(queueData).forEach(item => {
-                        // Parse code like "A001" -> 1
-                        if (item.code) {
-                            const numPart = parseInt(item.code.substring(1));
-                            if (!isNaN(numPart) && numPart > maxNum) {
-                                maxNum = numPart;
-                            }
+                        // Extract number from format A001, A002, etc.
+                        const numMatch = item.number ? item.number.match(/\d+/) : null;
+                        const num = numMatch ? parseInt(numMatch[0]) : 0;
+                        if (!isNaN(num) && num > maxNumber) {
+                            maxNumber = num;
                         }
                     });
                 }
                 
-                const nextNum = maxNum + 1;
-                // Format: A001, A002 ... A999, A1000 (though usually limited to 999)
-                const nextCode = "A" + nextNum.toString().padStart(3, '0');
+                const nextNumber = maxNumber + 1;
+                const formattedNumber = 'A' + nextNumber.toString().padStart(3, '0');
                 
-                console.log(`📊 Kode antrian baru: ${nextCode}`);
-                return nextCode;
+                console.log(`📊 Antrian saat ini: ${maxNumber}, Nomor baru: ${formattedNumber}`);
+                
+                return formattedNumber;
                 
             } catch (error) {
-                console.error('❌ Error generating code:', error);
-                // Fallback
-                return "A" + Math.floor(Math.random() * 900 + 100);
+                console.error('❌ Error getting queue number:', error);
+                const fallback = Math.floor(Date.now() / 1000) % 1000;
+                return 'A' + fallback.toString().padStart(3, '0');
             }
         }
 
         async function addToGlobalQueue(userData) {
             try {
-                const queueCode = await getNextQueueCode();
+                const queueNumber = await getNextQueueNumber();
                 
                 const queueItem = {
-                    code: queueCode,       // A001
+                    number: queueNumber,
                     username: userData.username,
                     joki: userData.joki,
                     whatsapp: userData.whatsapp,
                     timestamp: firebase.database.ServerValue.TIMESTAMP,
-                    status: 'waiting',     // Default status
+                    status: 'waiting',
                     deviceId: getDeviceId()
                 };
                 
                 const newRef = queueRef.push();
                 await newRef.set(queueItem);
                 
-                currentQueueKey = newRef.key;
-                currentQueueCode = queueCode;
+                myQueueKey = newRef.key;
+                myQueueNumber = queueNumber;
                 
-                // Save to local storage for persistence
-                localStorage.setItem('myQueueKey', currentQueueKey);
-                localStorage.setItem('myQueueCode', currentQueueCode);
+                localStorage.setItem('myQueueKey', myQueueKey);
+                localStorage.setItem('myQueueNumber', myQueueNumber);
                 localStorage.setItem('myUsername', userData.username);
                 localStorage.setItem('myJoki', userData.joki);
                 
-                console.log(`✅ Berhasil daftar dengan kode: ${queueCode}`);
+                console.log(`✅ Berhasil daftar dengan nomor: ${queueNumber}`);
                 
                 return queueItem;
             } catch (error) {
@@ -1258,105 +1479,164 @@
             return deviceId;
         }
 
-        // ============================================
-        // REALTIME LISTENER & UI UPDATER
-        // ============================================
-
-        function startQueueListener() {
-            // Listen to entire queue changes
-            queueRef.on('value', (snapshot) => {
-                const queueData = snapshot.val() || {};
-                updateQueueUI(queueData);
-            });
-        }
-
-        function updateQueueUI(queueData) {
-            // 1. Convert object to array and sort by timestamp
-            let queueArray = [];
-            Object.keys(queueData).forEach(key => {
-                queueArray.push({
-                    key: key,
-                    ...queueData[key]
-                });
-            });
+        // 🔧 FUNGSI UPDATE DISPLAY - REALTIME DENGAN DETEKSI PERUBAHAN STATUS
+        function updateQueueDisplayRealtime(queueData) {
+            if (!myQueueNumber) return;
             
-            // Sort by timestamp (oldest first)
-            queueArray.sort((a, b) => a.timestamp - b.timestamp);
+            const queueArray = Object.entries(queueData).map(([key, value]) => ({
+                key: key,
+                ...value
+            })).sort((a, b) => a.timestamp - b.timestamp);
             
-            // 2. Update Global Stats
-            document.getElementById('totalQueue').innerText = queueArray.length;
+            // Find my position
+            const myIndex = queueArray.findIndex(item => item.key === myQueueKey);
+            const myData = myIndex !== -1 ? queueArray[myIndex] : null;
             
-            // 3. Find "Me" in the list
-            const myIndex = queueArray.findIndex(item => item.key === currentQueueKey);
-            const myData = queueArray[myIndex];
+            // Update global stats
+            const totalQueue = queueArray.length;
+            const processingItem = queueArray.find(item => item.status === 'processing');
+            const myPosition = myIndex !== -1 ? myIndex + 1 : 0;
+            const queueAhead = myIndex > 0 ? myIndex : 0;
             
-            if (myData) {
-                // Update My Code Display
-                document.getElementById('queueNumber').innerText = myData.code;
-                document.getElementById('displayUsername').innerText = myData.username;
-                document.getElementById('displayJoki').innerText = myData.joki;
+            document.getElementById('totalQueue').textContent = totalQueue;
+            document.getElementById('currentlyProcessing').textContent = processingItem ? processingItem.number : '-';
+            document.getElementById('yourPosition').textContent = myPosition;
+            document.getElementById('queueAhead').textContent = queueAhead;
+            
+            // 🔧 CEK PERUBAHAN STATUS DAN BERI NOTIFIKASI
+            if (myData && myData.status !== lastStatus) {
+                handleStatusChange(myData.status, lastStatus);
+                lastStatus = myData.status;
                 
-                // Update Status Text & Color
-                const statusEl = document.getElementById('queueStatusText');
-                statusEl.innerText = myData.status.toUpperCase();
-                statusEl.className = 'status-value ' + myData.status; // waiting, processing, completed
-                
-                // Update Progress Bar based on status
-                const progressEl = document.getElementById('progressBar');
-                if (myData.status === 'waiting') progressEl.style.width = '33%';
-                if (myData.status === 'processing') progressEl.style.width = '66%';
-                if (myData.status === 'completed') progressEl.style.width = '100%';
-                
-                // Update Position
-                const position = myIndex + 1;
-                document.getElementById('yourPosition').innerText = position;
-                document.getElementById('queueAhead').innerText = myIndex; // People in front
-                
-                // Estimation (rough estimate: 5 mins per person)
-                const waitMinutes = myIndex * 5;
-                document.getElementById('waitTime').innerText = `~${waitMinutes} min`;
-                
-                // Check if status changed to notify
-                checkStatusChange(myData.status);
+                // Add animation effect
+                const statusEl = document.getElementById('queueStatus');
+                statusEl.classList.add('status-update');
+                setTimeout(() => statusEl.classList.remove('status-update'), 500);
             }
             
-            // 4. Render Active List (Top 5)
-            const listContainer = document.getElementById('activeQueueList');
-            listContainer.innerHTML = '';
+            // Update my status display
+            if (myData) {
+                updateStatusDisplay(myData.status);
+                updateProgressBar(myData.status, myPosition, totalQueue);
+            }
             
-            queueArray.slice(0, 5).forEach((item, index) => {
-                const isMe = item.key === currentQueueKey;
-                const isProcessing = item.status === 'processing';
-                
-                const div = document.createElement('div');
-                div.className = `queue-item ${isMe ? 'you' : ''} ${isProcessing ? 'current' : ''}`;
-                
-                div.innerHTML = `
-                    <span class="queue-item-number">${item.code} ${isMe ? '(You)' : ''}</span>
-                    <span class="queue-item-status ${item.status}">${item.status}</span>
-                `;
-                listContainer.appendChild(div);
-            });
+            // Update wait time estimation
+            const waitTime = calculateWaitTime(queueAhead);
+            document.getElementById('waitTime').textContent = waitTime;
             
-            // 5. Update "Currently Processing" Stat
-            const processingItem = queueArray.find(item => item.status === 'processing');
-            document.getElementById('currentlyProcessing').innerText = processingItem ? processingItem.code : '-';
+            // Update active queue list
+            updateActiveQueueList(queueArray, myQueueKey);
         }
 
-        let lastStatus = null;
-        function checkStatusChange(newStatus) {
-            if (lastStatus && lastStatus !== newStatus) {
-                // Status changed!
-                showToast('🔄 Status Update', `Status changed to: ${newStatus.toUpperCase()}`);
+        function handleStatusChange(newStatus, oldStatus) {
+            if (!oldStatus) return; // Skip initial load
+            
+            const messages = {
+                'processing': '🚀 Giliran Anda! Joki sedang diproses.',
+                'completed': '✅ Joki selesai! Silakan cek akun Anda.',
+                'waiting': '⏳ Status kembali ke menunggu.'
+            };
+            
+            if (messages[newStatus]) {
+                showToast('📢 Status Update', messages[newStatus]);
                 
                 // Browser notification
-                if (Notification.permission === "granted") {
-                    new Notification("Vince BloxStore", {
-                        body: `Your queue status is now: ${newStatus.toUpperCase()}`
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification('Vince BloxStore', {
+                        body: messages[newStatus],
+                        icon: '☠️'
                     });
                 }
             }
-            lastStatus = newStatus;
+        }
+
+        function updateStatusDisplay(status) {
+            const statusEl = document.getElementById('queueStatus');
+            const statusMap = {
+                'waiting': { text: 'Menunggu', class: 'waiting' },
+                'processing': { text: 'Diproses', class: 'processing' },
+                'completed': { text: 'Selesai', class: 'completed' }
+            };
+            
+            const statusInfo = statusMap[status] || statusMap['waiting'];
+            statusEl.textContent = statusInfo.text;
+            statusEl.className = 'status-value ' + statusInfo.class;
+        }
+
+        function updateProgressBar(status, position, total) {
+            const progressEl = document.getElementById('progressBar');
+            let percentage = 0;
+            
+            if (status === 'completed') {
+                percentage = 100;
+            } else if (status === 'processing') {
+                percentage = 75;
+            } else {
+                // Calculate based on position
+                percentage = Math.max(5, Math.min(50, ((total - position) / total) * 50));
+            }
+            
+            progressEl.style.width = percentage + '%';
+        }
+
+        function calculateWaitTime(queueAhead) {
+            if (queueAhead === 0) return 'Sekarang';
+            if (queueAhead === 1) return '~15 menit';
+            if (queueAhead <= 3) return '~30 menit';
+            if (queueAhead <= 5) return '~1 jam';
+            return '> 1 jam';
+        }
+
+        function updateActiveQueueList(queueArray, myKey) {
+            const listEl = document.getElementById('activeQueueList');
+            listEl.innerHTML = '';
+            
+            queueArray.slice(0, 10).forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'queue-item';
+                
+                if (item.key === myKey) {
+                    div.classList.add('you');
+                } else if (item.status === 'processing') {
+                    div.classList.add('current');
+                }
+                
+                const statusClass = item.status === 'processing' ? 'processing' : 
+                                   item.status === 'completed' ? 'completed' : '';
+                
+                div.innerHTML = `
+                    <span class="queue-item-number">${item.number}</span>
+                    <span style="color: #666; font-size: 0.8rem;">${item.username}</span>
+                    <span class="queue-item-status ${statusClass}">${item.status}</span>
+                `;
+                
+                listEl.appendChild(div);
+            });
+        }
+
+        function startQueueListener() {
+            // Remove existing listener
+            if (queueListener) {
+                queueRef.off('value', queueListener);
+            }
+            
+            // Create new listener with immediate update
+            queueListener = queueRef.on('value', (snapshot) => {
+                const queueData = snapshot.val() || {};
+                updateQueueDisplayRealtime(queueData);
+            });
+            
+            // Also listen to specific child changes for more responsive updates
+            queueRef.on('child_changed', (snapshot) => {
+                const changedData = snapshot.val();
+                if (changedData.key === myQueueKey || changedData.number === myQueueNumber) {
+                    console.log('🔄 Data diupdate:', changedData);
+                    // Force refresh display
+                    queueRef.once('value').then(snap => {
+                        updateQueueDisplayRealtime(snap.val() || {});
+                    });
+                }
+            });
         }
 
         // ============================================
@@ -1382,10 +1662,14 @@
                     joki: joki
                 });
                 
+                document.getElementById('displayUsername').textContent = username;
+                document.getElementById('displayJoki').textContent = joki;
+                document.getElementById('queueNumber').textContent = myQueueNumber;
+                
                 startQueueListener();
                 
-                // UI Transition
                 document.getElementById('loadingOverlay').classList.remove('active');
+                
                 document.getElementById('loginCard').classList.add('fade-out');
                 document.getElementById('heroSection').classList.add('fade-out');
                 document.getElementById('featuresSection').style.display = 'none';
@@ -1411,36 +1695,73 @@
             btn.innerHTML = '🔄 Memperbarui...';
             
             queueRef.once('value').then((snapshot) => {
-                updateQueueUI(snapshot.val() || {});
+                const queueData = snapshot.val();
+                updateQueueDisplayRealtime(queueData || {});
                 btn.innerHTML = '🔄 Refresh Status';
                 showToast('✅ Diperbarui', 'Status antrian telah diperbarui.');
             });
         }
 
-        function cancelQueue() {
-            if(confirm('Yakin ingin membatalkan antrian?')) {
-                if (currentQueueKey) {
-                    queueRef.child(currentQueueKey).remove();
+        async function cancelQueue() {
+            if (!myQueueKey) return;
+            
+            if (confirm('Yakin ingin membatalkan antrian?')) {
+                try {
+                    await queueRef.child(myQueueKey).remove();
+                    clearMyQueueData();
+                    showToast('✅ Dibatalkan', 'Antrian Anda telah dibatalkan.');
+                    setTimeout(() => backToHome(), 1500);
+                } catch (error) {
+                    showToast('❌ Error', 'Gagal membatalkan antrian.');
                 }
-                backToHome();
             }
         }
 
-        function backToHome() {
-            queueRef.off('value'); // Stop listening
+        function clearMyQueueData() {
             localStorage.removeItem('myQueueKey');
-            localStorage.removeItem('myQueueCode');
+            localStorage.removeItem('myQueueNumber');
+            localStorage.removeItem('myUsername');
+            localStorage.removeItem('myJoki');
+            myQueueKey = null;
+            myQueueNumber = null;
+            lastStatus = null;
+        }
+
+        function backToHome() {
+            if (queueListener) {
+                queueRef.off('value', queueListener);
+                queueListener = null;
+            }
             location.reload();
         }
 
+        // ============================================
+        // TERMS OF SERVICE
+        // ============================================
+
+        function openTerms() {
+            document.getElementById('termsPage').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTerms() {
+            document.getElementById('termsPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ============================================
+        // UTILITIES
+        // ============================================
+
         function showToast(title, message) {
             const toast = document.getElementById('toast');
-            document.querySelector('#toast h4').innerText = title;
-            document.getElementById('toastMessage').innerText = message;
+            document.querySelector('#toast h4').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         // ============================================
@@ -1450,40 +1771,43 @@
         window.addEventListener('load', () => {
             initFirebase();
             
-            // Check if user has active session
             const savedKey = localStorage.getItem('myQueueKey');
-            const savedCode = localStorage.getItem('myQueueCode');
+            const savedNumber = localStorage.getItem('myQueueNumber');
+            const savedUsername = localStorage.getItem('myUsername');
+            const savedJoki = localStorage.getItem('myJoki');
             
-            if (savedKey && savedCode) {
-                // Verify if still exists in DB
+            if (savedKey && savedNumber) {
                 queueRef.child(savedKey).once('value').then((snapshot) => {
                     if (snapshot.exists()) {
-                        currentQueueKey = savedKey;
-                        currentQueueCode = savedCode;
+                        myQueueKey = savedKey;
+                        myQueueNumber = savedNumber;
+                        lastStatus = snapshot.val().status;
                         
-                        // Restore UI
+                        document.getElementById('displayUsername').textContent = savedUsername || 'Unknown';
+                        document.getElementById('displayJoki').textContent = savedJoki || '-';
+                        document.getElementById('queueNumber').textContent = savedNumber;
+                        
                         document.getElementById('loginCard').style.display = 'none';
                         document.getElementById('heroSection').style.display = 'none';
                         document.getElementById('featuresSection').style.display = 'none';
                         document.getElementById('queueSection').style.display = 'block';
                         
                         startQueueListener();
-                        showToast('🎫 Selamat Datang Kembali', `Antrian ${savedCode} masih aktif.`);
+                        
+                        showToast('🎫 Selamat Datang Kembali', `Antrian ${savedNumber} masih aktif.`);
                     } else {
-                        // Finished or deleted
-                        localStorage.clear();
+                        clearMyQueueData();
                         showToast('✅ Selesai', 'Antrian Anda telah selesai.');
                     }
                 });
             }
-            
-            // Request notification permission
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
         });
 
-        // Particle effect on mouse move
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Mouse trail effect
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.95) {
                 const particle = document.createElement('div');
@@ -1498,7 +1822,14 @@
                 particle.style.zIndex = '9999';
                 particle.style.animation = 'float 2s ease-out forwards';
                 document.body.appendChild(particle);
+                
                 setTimeout(() => particle.remove(), 2000);
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (queueListener) {
+                queueRef.off('value', queueListener);
             }
         });
     </script>
