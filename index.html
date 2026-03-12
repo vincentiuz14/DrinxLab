@@ -70,7 +70,7 @@
         }
         
         .queue-number {
-            width: 50px;
+            width: 80px;
             height: 50px;
             background: linear-gradient(135deg, #ff0040 0%, #cc0033 100%);
             border-radius: 8px;
@@ -79,7 +79,7 @@
             justify-content: center;
             font-family: 'Orbitron', sans-serif;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
         }
         
         .has-ticket {
@@ -175,7 +175,7 @@
                     </div>
 
                     <button id="submitBtn" class="btn-red font-orbitron">
-                        <i class="fas fa-plus-circle mr-2"></i>AMBIL ANTRIAN
+                        <i class="fas fa-plus-circle mr-2"></i>AMBIL ANTRRIAN
                     </button>
                 </div>
 
@@ -337,6 +337,32 @@
         var serving = null;
         var isSubmitting = false;
 
+        // Helper function: Convert number to A001 format
+        function formatQueueNumber(num) {
+            return 'A' + String(num).padStart(3, '0');
+        }
+
+        // Helper function: Get next queue number (reset to 1 if empty)
+        function getNextQueueNumber() {
+            if (queues.length === 0 && !serving) {
+                return 1;
+            }
+            
+            // Find max number from current queues and serving
+            var maxNum = 0;
+            if (serving && serving.number) {
+                maxNum = serving.number;
+            }
+            
+            for (var i = 0; i < queues.length; i++) {
+                if (queues[i].number > maxNum) {
+                    maxNum = queues[i].number;
+                }
+            }
+            
+            return maxNum + 1;
+        }
+
         // Init
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded');
@@ -408,14 +434,16 @@
             console.log('Processing...');
             
             try {
+                // Get next queue number (auto reset to 1 if empty)
+                var nextNum = getNextQueueNumber();
+                
                 // Create ticket
-                lastNum++;
                 var now = Date.now();
                 myTicket = {
                     name: name,
                     robloxUsername: roblox,
                     service: selectedService,
-                    number: lastNum,
+                    number: nextNum,
                     time: now,
                     id: 'local_' + now
                 };
@@ -424,7 +452,7 @@
                 
                 // Save to localStorage FIRST
                 localStorage.setItem('vinceTicket', JSON.stringify(myTicket));
-                localStorage.setItem('vinceLastNum', lastNum);
+                localStorage.setItem('vinceLastNum', nextNum);
                 
                 // Show modal IMMEDIATELY (don't wait for Firebase)
                 showModal();
@@ -469,8 +497,8 @@
         function showModal() {
             console.log('Showing modal');
             
-            // Update content
-            document.getElementById('mNumber').textContent = myTicket.number;
+            // Update content with formatted number
+            document.getElementById('mNumber').textContent = formatQueueNumber(myTicket.number);
             document.getElementById('mService').textContent = myTicket.service;
             document.getElementById('mTime').textContent = new Date().toLocaleString('id-ID');
             
@@ -493,7 +521,7 @@
         function showHasTicketState() {
             document.getElementById('formState').classList.add('hidden');
             document.getElementById('hasTicketState').classList.remove('hidden');
-            document.getElementById('activeNumber').textContent = myTicket ? myTicket.number : '-';
+            document.getElementById('activeNumber').textContent = myTicket ? formatQueueNumber(myTicket.number) : '-';
         }
 
         function showFormState() {
@@ -532,6 +560,7 @@
             if (!myTicket) return;
             
             var time = new Date(myTicket.time).toLocaleString('id-ID');
+            var formattedNum = formatQueueNumber(myTicket.number);
             
             // Card
             document.getElementById('ticketCard').innerHTML = 
@@ -540,7 +569,7 @@
                         '<span class="text-red-gaming text-xs font-bold">TIKET AKTIF</span>' +
                     '</div>' +
                     '<p class="text-gray-400 text-sm mb-2">NOMOR ANTRIAN</p>' +
-                    '<div class="font-orbitron text-8xl font-black text-white mb-4" style="text-shadow: 0 0 30px rgba(255,0,64,0.5);">' + myTicket.number + '</div>' +
+                    '<div class="font-orbitron text-7xl font-black text-white mb-4" style="text-shadow: 0 0 30px rgba(255,0,64,0.5);">' + formattedNum + '</div>' +
                     '<div class="flex items-center justify-center gap-2">' +
                         '<span class="w-2 h-2 bg-red-gaming rounded-full animate-pulse"></span>' +
                         '<span class="text-red-gaming font-semibold text-lg">' + myTicket.service + '</span>' +
@@ -549,7 +578,7 @@
                 '</div>';
             
             // Details
-            document.getElementById('tNumber').textContent = myTicket.number;
+            document.getElementById('tNumber').textContent = formattedNum;
             document.getElementById('tName').textContent = myTicket.name;
             document.getElementById('tRoblox').textContent = '@' + myTicket.robloxUsername;
             document.getElementById('tService').textContent = myTicket.service;
@@ -598,7 +627,7 @@
             
             window.dbOnValue(window.dbRef(window.db, 'serving'), function(snap) {
                 serving = snap.val();
-                document.getElementById('nowServingNum').textContent = serving ? serving.number : '-';
+                document.getElementById('nowServingNum').textContent = serving ? formatQueueNumber(serving.number) : '-';
                 document.getElementById('nowServingInfo').textContent = serving ? 
                     serving.name + ' • ' + serving.service : 'Belum ada antrian';
                 updatePosition();
@@ -619,7 +648,7 @@
                 html += 
                     '<div class="queue-item">' +
                         '<div class="flex items-center gap-4">' +
-                            '<div class="queue-number">' + q.number + '</div>' +
+                            '<div class="queue-number">' + formatQueueNumber(q.number) + '</div>' +
                             '<div>' +
                                 '<p class="font-semibold">' + q.name + '</p>' +
                                 '<p class="text-sm text-gray-400">@' + q.robloxUsername + '</p>' +
@@ -648,13 +677,14 @@
         }
 
         function saveTicket() {
+            var formattedNum = formatQueueNumber(myTicket.number);
             var w = window.open('', '_blank');
             w.document.write(
                 '<html><head><title>Tiket</title>' +
                 '<style>body{font-family:Arial;background:#1a1a1a;color:white;text-align:center;padding:40px}' +
                 '.ticket{border:3px solid #ff0040;padding:30px;border-radius:20px;display:inline-block;background:#0a0a0a}' +
-                '.num{font-size:80px;font-weight:bold;color:#ff0040;margin:20px 0}</style></head>' +
-                '<body><div class="ticket"><h2>VINCE BLOXSTORE</h2><div class="num">' + myTicket.number + '</div>' +
+                '.num{font-size:60px;font-weight:bold;color:#ff0040;margin:20px 0}</style></head>' +
+                '<body><div class="ticket"><h2>VINCE BLOXSTORE</h2><div class="num">' + formattedNum + '</div>' +
                 '<p style="background:#ff0040;color:white;padding:5px 15px;border-radius:20px;display:inline-block">' + myTicket.service + '</p>' +
                 '<p style="margin-top:20px">' + myTicket.name + '</p><p>@' + myTicket.robloxUsername + '</p></div>' +
                 '<script>window.print()<\/script></body></html>'
