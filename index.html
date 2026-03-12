@@ -3,1552 +3,677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vince BloxStore - Premium Roblox Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Pirata+One&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Vince BloxStore - Joki Blox Fruits</title>
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
-            min-height: 100vh;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .bg-animation {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; min-height: 100vh; font-family: 'Rajdhani', sans-serif; color: white; }
+        .glass { background: rgba(26, 26, 26, 0.95); border: 1px solid rgba(255, 0, 64, 0.2); border-radius: 16px; }
+        .input-gaming { background: rgba(10, 10, 10, 0.8); border: 2px solid #333; padding: 12px 16px; border-radius: 8px; color: white; width: 100%; font-size: 16px; }
+        .input-gaming:focus { border-color: #ff0040; outline: none; }
+        .btn-red { background: linear-gradient(135deg, #ff0040 0%, #cc0033 100%); color: white; padding: 16px 24px; border-radius: 8px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; }
+        .btn-red:disabled { opacity: 0.6; cursor: not-allowed; background: #444; }
+        .btn-yellow { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: black; padding: 16px 24px; border-radius: 8px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; }
+        .service-box { background: rgba(10, 10, 10, 0.8); border: 2px solid #333; padding: 16px; border-radius: 8px; text-align: center; cursor: pointer; }
+        .service-box.selected { border-color: #ff0040; background: rgba(255, 0, 64, 0.15); }
+        .service-box i { color: #ff0040; font-size: 24px; margin-bottom: 8px; display: block; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .text-red-gaming { color: #ff0040; }
+        .bg-red-gaming { background-color: #ff0040; }
+        .number-big { font-family: 'Orbitron', sans-serif; font-size: 80px; font-weight: 900; color: #ff0040; text-shadow: 0 0 30px rgba(255, 0, 64, 0.8); }
+        
+        #successModal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 999999;
+            display: none;
         }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.1' fill='%23ff0000'%3E%3C/path%3E%3C/svg%3E") repeat-x;
-            animation: wave 10s linear infinite;
-            opacity: 0.3;
+        
+        #successModal.active {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-
-        header {
-            position: relative;
-            z-index: 10;
-            padding: 20px 50px;
+        
+        .modal-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 3px solid #ff0040;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(255, 0, 64, 0.5);
+        }
+        
+        .hidden { display: none !important; }
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        .queue-item {
+            background: rgba(10, 10, 10, 0.8);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #8B0000;
-            box-shadow: 0 4px 30px rgba(139, 0, 0, 0.5);
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .skull-icon {
+        
+        .queue-number {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #8B0000, #ff0000);
-            border-radius: 50%;
+            background: linear-gradient(135deg, #ff0040 0%, #cc0033 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-            animation: pulse 2s infinite;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 20px;
         }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
-        }
-
-        .brand-name {
-            font-family: 'Pirata One', cursive;
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #ff0000, #8B0000, #ff4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #888;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .connection-status.online {
-            background: rgba(0, 255, 136, 0.2);
-            border: 1px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .connection-status.offline {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-            padding: 40px 0;
-        }
-
-        .hero h1 {
-            font-family: 'Pirata One', cursive;
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8)); }
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .login-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
-            border: 2px solid #8B0000;
-            border-radius: 20px;
-            padding: 50px;
-            max-width: 500px;
-            margin: 0 auto 60px;
-            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            background: rgba(20, 0, 0, 0.4);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 200%;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            background-position: 100% 100%;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .queue-section {
-            display: none;
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .queue-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
-            border: 3px solid #8B0000;
-            border-radius: 25px;
-            padding: 50px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 25px 80px rgba(139, 0, 0, 0.4);
-        }
-
-        .queue-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .queue-header h2 {
-            font-family: 'Pirata One', cursive;
-            font-size: 3rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-
-        .queue-number-display {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
-            border: 3px solid #ff0000;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
-        }
-
-        .queue-label {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .queue-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 8rem;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            animation: numberPulse 2s infinite;
-        }
-
-        @keyframes numberPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .queue-status {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .status-item {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .status-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .status-label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .status-value {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.3rem;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .status-value.waiting { color: #ffaa00; }
-        .status-value.processing { color: #00ff88; }
-        .status-value.completed { color: #00ccff; }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .queue-info {
-            background: rgba(139, 0, 0, 0.1);
-            border-left: 4px solid #ff0000;
-            padding: 20px;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 30px;
-        }
-
-        .queue-info p {
-            color: #ccc;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-secondary {
-            padding: 15px 30px;
-            background: transparent;
-            border: 2px solid #8B0000;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(139, 0, 0, 0.2);
-            border-color: #ff0000;
-        }
-
-        .global-queue-info {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(15, 15, 15, 0.95));
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .global-queue-info h3 {
-            font-family: 'Cinzel', serif;
-            color: #ff0000;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .queue-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #444;
-        }
-
-        .stat-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 2rem;
-            color: #ff0000;
-            display: block;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
-            border: 1px solid #333;
-            border-radius: 15px;
+        
+        .has-ticket {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 2px solid #ff0040;
+            border-radius: 16px;
             padding: 30px;
             text-align: center;
-            transition: all 0.3s ease;
         }
-
-        .feature-card:hover {
-            border-color: #8B0000;
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #333;
-            margin-top: 80px;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .loading-overlay.active {
-            display:            z-index: 10;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #8B0000;
-            box-shadow: 0 4px 30px rgba(139, 0, 0, 0.5);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .skull-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #8B0000, #ff0000);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
-        }
-
-        .brand-name {
-            font-family: 'Pirata One', cursive;
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #ff0000, #8B0000, #ff4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #888;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .connection-status.online {
-            background: rgba(0, 255, 136, 0.2);
-            border: 1px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .connection-status.offline {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-            padding: 40px 0;
-        }
-
-        .hero h1 {
-            font-family: 'Pirata One', cursive;
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8)); }
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .login-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
-            border: 2px solid #8B0000;
-            border-radius: 20px;
-            padding: 50px;
-            max-width: 500px;
-            margin: 0 auto 60px;
-            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            background: rgba(20, 0, 0, 0.4);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 200%;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            background-position: 100% 100%;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .queue-section {
-            display: none;
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .queue-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
-            border: 3px solid #8B0000;
-            border-radius: 25px;
-            padding: 50px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 25px 80px rgba(139, 0, 0, 0.4);
-        }
-
-        .queue-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .queue-header h2 {
-            font-family: 'Pirata One', cursive;
-            font-size: 3rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-
-        .queue-number-display {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
-            border: 3px solid #ff0000;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
-        }
-
-        .queue-label {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .queue-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 8rem;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            animation: numberPulse 2s infinite;
-        }
-
-        @keyframes numberPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .queue-status {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .status-item {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .status-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .status-label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .status-value {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.3rem;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .status-value.waiting { color: #ffaa00; }
-        .status-value.processing { color: #00ff88; }
-        .status-value.completed { color: #00ccff; }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .queue-info {
-            background: rgba(139, 0, 0, 0.1);
-            border-left: 4px solid #ff0000;
-            padding: 20px;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 30px;
-        }
-
-        .queue-info p {
-            color: #ccc;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-secondary {
-            padding: 15px 30px;
-            background: transparent;
-            border: 2px solid #8B0000;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(139, 0, 0, 0.2);
-            border-color: #ff0000;
-        }
-
-        .global-queue-info {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(15, 15, 15, 0.95));
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .global-queue-info h3 {
-            font-family: 'Cinzel', serif;
-            color: #ff0000;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .queue-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #444;
-        }
-
-        .stat-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 2rem;
-            color: #ff0000;
-            display: block;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: #8B0000;
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #333;
-            margin-top: 80px;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .loading-skull {
-            font-size: 4rem;
-            animation: bounce 1s infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY            z-index: 10;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #8B0000;
-            box-shadow: 0 4px 30px rgba(139, 0, 0, 0.5);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .skull-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #8B0000, #ff0000);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
-        }
-
-        .brand-name {
-            font-family: 'Pirata One', cursive;
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #ff0000, #8B0000, #ff4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #888;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .connection-status.online {
-            background: rgba(0, 255, 136, 0.2);
-            border: 1px solid #00ff88;
-            color: #00ff88;
-        }
-
-        .connection-status.offline {
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff0000;
-            color: #ff0000;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-            padding: 40px 0;
-        }
-
-        .hero h1 {
-            font-family: 'Pirata One', cursive;
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(255, 0, 0, 0.8)); }
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #aaa;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .login-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
-            border: 2px solid #8B0000;
-            border-radius: 20px;
-            padding: 50px;
-            max-width: 500px;
-            margin: 0 auto 60px;
-            box-shadow: 0 20px 60px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            background: rgba(20, 0, 0, 0.4);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 200%;
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            background-position: 100% 100%;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .queue-section {
-            display: none;
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .queue-card {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
-            border: 3px solid #8B0000;
-            border-radius: 25px;
-            padding: 50px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 25px 80px rgba(139, 0, 0, 0.4);
-        }
-
-        .queue-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .queue-header h2 {
-            font-family: 'Pirata One', cursive;
-            font-size: 3rem;
-            color: #ff0000;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-
-        .queue-number-display {
-            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
-            border: 3px solid #ff0000;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.2);
-        }
-
-        .queue-label {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #ff4444;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .queue-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 8rem;
-            background: linear-gradient(135deg, #ffffff, #ff0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            animation: numberPulse 2s infinite;
-        }
-
-        @keyframes numberPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .queue-status {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .status-item {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .status-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .status-label {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-        }
-
-        .status-value {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.3rem;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .status-value.waiting { color: #ffaa00; }
-        .status-value.processing { color: #00ff88; }
-        .status-value.completed { color: #00ccff; }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            border: 1px solid #333;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #8B0000, #ff0000, #8B0000);
-            background-size: 200% 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .queue-info {
-            background: rgba(139, 0, 0, 0.1);
-            border-left: 4px solid #ff0000;
-            padding: 20px;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 30px;
-        }
-
-        .queue-info p {
-            color: #ccc;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 5px 0;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-secondary {
-            padding: 15px 30px;
-            background: transparent;
-            border: 2px solid #8B0000;
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(139, 0, 0, 0.2);
-            border-color: #ff0000;
-        }
-
-        .global-queue-info {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(15, 15, 15, 0.95));
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .global-queue-info h3 {
-            font-family: 'Cinzel', serif;
-            color: #ff0000;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .queue-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            text-align: center;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #444;
-        }
-
-        .stat-number {
-            font-family: 'Pirata One', cursive;
-            font-size: 2rem;
-            color: #ff0000;
-            display: block;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .feature-card {
-            background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(15, 15, 15, 0.9));
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: #8B0000;
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #333;
-            margin-top: 80px;
-            color: #555;
-            font-size: 0.9rem;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .loading-skull {
-            font-size: 4rem;
-            animation: bounce 1s infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: linear-gradient(135deg, #8B0000, #ff0000);
-            color: #fff;
-            padding: 20px 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.4);
-            z-index: 1002;
-            transform: translateX(400px);
-            transition: transform 0.5s ease;
-            max-width: 350px;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid #00ff88;
-            margin-top: 10px;
-        }
-
-        .live-dot {
-            width: 6px;
-            height
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="glass sticky top-0 z-40 border-b border-red-900/30 mb-6">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-gamepad text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-orbitron font-bold text-xl">VINCE <span class="text-red-gaming">BLOX</span>STORE</h1>
+                    </div>
+                </div>
+                <button onclick="showPage('ticket')" id="ticketBtn" class="hidden relative p-3 rounded-xl bg-red-600">
+                    <i class="fas fa-ticket-alt text-white text-xl"></i>
+                    <span class="absolute -top-2 -right-2 w-6 h-6 bg-yellow-500 rounded-full text-xs flex items-center justify-center font-bold text-black">1</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="homePage" class="page active container mx-auto px-4 max-w-6xl">
+        
+        <div class="text-center mb-8">
+            <h2 class="font-orbitron text-4xl font-bold mb-2">Joki <span class="text-red-gaming">Blox Fruits</span></h2>
+            <p class="text-gray-400">Aman • Fast • No Cheat</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            
+            <!-- Form Area -->
+            <div class="glass p-6">
+                <h3 class="font-orbitron text-xl font-bold mb-6"><i class="fas fa-ticket-alt mr-2 text-red-gaming"></i>Ambil Antrian</h3>
+
+                <!-- Form State -->
+                <div id="formState">
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-300 mb-2">Nama Customer</label>
+                        <input type="text" id="customerName" class="input-gaming" placeholder="Masukkan nama kamu...">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-300 mb-2">Username Roblox</label>
+                        <input type="text" id="robloxUsername" class="input-gaming" placeholder="@username123...">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-300 mb-2">Pilih Layanan</label>
+                        <div class="grid grid-cols-2 gap-3" id="serviceGrid">
+                            <div class="service-box" data-service="Leveling">
+                                <i class="fas fa-level-up-alt"></i>
+                                <span class="text-sm font-semibold">Leveling</span>
+                            </div>
+                            <div class="service-box" data-service="Fragment">
+                                <i class="fas fa-gem"></i>
+                                <span class="text-sm font-semibold">Fragment</span>
+                            </div>
+                            <div class="service-box" data-service="Raid">
+                                <i class="fas fa-dragon"></i>
+                                <span class="text-sm font-semibold">Raid</span>
+                            </div>
+                            <div class="service-box" data-service="Mastery">
+                                <i class="fas fa-star"></i>
+                                <span class="text-sm font-semibold">Mastery</span>
+                            </div>
+                            <div class="service-box" data-service="Sea Service">
+                                <i class="fas fa-water"></i>
+                                <span class="text-sm font-semibold">Sea Service</span>
+                            </div>
+                            <div class="service-box" data-service="Quest / Item">
+                                <i class="fas fa-scroll"></i>
+                                <span class="text-sm font-semibold">Quest / Item</span>
+                            </div>
+                            <div class="service-box col-span-2" data-service="Boss / Event">
+                                <i class="fas fa-skull"></i>
+                                <span class="text-sm font-semibold">Boss / Event</span>
+                            </div>
+                        </div>
+                        <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden">Pilih layanan terlebih dahulu</p>
+                    </div>
+
+                    <button id="submitBtn" class="btn-red font-orbitron">
+                        <i class="fas fa-plus-circle mr-2"></i>AMBIL ANTRIAN
+                    </button>
+                </div>
+
+                <!-- Has Ticket State (Hidden by default) -->
+                <div id="hasTicketState" class="hidden has-ticket">
+                    <i class="fas fa-ticket-alt text-6xl text-red-gaming mb-4"></i>
+                    <h4 class="font-orbitron text-xl font-bold mb-2">Anda Sudah Memiliki Antrian</h4>
+                    <p class="text-gray-400 mb-4">Nomor antrian aktif: <span id="activeNumber" class="text-red-gaming font-bold text-2xl">-</span></p>
+                    <div class="flex gap-3">
+                        <button onclick="showPage('ticket')" class="flex-1 btn-red">
+                            <i class="fas fa-eye mr-2"></i>Lihat Tiket
+                        </button>
+                        <button onclick="cancelQueue()" class="px-4 py-3 rounded-lg bg-gray-700 text-red-400 font-semibold border border-red-500/30">
+                            <i class="fas fa-times"></i> Batal
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Queue List -->
+            <div class="space-y-6">
+                <div class="glass p-6">
+                    <h3 class="font-orbitron text-lg font-bold mb-4"><i class="fas fa-play mr-2 text-red-gaming"></i>Sedang Dikerjakan</h3>
+                    <div class="text-center py-8">
+                        <div id="nowServingNum" class="number-big">-</div>
+                        <p class="text-gray-400 mt-2" id="nowServingInfo">Belum ada antrian</p>
+                    </div>
+                </div>
+
+                <div class="glass p-6">
+                    <h3 class="font-orbitron text-lg font-bold mb-4"><i class="fas fa-clock mr-2 text-yellow-500"></i>Daftar Antrian</h3>
+                    <div id="waitingList">
+                        <p class="text-center text-gray-500 py-8">Belum ada antrian</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TICKET PAGE -->
+    <div id="ticketPage" class="page container mx-auto px-4 max-w-2xl">
+        <button onclick="showPage('home')" class="mb-6 flex items-center gap-2 text-gray-400 hover:text-white">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+
+        <div id="ticketCard"></div>
+
+        <div class="glass p-6 mt-6 border-2 border-red-500/30">
+            <h3 class="font-orbitron text-lg font-bold mb-4 text-red-gaming">Detail Antrian</h3>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="bg-black/30 rounded-lg p-4 text-center">
+                    <p class="text-xs text-gray-400">Nomor</p>
+                    <p id="tNumber" class="text-3xl font-orbitron font-bold">-</p>
+                </div>
+                <div class="bg-black/30 rounded-lg p-4 text-center">
+                    <p class="text-xs text-gray-400">Status</p>
+                    <p id="tStatus" class="font-semibold text-yellow-400">Menunggu</p>
+                </div>
+            </div>
+
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between py-2 border-b border-gray-700">
+                    <span class="text-gray-400">Nama</span>
+                    <span id="tName" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-gray-700">
+                    <span class="text-gray-400">Roblox</span>
+                    <span id="tRoblox" class="font-semibold text-red-gaming">-</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-gray-700">
+                    <span class="text-gray-400">Layanan</span>
+                    <span id="tService" class="px-2 py-1 bg-red-500/20 rounded text-xs">-</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-gray-700">
+                    <span class="text-gray-400">Waktu</span>
+                    <span id="tTime" class="font-semibold">-</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-400">Posisi</span>
+                    <span id="tPos" class="font-bold text-red-gaming">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+            <button onclick="saveTicket()" class="flex-1 btn-red">
+                <i class="fas fa-download mr-2"></i>Simpan
+            </button>
+            <button onclick="cancelQueue()" class="px-6 py-4 rounded-xl bg-gray-700 text-red-400 font-semibold border border-red-500/30">
+                <i class="fas fa-times-circle mr-1"></i>Batal
+            </button>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="successModal">
+        <div class="modal-box">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-red-gaming flex items-center justify-center">
+                <i class="fas fa-check text-4xl text-white"></i>
+            </div>
+            
+            <h3 class="font-orbitron text-2xl font-bold mb-2">Berhasil!</h3>
+            <p class="text-gray-400 mb-4">Antrian Anda telah dibuat</p>
+            
+            <div style="background: #0a0a0a; border: 2px dashed #ff0040; border-radius: 15px; padding: 30px; margin: 20px 0;">
+                <p class="text-sm text-gray-400 mb-2">NOMOR ANTRIAN ANDA</p>
+                <div id="mNumber" class="number-big" style="font-size: 70px;">-</div>
+                <span id="mService" class="inline-block px-4 py-1 bg-red-500/20 rounded-full text-red-gaming text-sm font-semibold mt-2 border border-red-500/30">-</span>
+                <p class="text-xs text-gray-500 mt-3" id="mTime">-</p>
+            </div>
+            
+            <button onclick="viewTicket()" class="btn-red mb-3">
+                Lihat Detail <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+            <button onclick="closeModal()" class="w-full py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 font-semibold">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxs-MWDaky7gO3xfH25UTnEDhYICMRric",
+            authDomain: "vincebloxstore-59632.firebaseapp.com",
+            databaseURL: "https://vincebloxstore-59632-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "vincebloxstore-59632",
+            storageBucket: "vincebloxstore-59632.firebasestorage.app",
+            messagingSenderId: "974154420016",
+            appId: "1:974154420016:web:ce8c807136e87f198182f5"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+            window.db = database;
+            window.dbRef = ref;
+            window.dbPush = push;
+            window.dbSet = set;
+            window.dbOnValue = onValue;
+            window.dbRemove = remove;
+            console.log('Firebase OK');
+        } catch (e) {
+            console.log('Firebase failed:', e);
+            window.db = null;
+        }
+    </script>
+
+    <script>
+        // State
+        var myTicket = null;
+        var selectedService = '';
+        var lastNum = 0;
+        var queues = [];
+        var serving = null;
+        var isSubmitting = false;
+
+        // Init
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            // Service selection
+            var boxes = document.querySelectorAll('.service-box');
+            for (var i = 0; i < boxes.length; i++) {
+                boxes[i].addEventListener('click', function() {
+                    for (var j = 0; j < boxes.length; j++) {
+                        boxes[j].classList.remove('selected');
+                    }
+                    this.classList.add('selected');
+                    selectedService = this.getAttribute('data-service');
+                    document.getElementById('errorMsg').classList.add('hidden');
+                });
+            }
+            
+            // Submit button
+            document.getElementById('submitBtn').addEventListener('click', submitForm);
+            
+            // Load saved
+            loadSaved();
+            
+            // Firebase setup delay
+            setTimeout(setupFirebase, 2000);
+        });
+
+        function submitForm() {
+            console.log('Submit clicked, isSubmitting:', isSubmitting);
+            
+            // Prevent double submit
+            if (isSubmitting) {
+                console.log('Already submitting, ignoring');
+                return;
+            }
+            
+            // Check if already has ticket
+            if (myTicket) {
+                console.log('Already has ticket');
+                showHasTicketState();
+                return;
+            }
+            
+            var name = document.getElementById('customerName').value.trim();
+            var roblox = document.getElementById('robloxUsername').value.trim();
+            
+            // Validation
+            if (!name) { 
+                alert('Masukkan nama'); 
+                return; 
+            }
+            if (!roblox) { 
+                alert('Masukkan username Roblox'); 
+                return; 
+            }
+            if (!selectedService) {
+                document.getElementById('errorMsg').classList.remove('hidden');
+                return;
+            }
+            
+            // Set flag
+            isSubmitting = true;
+            
+            // Update button
+            var btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>MEMPROSES...';
+            
+            console.log('Processing...');
+            
+            try {
+                // Create ticket
+                lastNum++;
+                var now = Date.now();
+                myTicket = {
+                    name: name,
+                    robloxUsername: roblox,
+                    service: selectedService,
+                    number: lastNum,
+                    time: now,
+                    id: 'local_' + now
+                };
+                
+                console.log('Ticket created:', myTicket);
+                
+                // Save to localStorage FIRST
+                localStorage.setItem('vinceTicket', JSON.stringify(myTicket));
+                localStorage.setItem('vinceLastNum', lastNum);
+                
+                // Show modal IMMEDIATELY (don't wait for Firebase)
+                showModal();
+                
+                // Reset form
+                document.getElementById('customerName').value = '';
+                document.getElementById('robloxUsername').value = '';
+                var boxes = document.querySelectorAll('.service-box');
+                for (var i = 0; i < boxes.length; i++) {
+                    boxes[i].classList.remove('selected');
+                }
+                selectedService = '';
+                
+                // Show ticket button
+                document.getElementById('ticketBtn').classList.remove('hidden');
+                
+                // Try Firebase in background
+                if (window.db) {
+                    console.log('Saving to Firebase...');
+                    var newRef = window.dbPush(window.dbRef(window.db, 'queues'));
+                    window.dbSet(newRef, myTicket).then(function() {
+                        console.log('Firebase saved');
+                        myTicket.id = newRef.key;
+                        localStorage.setItem('vinceTicket', JSON.stringify(myTicket));
+                    }).catch(function(err) {
+                        console.log('Firebase error (ignored):', err);
+                    });
+                }
+                
+            } catch (e) {
+                console.error('Error in submit:', e);
+                alert('Error: ' + e.message);
+                
+                // Reset on error
+                isSubmitting = false;
+                var btn = document.getElementById('submitBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-plus-circle mr-2"></i>AMBIL ANTRIAN';
+            }
+        }
+
+        function showModal() {
+            console.log('Showing modal');
+            
+            // Update content
+            document.getElementById('mNumber').textContent = myTicket.number;
+            document.getElementById('mService').textContent = myTicket.service;
+            document.getElementById('mTime').textContent = new Date().toLocaleString('id-ID');
+            
+            // Show
+            var modal = document.getElementById('successModal');
+            modal.classList.add('active');
+            
+            // Reset submitting flag after short delay
+            setTimeout(function() {
+                isSubmitting = false;
+                var btn = document.getElementById('submitBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-plus-circle mr-2"></i>AMBIL ANTRIAN';
+                
+                // Show "has ticket" state
+                showHasTicketState();
+            }, 500);
+        }
+
+        function showHasTicketState() {
+            document.getElementById('formState').classList.add('hidden');
+            document.getElementById('hasTicketState').classList.remove('hidden');
+            document.getElementById('activeNumber').textContent = myTicket ? myTicket.number : '-';
+        }
+
+        function showFormState() {
+            document.getElementById('formState').classList.remove('hidden');
+            document.getElementById('hasTicketState').classList.add('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function viewTicket() {
+            closeModal();
+            showPage('ticket');
+        }
+
+        function showPage(page) {
+            document.getElementById('homePage').classList.remove('active');
+            document.getElementById('ticketPage').classList.remove('active');
+            
+            if (page === 'home') {
+                document.getElementById('homePage').classList.add('active');
+                // Check which state to show
+                if (myTicket) {
+                    showHasTicketState();
+                } else {
+                    showFormState();
+                }
+            } else if (page === 'ticket') {
+                document.getElementById('ticketPage').classList.add('active');
+                renderTicket();
+            }
+        }
+
+        function renderTicket() {
+            if (!myTicket) return;
+            
+            var time = new Date(myTicket.time).toLocaleString('id-ID');
+            
+            // Card
+            document.getElementById('ticketCard').innerHTML = 
+                '<div class="glass p-8 border-2 border-red-500 text-center" style="box-shadow: 0 0 40px rgba(255,0,64,0.3);">' +
+                    '<div class="inline-block px-4 py-1 bg-red-500/20 rounded-full border border-red-500/50 mb-4">' +
+                        '<span class="text-red-gaming text-xs font-bold">TIKET AKTIF</span>' +
+                    '</div>' +
+                    '<p class="text-gray-400 text-sm mb-2">NOMOR ANTRIAN</p>' +
+                    '<div class="font-orbitron text-8xl font-black text-white mb-4" style="text-shadow: 0 0 30px rgba(255,0,64,0.5);">' + myTicket.number + '</div>' +
+                    '<div class="flex items-center justify-center gap-2">' +
+                        '<span class="w-2 h-2 bg-red-gaming rounded-full animate-pulse"></span>' +
+                        '<span class="text-red-gaming font-semibold text-lg">' + myTicket.service + '</span>' +
+                    '</div>' +
+                    '<p class="text-xs text-gray-500 mt-4"><i class="fas fa-clock mr-1"></i> ' + time + '</p>' +
+                '</div>';
+            
+            // Details
+            document.getElementById('tNumber').textContent = myTicket.number;
+            document.getElementById('tName').textContent = myTicket.name;
+            document.getElementById('tRoblox').textContent = '@' + myTicket.robloxUsername;
+            document.getElementById('tService').textContent = myTicket.service;
+            document.getElementById('tTime').textContent = time;
+            
+            updatePosition();
+        }
+
+        function updatePosition() {
+            if (!myTicket) return;
+            
+            var pos = 1;
+            var found = false;
+            for (var i = 0; i < queues.length; i++) {
+                if (queues[i].number === myTicket.number) {
+                    found = true;
+                    break;
+                }
+                pos++;
+            }
+            
+            if (serving && serving.number === myTicket.number) {
+                document.getElementById('tStatus').textContent = 'Sedang Dikerjakan';
+                document.getElementById('tStatus').className = 'font-semibold text-red-gaming';
+                document.getElementById('tPos').textContent = 'Sedang Diproses';
+            } else if (!found && serving) {
+                document.getElementById('tStatus').textContent = 'Selesai';
+                document.getElementById('tStatus').className = 'font-semibold text-green-400';
+                document.getElementById('tPos').textContent = 'Selesai';
+            } else {
+                document.getElementById('tStatus').textContent = 'Menunggu';
+                document.getElementById('tStatus').className = 'font-semibold text-yellow-400';
+                document.getElementById('tPos').textContent = '#' + pos;
+            }
+        }
+
+        function setupFirebase() {
+            if (!window.db) return;
+            
+            window.dbOnValue(window.dbRef(window.db, 'queues'), function(snap) {
+                var data = snap.val();
+                queues = data ? Object.values(data) : [];
+                updateList();
+                updatePosition();
+            });
+            
+            window.dbOnValue(window.dbRef(window.db, 'serving'), function(snap) {
+                serving = snap.val();
+                document.getElementById('nowServingNum').textContent = serving ? serving.number : '-';
+                document.getElementById('nowServingInfo').textContent = serving ? 
+                    serving.name + ' • ' + serving.service : 'Belum ada antrian';
+                updatePosition();
+            });
+        }
+
+        function updateList() {
+            var container = document.getElementById('waitingList');
+            
+            if (queues.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500 py-8">Belum ada antrian</p>';
+                return;
+            }
+            
+            var html = '';
+            for (var i = 0; i < queues.length && i < 10; i++) {
+                var q = queues[i];
+                html += 
+                    '<div class="queue-item">' +
+                        '<div class="flex items-center gap-4">' +
+                            '<div class="queue-number">' + q.number + '</div>' +
+                            '<div>' +
+                                '<p class="font-semibold">' + q.name + '</p>' +
+                                '<p class="text-sm text-gray-400">@' + q.robloxUsername + '</p>' +
+                                '<span class="text-xs px-2 py-1 bg-red-500/20 text-red-400 rounded">' + q.service + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<span class="w-3 h-3 bg-yellow-400 rounded-full"></span>' +
+                    '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function cancelQueue() {
+            if (!confirm('Batalkan antrian?')) return;
+            
+            if (window.db && myTicket && myTicket.id && !myTicket.id.startsWith('local_')) {
+                window.dbRemove(window.dbRef(window.db, 'queues/' + myTicket.id));
+            }
+            
+            myTicket = null;
+            localStorage.removeItem('vinceTicket');
+            document.getElementById('ticketBtn').classList.add('hidden');
+            
+            showFormState();
+            showPage('home');
+        }
+
+        function saveTicket() {
+            var w = window.open('', '_blank');
+            w.document.write(
+                '<html><head><title>Tiket</title>' +
+                '<style>body{font-family:Arial;background:#1a1a1a;color:white;text-align:center;padding:40px}' +
+                '.ticket{border:3px solid #ff0040;padding:30px;border-radius:20px;display:inline-block;background:#0a0a0a}' +
+                '.num{font-size:80px;font-weight:bold;color:#ff0040;margin:20px 0}</style></head>' +
+                '<body><div class="ticket"><h2>VINCE BLOXSTORE</h2><div class="num">' + myTicket.number + '</div>' +
+                '<p style="background:#ff0040;color:white;padding:5px 15px;border-radius:20px;display:inline-block">' + myTicket.service + '</p>' +
+                '<p style="margin-top:20px">' + myTicket.name + '</p><p>@' + myTicket.robloxUsername + '</p></div>' +
+                '<script>window.print()<\/script></body></html>'
+            );
+        }
+
+        function loadSaved() {
+            var saved = localStorage.getItem('vinceTicket');
+            if (saved) {
+                try {
+                    myTicket = JSON.parse(saved);
+                    document.getElementById('ticketBtn').classList.remove('hidden');
+                    showHasTicketState();
+                } catch (e) {
+                    console.log('Load error:', e);
+                }
+            }
+            lastNum = parseInt(localStorage.getItem('vinceLastNum')) || 0;
+        }
+    </script>
+</body>
+</html>
