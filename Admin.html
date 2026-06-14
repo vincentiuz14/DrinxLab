@@ -53,6 +53,21 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* Particles */
+        .particle {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
         /* Header */
         header {
             position: relative;
@@ -203,6 +218,8 @@
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 2px solid #333;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .section-title {
@@ -214,6 +231,51 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-select {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #ff0000;
+        }
+
+        .search-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #ff0000;
+            width: 250px;
+        }
+
+        .search-box::placeholder {
+            color: #555;
         }
 
         .live-indicator {
@@ -271,6 +333,7 @@
             padding: 15px;
             border-bottom: 1px solid #222;
             font-size: 0.95rem;
+            vertical-align: top;
         }
 
         .queue-table tr:hover {
@@ -319,6 +382,7 @@
         .action-btns {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .btn-action {
@@ -364,6 +428,71 @@
         .btn-view {
             background: linear-gradient(135deg, #8B0000, #ff0000);
             color: #fff;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #ff6600, #ff3300);
+            color: #fff;
+            padding: 12px 25px;
+            font-size: 0.9rem;
+        }
+
+        .btn-next:hover {
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, #8B00FF, #6600CC);
+            color: #fff;
+        }
+
+        .btn-upload:hover {
+            box-shadow: 0 0 20px rgba(139, 0, 255, 0.4);
+        }
+
+        /* Password Toggle */
+        .password-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-toggle-pw {
+            background: rgba(139, 0, 0, 0.5);
+            border: 1px solid #8B0000;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-toggle-pw:hover {
+            background: #8B0000;
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .photo-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-thumb:hover {
+            border-color: #ff0000;
+            transform: scale(1.1);
         }
 
         /* Modal */
@@ -431,6 +560,8 @@
             justify-content: space-between;
             padding: 15px 0;
             border-bottom: 1px solid #333;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .detail-label {
@@ -459,6 +590,80 @@
         .detail-value.joki {
             color: #ff4444;
             font-weight: 700;
+        }
+
+        /* Photo Upload Area */
+        .upload-area {
+            border: 2px dashed #333;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #8B0000;
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .upload-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .upload-preview img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #8B0000;
+        }
+
+        /* Photo Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
         }
 
         /* Empty State */
@@ -505,28 +710,6 @@
             opacity: 0.9;
         }
 
-        /* Password Toggle */
-        .password-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-toggle-pw {
-            background: rgba(139, 0, 0, 0.5);
-            border: 1px solid #8B0000;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-toggle-pw:hover {
-            background: #8B0000;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             header {
@@ -545,11 +728,25 @@
             }
 
             .queue-table {
-                min-width: 800px;
+                min-width: 900px;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-controls {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
 
@@ -570,11 +767,24 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #ff0000;
         }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <div class="bg-animation">
         <div class="wave"></div>
+        <div class="particle" style="left: 10%; width: 4px; height: 4px; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; width: 6px; height: 6px; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; width: 3px; height: 3px; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; width: 5px; height: 5px; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; width: 4px; height: 4px; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; width: 6px; height: 6px; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; width: 3px; height: 3px; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; width: 5px; height: 5px; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; width: 4px; height: 4px; animation-delay: 4.5s;"></div>
     </div>
 
     <div class="connection-status offline" id="connectionStatus">
@@ -632,6 +842,18 @@
                         LIVE
                     </span>
                 </h2>
+                <div class="filter-controls">
+                    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Cari username/nomor..." onkeyup="filterQueue()">
+                    <select class="filter-select" id="statusFilter" onchange="filterQueue()">
+                        <option value="all">Semua Status</option>
+                        <option value="waiting">⏳ Menunggu</option>
+                        <option value="processing">🔥 Diproses</option>
+                        <option value="completed">✅ Selesai</option>
+                    </select>
+                    <button class="btn-action btn-next" onclick="processNextQueue()">
+                        ⚡ Proses Berikutnya
+                    </button>
+                </div>
             </div>
             
             <div style="overflow-x: auto;">
@@ -642,6 +864,7 @@
                             <th>Username</th>
                             <th>Password</th>
                             <th>Joki</th>
+                            <th>WhatsApp</th>
                             <th>Status</th>
                             <th>Waktu</th>
                             <th>Aksi</th>
@@ -673,7 +896,19 @@
                 <!-- Detail akan diisi oleh JavaScript -->
             </div>
             
-            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+            <!-- Photo Upload -->
+            <div style="margin-top: 20px;">
+                <h4 style="font-family: 'Cinzel', serif; color: #ff4444; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">📸 Kirim Foto Progress</h4>
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('photoInput').click()">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">📷</div>
+                    <p style="color: #888;">Klik atau drag foto ke sini</p>
+                    <p style="color: #555; font-size: 0.8rem; margin-top: 5px;">Maks 5MB per foto</p>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(this)">
+                <div class="upload-preview" id="uploadPreview"></div>
+            </div>
+            
+            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <button class="btn-action btn-process" id="modalProcessBtn" onclick="processCurrentQueue()">
                     🔥 Proses
                 </button>
@@ -687,7 +922,17 @@
         </div>
     </div>
 
+    <!-- Photo Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close">&times;</button>
+        <img id="lightboxImg" src="" alt="Photo">
+        <p style="color: #888; margin-top: 15px; font-size: 0.9rem;">Klik dimana saja untuk tutup</p>
+    </div>
+
     <script>
+        // ============================================
+        // FIREBASE CONFIG
+        // ============================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxs-MWDaky7gO3xfH25UTnEDhYICMRric",
             authDomain: "vincebloxstore-59632.firebaseapp.com",
@@ -698,9 +943,22 @@
             appId: "1:974154420016:web:ce8c807136e87f198182f5"
         };
 
+        // ============================================
+        // STATE
+        // ============================================
         let app, database, queueRef, connectedRef;
         let currentQueueData = {};
         let selectedQueueKey = null;
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // ============================================
+        // INIT
+        // ============================================
+        window.addEventListener('load', function() {
+            initFirebase();
+            setupDragDrop();
+        });
 
         function initFirebase() {
             try {
@@ -710,54 +968,68 @@
                 queueRef = database.ref('queue');
                 connectedRef = database.ref('.info/connected');
                 
-                connectedRef.on('value', (snap) => {
-                    const statusEl = document.getElementById('connectionStatus');
+                connectedRef.on('value', function(snap) {
+                    var el = document.getElementById('connectionStatus');
                     if (snap.val() === true) {
-                        statusEl.className = 'connection-status online';
-                        statusEl.innerHTML = '<span>🟢 Online</span>';
+                        el.className = 'connection-status online';
+                        el.innerHTML = '<span>🟢 Online</span>';
                     } else {
-                        statusEl.className = 'connection-status offline';
-                        statusEl.innerHTML = '<span>🔴 Offline</span>';
+                        el.className = 'connection-status offline';
+                        el.innerHTML = '<span>🔴 Offline</span>';
                     }
                 });
                 
-                startQueueListener();
-                console.log('✅ Admin panel connected!');
-                return true;
-            } catch (error) {
-                console.error('❌ Firebase error:', error);
+                queueRef.on('value', function(snapshot) {
+                    var data = snapshot.val() || {};
+                    currentQueueData = data;
+                    updateQueueTable(data);
+                    updateStats(data);
+                });
+                
+                console.log('Firebase connected');
+            } catch (e) {
+                console.error('Firebase error:', e);
                 showToast('Error', 'Gagal terhubung ke server');
-                return false;
             }
         }
 
-        function startQueueListener() {
-            queueRef.on('value', (snapshot) => {
-                const data = snapshot.val() || {};
-                currentQueueData = data;
-                updateQueueTable(data);
-                updateStats(data);
-            });
+        function updateStats(data) {
+            var items = Object.values(data);
+            document.getElementById('totalQueue').textContent = items.length;
+            document.getElementById('waitingCount').textContent = items.filter(function(i) { return i.status === 'waiting'; }).length;
+            document.getElementById('processingCount').textContent = items.filter(function(i) { return i.status === 'processing'; }).length;
+            document.getElementById('completedCount').textContent = items.filter(function(i) { return i.status === 'completed'; }).length;
         }
 
-        function updateStats(data) {
-            const items = Object.values(data);
-            
-            document.getElementById('totalQueue').textContent = items.length;
-            document.getElementById('waitingCount').textContent = items.filter(i => i.status === 'waiting').length;
-            document.getElementById('processingCount').textContent = items.filter(i => i.status === 'processing').length;
-            document.getElementById('completedCount').textContent = items.filter(i => i.status === 'completed').length;
+        // ============================================
+        // FILTER & SEARCH
+        // ============================================
+        function filterQueue() {
+            currentFilter = document.getElementById('statusFilter').value;
+            currentSearch = document.getElementById('searchBox').value.toLowerCase().trim();
+            updateQueueTable(currentQueueData);
         }
 
         function updateQueueTable(data) {
-            const tbody = document.getElementById('queueTableBody');
-            const emptyState = document.getElementById('emptyState');
-            const table = document.getElementById('queueTable');
+            var tbody = document.getElementById('queueTableBody');
+            var emptyState = document.getElementById('emptyState');
+            var table = document.getElementById('queueTable');
             
-            const items = Object.entries(data).map(([key, value]) => ({
-                key: key,
-                ...value
-            })).sort((a, b) => a.timestamp - b.timestamp);
+            var items = Object.entries(data).map(function(entry) {
+                return { key: entry[0], ...entry[1] };
+            }).sort(function(a, b) { return a.timestamp - b.timestamp; });
+            
+            if (currentFilter !== 'all') {
+                items = items.filter(function(item) { return item.status === currentFilter; });
+            }
+            
+            if (currentSearch) {
+                items = items.filter(function(item) {
+                    return (item.username && item.username.toLowerCase().includes(currentSearch)) ||
+                           (item.number && item.number.toLowerCase().includes(currentSearch)) ||
+                           (item.joki && item.joki.toLowerCase().includes(currentSearch));
+                });
+            }
             
             if (items.length === 0) {
                 tbody.innerHTML = '';
@@ -769,15 +1041,12 @@
             emptyState.style.display = 'none';
             table.style.display = 'table';
             
-            tbody.innerHTML = items.map(item => {
-                const date = new Date(item.timestamp);
-                const timeStr = date.toLocaleTimeString('id-ID', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
+            tbody.innerHTML = items.map(function(item) {
+                var date = new Date(item.timestamp);
+                var timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
                 
-                let statusClass = 'status-waiting';
-                let statusText = '⏳ Menunggu';
+                var statusClass = 'status-waiting';
+                var statusText = '⏳ Menunggu';
                 
                 if (item.status === 'processing') {
                     statusClass = 'status-processing';
@@ -787,38 +1056,53 @@
                     statusText = '✅ Selesai';
                 }
                 
-                const password = item.password || '-';
-                const maskedPassword = password.length > 3 ? '•'.repeat(password.length) : password;
+                var password = item.password || '-';
+                var maskedPassword = password.length > 3 ? '•'.repeat(password.length) : password;
                 
-                return `
-                    <tr class="${item.status === 'processing' ? 'processing' : ''}" data-key="${item.key}">
-                        <td class="queue-number-cell">#${item.number}</td>
-                        <td>${item.username}</td>
-                        <td>
-                            <div class="password-container">
-                                <span class="masked-pw" data-pw="${password}">${maskedPassword}</span>
-                                <button class="btn-toggle-pw" onclick="togglePassword(this)">👁️</button>
-                            </div>
-                        </td>
-                        <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${item.joki}</td>
-                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                        <td style="font-size: 0.85rem; color: #888;">${timeStr}</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn-action btn-view" onclick="showDetail('${item.key}')">👁️ Detail</button>
-                                ${item.status === 'waiting' ? `<button class="btn-action btn-process" onclick="updateStatus('${item.key}', 'processing')">🔥</button>` : ''}
-                                ${item.status === 'processing' ? `<button class="btn-action btn-complete" onclick="updateStatus('${item.key}', 'completed')">✅</button>` : ''}
-                                <button class="btn-action btn-delete" onclick="deleteQueue('${item.key}')">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+                // Photo gallery
+                var photosHtml = '';
+                if (item.photos && item.photos.length > 0) {
+                    photosHtml = '<div class="photo-gallery">';
+                    item.photos.forEach(function(photo, idx) {
+                        photosHtml += '<img class="photo-thumb" src="' + photo + '" onclick="openLightbox(\'' + photo + '\')" alt="Progress">';
+                    });
+                    photosHtml += '</div>';
+                }
+                
+                return '<tr class="' + (item.status === 'processing' ? 'processing' : '') + '" data-key="' + item.key + '">' +
+                    '<td class="queue-number-cell">#' + item.number + '</td>' +
+                    '<td>' + (item.username || '-') + '</td>' +
+                    '<td>' +
+                        '<div class="password-container">' +
+                            '<span class="masked-pw" data-pw="' + password + '">' + maskedPassword + '</span>' +
+                            '<button class="btn-toggle-pw" onclick="togglePassword(this)">👁️</button>' +
+                        '</div>' +
+                    '</td>' +
+                    '<td style="max-width: 200px;">' +
+                        '<div>' + (item.joki || '-') + '</div>' +
+                        photosHtml +
+                    '</td>' +
+                    '<td>' + (item.whatsapp || '-') + '</td>' +
+                    '<td><span class="status-badge ' + statusClass + '">' + statusText + '</span></td>' +
+                    '<td style="font-size: 0.85rem; color: #888;">' + timeStr + '</td>' +
+                    '<td>' +
+                        '<div class="action-btns">' +
+                            '<button class="btn-action btn-view" onclick="showDetail(\'' + item.key + '\')">👁️ Detail</button>' +
+                            (item.status === 'waiting' ? '<button class="btn-action btn-process" onclick="updateStatus(\'' + item.key + '\', \'processing\')">🔥</button>' : '') +
+                            (item.status === 'processing' ? '<button class="btn-action btn-complete" onclick="updateStatus(\'' + item.key + '\', \'completed\')">✅</button>' : '') +
+                            '<button class="btn-action btn-delete" onclick="deleteQueue(\'' + item.key + '\')">🗑️</button>' +
+                        '</div>' +
+                    '</td>' +
+                '</tr>';
             }).join('');
         }
 
+        // ============================================
+        // PASSWORD TOGGLE
+        // ============================================
         function togglePassword(btn) {
-            const span = btn.previousElementSibling;
-            const realPw = span.getAttribute('data-pw');
+            var span = btn.previousElementSibling;
+            var realPw = span.getAttribute('data-pw');
             
             if (span.textContent.includes('•')) {
                 span.textContent = realPw;
@@ -831,63 +1115,114 @@
             }
         }
 
+        // ============================================
+        // PROCESS NEXT QUEUE
+        // ============================================
+        function processNextQueue() {
+            var items = Object.entries(currentQueueData).map(function(entry) {
+                return { key: entry[0], ...entry[1] };
+            }).sort(function(a, b) { return a.timestamp - b.timestamp; });
+            
+            var waitingItem = items.find(function(item) { return item.status === 'waiting'; });
+            
+            if (!waitingItem) {
+                showToast('ℹ️ Info', 'Tidak ada antrian yang menunggu.');
+                return;
+            }
+            
+            var processingItem = items.find(function(item) { return item.status === 'processing'; });
+            if (processingItem) {
+                showToast('⚠️ Peringatan', 'Selesaikan antrian #' + processingItem.number + ' dulu!');
+                return;
+            }
+            
+            updateStatus(waitingItem.key, 'processing');
+            showToast('🚀 Berhasil', 'Antrian #' + waitingItem.number + ' sedang diproses!');
+        }
+
+        // ============================================
+        // MODAL DETAIL
+        // ============================================
         function showDetail(key) {
             selectedQueueKey = key;
-            const item = currentQueueData[key];
+            var item = currentQueueData[key];
             if (!item) return;
             
-            const date = new Date(item.timestamp);
-            const timeStr = date.toLocaleString('id-ID');
+            var date = new Date(item.timestamp);
+            var timeStr = date.toLocaleString('id-ID');
             
-            const modalBody = document.getElementById('modalBody');
-            modalBody.innerHTML = `
-                <div class="detail-row">
-                    <span class="detail-label">Nomor Antrian</span>
-                    <span class="detail-value" style="font-family: 'Pirata One', cursive; font-size: 1.5rem; color: #ff0000;">#${item.number}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Username</span>
-                    <span class="detail-value">${item.username}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Password</span>
-                    <div class="detail-value password-container">
-                        <span class="detail-value password" id="modalPassword">${item.password || '-'}</span>
-                        <button class="btn-toggle-pw" onclick="toggleModalPassword()">👁️</button>
-                    </div>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Joki Details</span>
-                    <span class="detail-value joki">${item.joki}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Status</span>
-                    <span class="detail-value">
-                        <span class="status-badge ${item.status === 'waiting' ? 'status-waiting' : item.status === 'processing' ? 'status-processing' : 'status-completed'}">
-                            ${item.status === 'waiting' ? '⏳ Menunggu' : item.status === 'processing' ? '🔥 Diproses' : '✅ Selesai'}
-                        </span>
-                    </span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Waktu Daftar</span>
-                    <span class="detail-value" style="color: #888;">${timeStr}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Device ID</span>
-                    <span class="detail-value" style="font-size: 0.8rem; color: #666;">${item.deviceId || 'Unknown'}</span>
-                </div>
-            `;
+            var statusClass = 'status-waiting';
+            var statusText = '⏳ Menunggu';
+            if (item.status === 'processing') {
+                statusClass = 'status-processing';
+                statusText = '🔥 Diproses';
+            } else if (item.status === 'completed') {
+                statusClass = 'status-completed';
+                statusText = '✅ Selesai';
+            }
             
-            // Update button visibility based on status
-            document.getElementById('modalProcessBtn').style.display = item.status === 'waiting' ? 'block' : 'none';
-            document.getElementById('modalCompleteBtn').style.display = item.status === 'processing' ? 'block' : 'none';
+            // Photos in modal
+            var photosHtml = '';
+            if (item.photos && item.photos.length > 0) {
+                photosHtml = '<div style="margin-top: 15px;"><p style="color: #888; font-size: 0.85rem; margin-bottom: 10px;">📸 Foto Progress:</p><div class="photo-gallery">';
+                item.photos.forEach(function(photo) {
+                    photosHtml += '<img class="photo-thumb" src="' + photo + '" onclick="openLightbox(\'' + photo + '\')" style="width:80px;height:80px;" alt="Progress">';
+                });
+                photosHtml += '</div></div>';
+            }
+            
+            document.getElementById('modalBody').innerHTML = 
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Nomor Antrian</span>' +
+                    '<span class="detail-value" style="font-family: \'Pirata One\', cursive; font-size: 1.5rem; color: #ff0000;">#' + item.number + '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Username</span>' +
+                    '<span class="detail-value">' + (item.username || '-') + '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Password</span>' +
+                    '<div class="detail-value password-container">' +
+                        '<span class="detail-value password" id="modalPassword">' + (item.password || '-') + '</span>' +
+                        '<button class="btn-toggle-pw" onclick="toggleModalPassword()">👁️</button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Joki Details</span>' +
+                    '<span class="detail-value joki">' + (item.joki || '-') + '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">WhatsApp</span>' +
+                    '<span class="detail-value">' + (item.whatsapp || '-') + '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Status</span>' +
+                    '<span class="detail-value">' +
+                        '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
+                    '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Waktu Daftar</span>' +
+                    '<span class="detail-value" style="color: #888;">' + timeStr + '</span>' +
+                '</div>' +
+                '<div class="detail-row">' +
+                    '<span class="detail-label">Device ID</span>' +
+                    '<span class="detail-value" style="font-size: 0.8rem; color: #666;">' + (item.deviceId || 'Unknown') + '</span>' +
+                '</div>' +
+                photosHtml;
+            
+            document.getElementById('modalProcessBtn').style.display = item.status === 'waiting' ? 'inline-block' : 'none';
+            document.getElementById('modalCompleteBtn').style.display = item.status === 'processing' ? 'inline-block' : 'none';
+            
+            // Clear upload preview
+            document.getElementById('uploadPreview').innerHTML = '';
             
             document.getElementById('detailModal').classList.add('active');
         }
 
         function toggleModalPassword() {
-            const pwSpan = document.getElementById('modalPassword');
-            const btn = event.target;
+            var pwSpan = document.getElementById('modalPassword');
+            var btn = event.target;
             
             if (pwSpan.style.filter === 'blur(5px)') {
                 pwSpan.style.filter = 'none';
@@ -905,6 +1240,17 @@
 
         function processCurrentQueue() {
             if (selectedQueueKey) {
+                var items = Object.values(currentQueueData);
+                var processingItem = items.find(function(i) { return i.status === 'processing'; });
+                
+                if (processingItem) {
+                    var currentKey = Object.entries(currentQueueData).find(function(entry) { return entry[1] === processingItem; })[0];
+                    if (currentKey !== selectedQueueKey) {
+                        showToast('⚠️ Peringatan', 'Selesaikan antrian lain dulu!');
+                        return;
+                    }
+                }
+                
                 updateStatus(selectedQueueKey, 'processing');
                 closeModal();
             }
@@ -924,12 +1270,100 @@
             }
         }
 
+        // ============================================
+        // PHOTO UPLOAD (Base64 ke Firebase)
+        // ============================================
+        function setupDragDrop() {
+            var uploadArea = document.getElementById('uploadArea');
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+        }
+
+        function handlePhotoUpload(input) {
+            handleFiles(input.files);
+        }
+
+        function handleFiles(files) {
+            if (!selectedQueueKey) return;
+            if (!files || files.length === 0) return;
+            
+            Array.from(files).forEach(function(file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('⚠️ Error', 'File ' + file.name + ' terlalu besar (max 5MB)');
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    showToast('⚠️ Error', 'File ' + file.name + ' bukan gambar');
+                    return;
+                }
+                
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var base64 = e.target.result;
+                    
+                    // Simpan ke Firebase
+                    var itemRef = queueRef.child(selectedQueueKey);
+                    itemRef.child('photos').once('value').then(function(snap) {
+                        var photos = snap.val() || [];
+                        photos.push(base64);
+                        return itemRef.update({ photos: photos });
+                    }).then(function() {
+                        showToast('✅ Berhasil', 'Foto berhasil diupload!');
+                        
+                        // Add to preview
+                        var preview = document.getElementById('uploadPreview');
+                        var img = document.createElement('img');
+                        img.src = base64;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.borderRadius = '10px';
+                        img.style.objectFit = 'cover';
+                        img.style.border = '2px solid #8B0000';
+                        preview.appendChild(img);
+                    }).catch(function(err) {
+                        showToast('❌ Error', 'Gagal upload foto');
+                        console.error(err);
+                    });
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ============================================
+        // LIGHTBOX
+        // ============================================
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // ============================================
+        // CRUD
+        // ============================================
         function updateStatus(key, status) {
             queueRef.child(key).update({ status: status })
-                .then(() => {
-                    showToast('✅ Berhasil', `Status diubah ke ${status}`);
+                .then(function() {
+                    showToast('✅ Berhasil', 'Status diubah ke ' + status);
                 })
-                .catch((error) => {
+                .catch(function(error) {
                     showToast('❌ Error', 'Gagal mengubah status');
                     console.error(error);
                 });
@@ -939,38 +1373,34 @@
             if (!confirm('Yakin ingin menghapus antrian ini?')) return;
             
             queueRef.child(key).remove()
-                .then(() => {
+                .then(function() {
                     showToast('🗑️ Dihapus', 'Antrian berhasil dihapus');
                 })
-                .catch((error) => {
+                .catch(function(error) {
                     showToast('❌ Error', 'Gagal menghapus antrian');
                     console.error(error);
                 });
         }
 
+        // ============================================
+        // UTILS
+        // ============================================
         function showToast(title, message) {
-            const toast = document.getElementById('toast');
+            var toast = document.getElementById('toast');
             toast.querySelector('h4').textContent = title;
             document.getElementById('toastMessage').textContent = message;
             toast.classList.add('show');
             
-            setTimeout(() => {
+            setTimeout(function() {
                 toast.classList.remove('show');
             }, 3000);
         }
 
-        // Close modal on outside click
-        document.getElementById('detailModal').addEventListener('click', (e) => {
+        document.getElementById('detailModal').addEventListener('click', function(e) {
             if (e.target.id === 'detailModal') {
                 closeModal();
             }
         });
-
-        // Init
-        window.addEventListener('load', () => {
-            initFirebase();
-        });
     </script>
 </body>
 </html>
-
