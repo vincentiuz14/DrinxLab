@@ -680,6 +680,229 @@
             color: #00ccff;
         }
 
+        /* ============================================
+           GALLERY / FOTO SECTION - BARU!
+           ============================================ */
+        .photos-section {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+            border: 3px solid #8B0000;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 30px auto 0;
+            box-shadow: 0 25px 80px rgba(139, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .photos-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8B0000, #ff0000, #8B0000);
+            animation: borderGlow 3s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .photos-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .photos-header h2 {
+            font-family: 'Pirata One', cursive;
+            font-size: 2.5rem;
+            color: #ff0000;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .photos-header p {
+            color: #888;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .photos-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid #ff0000;
+            color: #ff4444;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .photos-badge .new-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .photos-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .photo-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .photo-card:hover {
+            border-color: #ff0000;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-card:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-date {
+            font-size: 0.75rem;
+            color: #888;
+            font-family: 'Cinzel', serif;
+        }
+
+        .photo-caption {
+            font-size: 0.85rem;
+            color: #fff;
+            margin-top: 5px;
+            word-break: break-word;
+        }
+
+        .no-photos {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-photos-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .no-photos h3 {
+            font-family: 'Cinzel', serif;
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .no-photos p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Lightbox / Modal untuk foto */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #8B0000;
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3001;
+        }
+
+        .lightbox-close:hover {
+            background: #ff0000;
+            transform: rotate(90deg);
+        }
+
+        .lightbox-caption {
+            color: #fff;
+            margin-top: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            text-align: center;
+            max-width: 600px;
+        }
+
         /* Features Section */
         .features {
             display: grid;
@@ -937,7 +1160,7 @@
                 font-size: 1.8rem;
             }
             
-            .login-card, .queue-card {
+            .login-card, .queue-card, .photos-section {
                 padding: 30px 20px;
             }
             
@@ -975,6 +1198,15 @@
 
             .terms-header h1 {
                 font-size: 2rem;
+            }
+
+            .photos-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .photos-header h2 {
+                font-size: 1.8rem;
             }
         }
 
@@ -1075,6 +1307,13 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-skull">☠️</div>
         <div class="loading-text">Memproses Boarding Pass...</div>
+    </div>
+
+    <!-- Lightbox Modal untuk Foto -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+        <img id="lightboxImg" src="" alt="Foto">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
     </div>
 
     <!-- Terms of Service Page -->
@@ -1314,6 +1553,30 @@
             </div>
         </div>
 
+        <!-- ============================================
+             PHOTOS SECTION - BARU! 
+             ============================================ -->
+        <div class="photos-section" id="photosSection">
+            <div class="photos-header">
+                <div style="font-size: 3rem; margin-bottom: 10px;">📸</div>
+                <h2>Foto dari Admin</h2>
+                <p>Foto progress joki yang dikirim oleh admin</p>
+                <div class="photos-badge" id="photosBadge" style="display: none;">
+                    <span class="new-dot"></span>
+                    <span>Foto Baru!</span>
+                </div>
+            </div>
+
+            <div class="photos-gallery" id="photosGallery">
+                <!-- Foto akan dimuat di sini -->
+                <div class="no-photos" id="noPhotos">
+                    <span class="no-photos-icon">📭</span>
+                    <h3>Belum Ada Foto</h3>
+                    <p>Admin belum mengirimkan foto progress untuk antrian Anda.<br>Foto akan muncul otomatis ketika admin mengirimkannya.</p>
+                </div>
+            </div>
+        </div>
+
         <div class="features" id="featuresSection">
             <div class="feature-card">
                 <span class="feature-icon">⚡</span>
@@ -1358,7 +1621,7 @@
         // INISIALISASI FIREBASE
         // ============================================
 
-        let app, database, queueRef, connectedRef;
+        let app, database, queueRef, photosRef, connectedRef;
         let isConnected = false;
 
         function initFirebase() {
@@ -1367,6 +1630,7 @@
                 database = firebase.database();
                 
                 queueRef = database.ref('queue');
+                photosRef = database.ref('photos'); // 🔥 Node baru untuk foto
                 connectedRef = database.ref('.info/connected');
                 
                 connectedRef.on('value', (snap) => {
@@ -1640,6 +1904,155 @@
         }
 
         // ============================================
+        // SISTEM FOTO - BARU! 
+        // ============================================
+
+        let photosListener = null;
+        let lastPhotoCount = 0;
+
+        // 🔥 FUNGSI: Mulai mendengarkan foto untuk nomor antrian ini
+        function startPhotosListener() {
+            if (!myQueueNumber) return;
+            
+            console.log(`📸 Mulai listener foto untuk: ${myQueueNumber}`);
+            
+            // Hapus listener lama
+            if (photosListener) {
+                photosRef.off('value', photosListener);
+            }
+            
+            // Listener untuk semua foto, filter berdasarkan queueNumber
+            photosListener = photosRef.on('value', (snapshot) => {
+                const allPhotos = snapshot.val() || {};
+                const myPhotos = [];
+                
+                // Filter hanya foto untuk nomor antrian ini
+                Object.entries(allPhotos).forEach(([key, photo]) => {
+                    if (photo.queueNumber === myQueueNumber) {
+                        myPhotos.push({
+                            key: key,
+                            ...photo
+                        });
+                    }
+                });
+                
+                // Sort by timestamp (newest first)
+                myPhotos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                
+                updatePhotosGallery(myPhotos);
+            });
+        }
+
+        // 🔥 FUNGSI: Update tampilan gallery foto
+        function updatePhotosGallery(photos) {
+            const galleryEl = document.getElementById('photosGallery');
+            const sectionEl = document.getElementById('photosSection');
+            const badgeEl = document.getElementById('photosBadge');
+            
+            // Tampilkan section foto jika ada foto
+            if (photos.length > 0) {
+                sectionEl.style.display = 'block';
+                
+                // Cek ada foto baru
+                if (photos.length > lastPhotoCount && lastPhotoCount > 0) {
+                    badgeEl.style.display = 'inline-flex';
+                    showToast('📸 Foto Baru!', `Admin mengirim ${photos.length - lastPhotoCount} foto baru.`);
+                    
+                    // Browser notification
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('Vince BloxStore - Foto Baru!', {
+                            body: `Admin mengirim foto progress untuk antrian ${myQueueNumber}`,
+                            icon: '📸'
+                        });
+                    }
+                    
+                    // Hide badge after 5 seconds
+                    setTimeout(() => {
+                        badgeEl.style.display = 'none';
+                    }, 5000);
+                }
+                
+                lastPhotoCount = photos.length;
+                
+                // Build gallery HTML
+                galleryEl.innerHTML = '';
+                photos.forEach((photo, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    
+                    const date = photo.timestamp ? new Date(photo.timestamp).toLocaleString('id-ID') : 'Baru saja';
+                    const caption = photo.caption || `Foto progress #${index + 1}`;
+                    
+                    card.innerHTML = `
+                        <img src="${photo.imageUrl}" alt="${caption}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23333%22 width=%22200%22 height=%22200%22/><text fill=%22%23666%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22>❌ Gagal memuat</text></svg>'">
+                        <div class="photo-overlay">
+                            <div class="photo-date">📅 ${date}</div>
+                            <div class="photo-caption">${caption}</div>
+                        </div>
+                   
+                    `;
+                    
+                    // Klik untuk buka lightbox
+                    card.onclick = () => openLightbox(photo.imageUrl, caption, date);
+                    
+                    galleryEl.appendChild(card);
+                });
+                
+            } else {
+                // Tidak ada foto - tampilkan pesan kosong
+                sectionEl.style.display = 'block';
+                galleryEl.innerHTML = `
+                    <div class="no-photos" style="grid-column: 1 / -1;">
+                        <span class="no-photos-icon">📭</span>
+                        <h3>Belum Ada Foto</h3>
+                        <p>Admin belum mengirimkan foto progress untuk antrian <strong>${myQueueNumber}</strong>.<<br>Foto akan muncul otomatis ketika admin mengirimkannya.</p>
+                    </div>
+                `;
+                lastPhotoCount = 0;
+            }
+        }
+
+        // ============================================
+        // LIGHTBOX / MODAL UNTUK FOTO
+        // ============================================
+
+        function openLightbox(imageUrl, caption, date) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            const captionEl = document.getElementById('lightboxCaption');
+            
+            img.src = imageUrl;
+            captionEl.innerHTML = `
+                <div style="font-size: 1.2rem; margin-bottom: 8px;">${caption}</div>
+                <div style="font-size: 0.85rem; color: #888;">📅 ${date}</div>
+                <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">Antrian: ${myQueueNumber}</div>
+            `;
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            if (event) event.stopPropagation();
+            
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Clear src untuk hemat memory
+            setTimeout(() => {
+                document.getElementById('lightboxImg').src = '';
+            }, 300);
+        }
+
+        // Escape key untuk tutup lightbox
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // ============================================
         // EVENT HANDLERS
         // ============================================
 
@@ -1666,7 +2079,9 @@
                 document.getElementById('displayJoki').textContent = joki;
                 document.getElementById('queueNumber').textContent = myQueueNumber;
                 
+                // 🔥 Mulai listener queue DAN foto
                 startQueueListener();
+                startPhotosListener();
                 
                 document.getElementById('loadingOverlay').classList.remove('active');
                 
@@ -1700,6 +2115,19 @@
                 btn.innerHTML = '🔄 Refresh Status';
                 showToast('✅ Diperbarui', 'Status antrian telah diperbarui.');
             });
+            
+            // 🔥 Refresh foto juga
+            photosRef.once('value').then((snapshot) => {
+                const allPhotos = snapshot.val() || {};
+                const myPhotos = [];
+                Object.entries(allPhotos).forEach(([key, photo]) => {
+                    if (photo.queueNumber === myQueueNumber) {
+                        myPhotos.push({ key: key, ...photo });
+                    }
+                });
+                myPhotos.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                updatePhotosGallery(myPhotos);
+            });
         }
 
         async function cancelQueue() {
@@ -1708,6 +2136,20 @@
             if (confirm('Yakin ingin membatalkan antrian?')) {
                 try {
                     await queueRef.child(myQueueKey).remove();
+                    
+                    // 🔥 Hapus juga foto-foto yang terkait
+                    const photosSnapshot = await photosRef.once('value');
+                    const allPhotos = photosSnapshot.val() || {};
+                    const deletePromises = [];
+                    
+                    Object.entries(allPhotos).forEach(([key, photo]) => {
+                        if (photo.queueNumber === myQueueNumber) {
+                            deletePromises.push(photosRef.child(key).remove());
+                        }
+                    });
+                    
+                    await Promise.all(deletePromises);
+                    
                     clearMyQueueData();
                     showToast('✅ Dibatalkan', 'Antrian Anda telah dibatalkan.');
                     setTimeout(() => backToHome(), 1500);
@@ -1725,12 +2167,23 @@
             myQueueKey = null;
             myQueueNumber = null;
             lastStatus = null;
+            lastPhotoCount = 0;
+            
+            // 🔥 Hapus listener foto
+            if (photosListener) {
+                photosRef.off('value', photosListener);
+                photosListener = null;
+            }
         }
 
         function backToHome() {
             if (queueListener) {
                 queueRef.off('value', queueListener);
                 queueListener = null;
+            }
+            if (photosListener) {
+                photosRef.off('value', photosListener);
+                photosListener = null;
             }
             location.reload();
         }
@@ -1792,7 +2245,9 @@
                         document.getElementById('featuresSection').style.display = 'none';
                         document.getElementById('queueSection').style.display = 'block';
                         
+                        // 🔥 Mulai listener queue DAN foto
                         startQueueListener();
+                        startPhotosListener();
                         
                         showToast('🎫 Selamat Datang Kembali', `Antrian ${savedNumber} masih aktif.`);
                     } else {
@@ -1830,6 +2285,9 @@
         window.addEventListener('beforeunload', () => {
             if (queueListener) {
                 queueRef.off('value', queueListener);
+            }
+            if (photosListener) {
+                photosRef.off('value', photosListener);
             }
         });
     </script>
